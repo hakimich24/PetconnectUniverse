@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pet Resources</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .layout-wrapper {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 270px;
+      background-color: #E1EAEF82;
+      padding: 2rem 2rem 1rem 2rem;
+      box-sizing: border-box;
+      overflow-y: auto;
+      padding-top: 20px;
+      border-right: 1px solid #dee2e6;
+    }
+
+    .main-wrapper {
+      flex-grow: 1;
+    }
+
+    .main-content {
+      height: 100%;
+      background-color: #ffffff;
+      padding: 2rem;
+    }
+
+    .nav-link {
+      color: #333;
+      padding: 0.5rem 0.75rem;
+      font-weight: 500;
+      border-radius: 0.375rem;
+      display: flex;
+      align-items: center;
+      margin-bottom: 3rem;
+    }
+
+    .nav-link i {
+      margin-right: 10px;
+      font-size: 1.3rem;
+    }
+
+    .nav-link:hover {
+      background-color: #e9ecef;
+      color: #000;
+    }
+
+    .nav-link.active {
+      background-color: #0868f7;
+      color: #fff !important;
+    }
+
+    @media (max-width: 768px) {
+      .layout-wrapper {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid #dee2e6;
+      }
+    }
+
+    .filter-button {
+      background-color: #e7f3ff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+
+    .filter-button.active {
+      background-color: #0868f7;
+      color: #fff;
+    }
+
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="layout-wrapper">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="d-flex align-items-start mb-4">
+        <img src="images/Vector.png" alt="pet logo" width="30" height="30" class="me-2 mt-1">
+        <div class="d-flex flex-column" style="font-size: 1.5rem;">
+          <span class="fw-bold" style="line-height: 1;">PetUniverse</span>
+          <div class="fw-bold ms-2">Connect</div>
+        </div>
+      </div>
+      <a href="dashboard.html" class="nav-link"><i class="bi bi-house-door"></i> Dashboard</a>
+      <a href="pet-profile.html" class="nav-link"><i class="bi bi-house-heart"></i> Pet Profile</a>
+      <a href="health-record.html" class="nav-link"><i class="bi bi-heart"></i> Health Records</a>
+      <a href="resources.html" class="nav-link active"><i class="bi bi-journal-text"></i> Resources</a>
+      <a href="service-directory.html" class="nav-link"><i class="bi bi-geo-alt"></i> Service Directory</a>
+      <a href="community.html" class="nav-link"><i class="bi bi-people"></i> Community</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+      <div class="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div class="d-flex align-items-center gap-3">
+            <img src="images/Ellipse 2.png" alt="" style="width: 40px; height: 30px;" />
+            <span class="fw-semibold">Good Afternoon, Ada</span>
+          </div>
+          <div class="d-flex align-items-center gap-3">
+            <div class="input-group" style="width: 250px;">
+              <span class="input-group-text bg-white">
+                <i class="bi bi-search"></i>
+              </span>
+              <input type="text" class="form-control" placeholder="Search" style="font-size: 1rem;" />
+            </div>
+            <i class="bi bi-bell fs-4" style="cursor: pointer;"></i>
+            <i class="bi bi-person-circle fs-4" style="cursor: pointer;"></i>
+          </div>
+        </div>
+     <p class="mb-3" style="font-weight: 400; font-size: 2rem;">Petcare Resources</p>
+        <h5 class="mb-3" style="font-weight: 600; font-size: 1rem;">Featured Topics</h5>
+
+        <div class="row mb-4">
+          <!-- Box 1 -->
+          <div class="col-md-5 mb-3">
+            <div class="card d-flex flex-row align-items-center p-2">
+              <img src="images/potty-training-tips-ZjqR3w4r.jpg" class="img-fluid rounded" alt="Potty Training Tips" style="width: 100px; object-fit: cover; margin-right: 50px;">
+              <div class="card-body p-0">
+                <h6 class="card-title mb-2" style="font-size: 1.5rem; font-weight: 400;">Potty Training<br> Tips</h6>
+                <a href="#" class="btn btn-dark btn-sm mt-2">View More</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Box 2 -->
+          <div class="col-md-5 mb-3 offset-md-1">
+            <div class="card d-flex flex-row align-items-center p-2">
+              <img src="images/FA_The-importance-of-dental-care-for-your-pet-1[1].png" class="img-fluid rounded" alt="Pet Dental Care" style="width: 100px; object-fit: cover; margin-right: 50px;">
+              <div class="card-body p-0">
+                <h6 class="card-title mb-2" style="font-size: 1.5rem; font-weight: 400;">Pet Dental<br>Care</h6>
+                <a href="#" class="btn btn-dark btn-sm mt-2">View More</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Box 3 -->
+          <div class="col-md-5 mb-3">
+            <div class="card d-flex flex-row align-items-center p-2">
+              <img src="images/socializing-an-older-dog[1].jpg" class="img-fluid rounded" alt="How to Socialize Pets" style="width: 100px; object-fit: cover; margin-right: 50px;">
+              <div class="card-body p-0">
+                <h6 class="card-title mb-2" style="font-size: 1.5rem; font-weight: 400;">How to Socialize<br>Pets</h6>
+                <a href="#" class="btn btn-dark btn-sm mt-2">View More</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Box 4 -->
+          <div class="col-md-5 mb-3 offset-md-1">
+            <div class="card d-flex flex-row align-items-center p-2">
+              <img src="images/8-Power-Foods-to-Add-to-Your-Dog’s-Homemade-or-Raw-Diet[1].jpg" class="img-fluid rounded" alt="Safe Pets Diets" style="width: 100px; object-fit: cover; margin-right: 50px;">
+              <div class="card-body p-0">
+                <h6 class="card-title mb-2" style="font-size: 1.5rem; font-weight: 400;">Safe Pets<br>Diets</h6>
+                <a href="#" class="btn btn-dark btn-sm mt-2">View More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="filter-bar mb-4">
+          <button class="filter-button active">All</button>
+          <button class="filter-button">Training</button>
+          <button class="filter-button">Nutrition</button>
+          <button class="filter-button">Health</button>
+          <button class="filter-button">Grooming</button>
+          <button class="filter-button">General Pet Tips</button>
+        </div>
+      
+    
+<!-- Additional 4 Boxes -->
+<div class="row mb-4">
+  <!-- Box 5 -->
+  <div class="col-md-5 mb-3">
+    <div class="card d-flex flex-row align-items-center p-2">
+      <img src="images\basic-puppy-training-1024x548[1].jpg" class="img-fluid rounded" alt=""
+        style="width: 120px; height: auto; object-fit: cover; margin-right: 50px;">
+      <div class="card-body p-0">
+        <h6 class="card-title mb-1" style="font-size: 1.5rem; font-weight: 450;">How to Train<br>Your Puppy</h6>
+        <p class="text-muted mb-2" style="font-size: 0.9rem;">Learn tips to get your dogs<br>to obey your commands</p>
+        <a href="#" class="btn btn-dark btn-sm">View More</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Box 6 -->
+  <div class="col-md-5 mb-3 offset-md-1">
+    <div class="card d-flex flex-row align-items-center p-2">
+      <img src="images\Dog-Fitness-1068x601[1].jpg" class="img-fluid rounded" alt="Topic 6"
+        style="width: 120px; height: auto; object-fit: cover; margin-right: 50px;">
+      <div class="card-body p-0">
+        <h6 class="card-title mb-1" style="font-size: 1.5rem; font-weight: 450;">Keeping Your<br>Pet Fit</h6>
+        <p class="text-muted mb-2" style="font-size: 0.9rem;">Discover ways to maintain a<br>health weight for your pet</p>
+        <a href="#" class="btn btn-dark btn-sm">View More</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Box 7 -->
+  <div class="col-md-5 mb-3">
+    <div class="card d-flex flex-row align-items-center p-2">
+      <img src="images\Importance-of-Vet-Visits[1].jpg" class="img-fluid rounded" alt="Topic 7"
+        style="width: 120px; height: auto; object-fit: cover; margin-right: 50px;">
+      <div class="card-body p-0">
+        <h6 class="card-title mb-1" style="font-size: 1.5rem; font-weight: 400;">Routine Vets Visits<br>Explained</h6>
+        <p class="text-muted mb-2" style="font-size: 0.9rem;">Understand what happens <br>during a typical check-up</p>
+        <a href="#" class="btn btn-dark btn-sm">View More</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Box 8 -->
+  <div class="col-md-5 mb-3 offset-md-1">
+    <div class="card d-flex flex-row align-items-center p-2">
+      <img src="images\cat-grooming-services[1].jpg" class="img-fluid rounded" alt="Topic 8"
+        style="width: 120px; height: auto; object-fit: cover; margin-right: 50px;">
+      <div class="card-body p-0">
+        <h6 class="card-title mb-1" style="font-size: 1.5rem; font-weight: 400;">Grooming<br>Basics</h6>
+        <p class="text-muted mb-2" style="font-size: 0.9rem;">Essential grooming techniques<br> for pets at home</p>
+        <a href="#" class="btn btn-dark btn-sm">View More</a>
+      </div>
+    </div>
+  </div>
+</div>
