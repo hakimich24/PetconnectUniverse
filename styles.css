@@ -1,0 +1,268 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  background: #f9f9f9;
+  color: #333;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #fff;
+}
+.logo img {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+.logo {
+  font-size: 1.2rem;
+  line-height: 1.2;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem;
+  background: #fff;
+}
+
+.hero-content {
+  max-width: 500px;
+}
+
+.hero-content h1 {
+  font-size: 2.2rem;
+  color: #2a4c7c;
+  margin-bottom: 1rem;
+}
+
+.hero-content span {
+  color: #3064a3;
+}
+
+.hero-content p {
+  margin-bottom: 1.5rem;
+  color: #555;
+}
+
+.login-btn {
+  background: #1e2a47;
+  color: #fff;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.login-btn a {
+  text-decoration: none;
+  color: white;
+}
+
+.hero-img img {
+  max-width: 300px;
+  border-radius: 10px;
+}
+
+.features {
+  background: #3064a3;
+  color: #fff;
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  margin-top: 2rem;
+  gap: 1rem;
+}
+
+.feature {
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 250px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.feature-icon {
+  background: #fff;
+  border-radius: 15px;
+  padding: 1rem;
+  margin-left: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 180px;
+  width: 200px;
+  color: #333;
+  font-weight: bold;
+}
+
+.feature img,
+.feature-icon img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 1rem;
+  border-radius: 20px;
+}
+
+footer {
+  background: #5b9cec;
+  color: #fff;
+  padding: 2rem;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.footer-bottom {
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+.auth-body {
+  background: #f9f9f9;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.auth-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.auth-image {
+  position: relative;
+  flex: 1;
+  min-width: 220px;
+  max-width: 300px;
+}
+
+.auth-image img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.pet-logo {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+}
+
+.pet-logo img {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.auth-form-box {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-left: 1rem;
+  max-width: 350px;
+  flex: 1;
+}
+
+.auth-form-box h1 {
+  font-size: 18px;
+  margin-bottom: 1rem;
+}
+
+.auth-form-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.auth-form-box input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.auth-form-box button {
+  padding: 0.6rem;
+  background: #1e2a47;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.auth-form-box button:hover {
+  background: #152038;
+}
+
+.auth-form-box p {
+  font-size: 12px;
+  margin: 0.3rem 0 0;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .navbar ul {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .hero,
+  .login-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .login-form-box {
+    margin-left: 0;
+    margin-top: 1rem;
+  }
+}
