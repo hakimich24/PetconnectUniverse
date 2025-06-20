@@ -36,13 +36,11 @@
   <body class="bg-light">
     <div class="container-fluid p-0">
       <div class="row g-0 min-vh-100">
-        <!-- Left Section with Image -->
         <div
           class="col-lg-7 position-relative d-none d-lg-block d-flex align-items-center justify-content-center"
         >
           <img src="images/image 17.png" alt="img" class="hero-img" />
 
-          <!-- Logo -->
           <div class="position-absolute top-0 start-0 m-4">
             <div class="d-flex align-items-center">
               <div
@@ -63,7 +61,6 @@
           </div>
         </div>
 
-        <!-- Right Section with Login Form -->
         <div
           class="col-lg-5 d-flex align-items-center justify-content-center p-4"
         >
@@ -77,13 +74,13 @@
               <form id="loginForm">
                 <div class="mb-3">
                   <label class="form-label fw-medium text-dark">
-                    <i class="fas fa-user me-2"></i>Username
-                  </label>
+                    <i class="fas fa-user me-2"></i>Email (or Username) </label>
                   <input
                     type="text"
                     class="form-control form-control-lg bg-light border-2 rounded-3"
+                    id="loginUsername"  name="username"
                     title="Username"
-                    placeholder="Enter your username"
+                    placeholder="Enter your email or username" required
                   />
                 </div>
 
@@ -100,6 +97,7 @@
                       placeholder="Enter your password"
                       title="Password"
                       aria-label="Password"
+                      required
                     />
                     <button
                       type="button"
@@ -117,6 +115,8 @@
                     >
                   </div>
                 </div>
+
+                <p id="loginMessage" class="text-center mt-3"></p>
 
                 <button
                   type="submit"

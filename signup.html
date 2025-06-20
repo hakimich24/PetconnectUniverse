@@ -1,166 +1,246 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Sign Up | PetUniverse Connect</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body, html {
-      height: 100%;
-      margin: 0;
-    }
-    .full-height {
-      height: 100vh;
-    }
-    .signup-wrapper {
-      display: flex;
-      height: 100vh;
-    }
-    .info-section {
-      background: #f8f9fa;
-      width: 50%;
-      padding: 2rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-    .info-section .logo-icon {
-      width: 60px;
-      height: 60px;
-      background-color: #000;
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 50%;
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
-    .info-section .brand-text {
-      font-weight: bold;
-      font-size: 20px;
-      text-align: center;
-      color: #000;
-    }
-    .form-section {
-      background-color: #f8f9fa;
-      width: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 2rem;
-    }
-    .signup-container {
-      width: 100%;
-      max-width: 500px;
-      background: #fff;
-      border-radius: 12px;
-      padding: 30px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Sign Up | PetUniverse Connect</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif; /* A more common sans-serif fallback */
+            overflow-x: hidden; /* Prevent horizontal scrollbar on small screens */
+        }
+
+        /* Outer wrapper for the entire page, ensuring full viewport height */
+        .signup-wrapper {
+            display: flex;
+            min-height: 100vh; /* Use min-height to ensure it takes full height but can expand */
+            flex-direction: row; /* Default to row for desktop */
+        }
+
+        /* Left section (image/info) */
+        .info-section {
+            background-color: #f8f9fa; /* Light grey background */
+            width: 50%; /* Takes half width on large screens */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative; /* For absolute positioning of logo */
+            overflow: hidden; /* Ensures image doesn't spill */
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 100%; /* Fill the info-section */
+            object-fit: cover; /* Crop image to cover area without distortion */
+            object-position: center; /* Center the image within its container */
+            display: block;
+        }
+
+        /* Logo and brand text positioning within info-section */
+        /* Changed the class name in HTML to 'logo' for the circle container */
+        .info-section .position-absolute {
+            z-index: 10; /* Ensure logo is above the image */
+        }
+        .info-section .logo { /* Your specific logo circle style */
+            width: 60px;
+            height: 60px;
+            background-color: #fdfafa;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            font-size: 24px;
+        }
+        .info-section .brand-text { /* Your specific brand text style */
+            font-weight: bold;
+            font-size: 20px;
+            color: #fcf9f9;
+            white-space: nowrap; /* Prevent "PetUniverse Connect" from wrapping */
+        }
+
+
+        /* Right section (form) */
+        .form-section {
+            background-color: #ffffff; /* White background for the form side */
+            width: 50%; /* Takes half width on large screens */
+            display: flex;
+            justify-content: center; /* Center form horizontally */
+            align-items: center; /* Center form vertically */
+            padding: 2rem; /* Initial padding around the form container */
+            overflow-y: auto; /* Allow scrolling if form content is too long for the screen */
+            flex-grow: 1; /* Allows it to grow if the info-section is hidden */
+        }
+
+        .signup-container { /* The inner container for your form */
+            width: 100%; /* Take full width of its parent (.form-section) */
+            max-width: 500px; /* Maximum width for the form itself on larger screens */
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px; /* Original padding for the form card */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* General Bootstrap override/enhancements for consistency */
+        .form-label {
+            font-weight: 500;
+            margin-bottom: .5rem;
+            color: #333;
+        }
+        .form-control {
+            border-radius: .25rem;
+            padding: .75rem 1rem;
+            border: 1px solid #ced4da;
+        }
+        .form-control:focus {
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            padding: .75rem 1rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: .25rem;
+            transition: background-color .2s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+        /* Styles for password toggle buttons */
+        .btn-outline-secondary {
+            border-color: #6c757d;
+            color: #6c757d;
+        }
+        .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: #fff;
+        }
+        /* Specific styling for the password toggle buttons, to align with input */
+        .mb-3.position-relative .btn {
+            top: 50%; /* Align with the middle of the input */
+            transform: translateY(2px); /* Small adjustment for better visual alignment */
+            margin-top: 0 !important; /* Override potential conflicting margin */
+        }
+
+        /* Password match message and signup message styles */
+        #passwordMatchMsg.text-danger, #signupMessage.text-danger {
+            color: #dc3545 !important; /* Bootstrap red */
+        }
+        #passwordMatchMsg.text-success, #signupMessage.text-success {
+            color: #28a745 !important; /* Bootstrap green */
+        }
+
+
+        /* Media Queries for Responsiveness */
+
+        /* Small to Medium devices (e.g., Tablets, up to 991.98px wide) */
+        @media (max-width: 991.98px) {
+            .signup-wrapper {
+                flex-direction: column; /* Stack sections vertically */
+                height: auto; /* Allow height to adjust to content */
+                min-height: 100vh; /* Ensure it still takes full height if content is short */
+            }
+            .info-section {
+                display: none; /* Hide image section completely */
+                width: 100%;
+            }
+            .form-section {
+                width: 100%; /* Form takes full width */
+                padding: 1.5rem; /* Slightly reduced padding on tablets */
+            }
+            .signup-container {
+                max-width: 450px; /* Limit form width on tablets as well */
+                padding: 25px; /* Slightly reduced padding inside the form card */
+            }
+        }
+
+        /* Extra Small devices (e.g., Mobile Phones, up to 575.98px wide) */
+        @media (max-width: 575.98px) {
+            .form-section {
+                padding: 1rem; /* Further reduce padding around the form */
+            }
+            .signup-container {
+                padding: 20px; /* Even smaller padding inside the form card */
+                border-radius: 0; /* Optional: remove rounded corners for edge-to-edge look */
+                box-shadow: none; /* Optional: remove shadow for cleaner mobile look */
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="signup-wrapper">
-    <!-- Info Section -->
-    <div class="info-section">
-          <img src="images\image 15.jpg" alt="img" class="hero-img" style="height: 650px;"/>
+    <div class="signup-wrapper">
+        <div class="info-section">
+            <img src="images/image 15.jpg" alt="img" class="hero-img"/>
 
-          <!-- Logo -->
-          <div class="position-absolute top-0 start-0 m-4">
-            <div class="d-flex align-items-center">
-              <div class="d-flex align-items-center justify-content-center me-3 logo">
-              <img src="images/Vector.png" alt="pet logo" width="30" height="30" class="me-2 mt-1" />
-              </div>
-              <div class="text-dark fw-bold fs-5">PetUniverse<br />Connect</div>
+            <div class="position-absolute top-0 start-0 m-4">
+                <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center justify-content-center me-3 logo">
+                        <img src="images\Vector.png" alt="pet logo" width="30" height="30" class="me-2 mt-1" />
+                    </div>
+                    <div class="text-dark fw-bold fs-5">PetUniverse<br />Connect</div>
+                </div>
             </div>
-          </div>
         </div>
-  
-    <!-- Sign Up Form Section -->
-<div class="form-section">
-  <div class="signup-container">
-    <form>
-      <!-- First Name -->
-      <div class="mb-3">
-        <label for="firstName" class="form-label">First Name</label>
-        <input type="text" class="form-control" id="firstName" placeholder="Enter your first name" required>
-      </div>
+        
+        <div class="form-section">
+            <div class="signup-container">
+                <form id="signupForm">
+                    <div class="mb-3">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="firstName" placeholder="Enter your first name" required>
+                    </div>
 
-      <!-- Last Name -->
-      <div class="mb-3">
-        <label for="lastName" class="form-label">Last Name</label>
-        <input type="text" class="form-control" id="lastName" placeholder="Enter your last name" required>
-      </div>
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" placeholder="Enter your last name" required>
+                    </div>
 
-      <!-- Username -->
-      <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="username" placeholder="Choose a username" required>
-      </div>
-      <div class="mb-3">
-        <label for="field" class="form-label">Field</label>
-        <input type="text" class="form-control" id="field" placeholder="Enter your role">
-      </div>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" placeholder="Choose a username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="field" class="form-label">Role</label>
+                        <input type="text" class="form-control" id="field" placeholder="Enter your role" optional>
+                    </div>
 
-      <!-- Email -->
-      <div class="mb-3">
-        <label for="email" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
-      </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                    </div>
 
-      <!-- Password -->
-      <div class="mb-3 position-relative">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control pe-5" id="password" placeholder="Create a password" required>
-        <button type="button" id="togglePassword" class="btn btn-sm btn-outline-secondary position-absolute top-50 end-0 translate-middle-y me-2" style="padding: 2px 8px; font-size: 0.75rem; margin-top: 20px;">Show</button>
-      </div>
+                    <div class="mb-3 position-relative">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control pe-5" id="password" placeholder="Create a password" required>
+                        <button type="button" id="togglePassword" class="btn btn-sm btn-outline-secondary position-absolute top-50 end-0 translate-middle-y me-2" style="padding: 2px 8px; font-size: 0.75rem;">Show</button>
+                    </div>
 
-      <!-- Confirm Password -->
-      <div class="mb-3 position-relative">
-        <label for="confirmPassword" class="form-label">Confirm Password</label>
-        <input type="password" class="form-control pe-5" id="confirmPassword" placeholder="Re-enter password" required>
-        <button type="button" id="toggleConfirm" class="btn btn-sm btn-outline-secondary position-absolute top-50 end-0 translate-middle-y me-2" style="padding: 2px 8px; font-size: 0.75rem; margin-top: 20px;">Show</button>
-      </div>
+                    <div class="mb-3 position-relative">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control pe-5" id="confirmPassword" placeholder="Re-enter password" required>
+                        <button type="button" id="toggleConfirm" class="btn btn-sm btn-outline-secondary position-absolute top-50 end-0 translate-middle-y me-2" style="padding: 2px 8px; font-size: 0.75rem;">Show</button>
+                    </div>
 
-      <!-- Password Match Message -->
-      <div id="passwordMatchMsg" class="form-text mb-3 text-danger"></div>
+                    <div id="passwordMatchMsg" class="form-text mb-3 text-danger"></div>
+                    <div id="signupMessage" class="mt-3 text-center"></div>
 
-      <!-- Submit Button -->
-      <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+                    <button type="submit" class="btn btn-primary w-100">Sign Up</button>
 
-      <!-- Link to login -->
-      <div class="text-center mt-3">
-        <small>Already have an account? <a href="login.html">Login</a></small>
-      </div>
-    </form>
-  </div>
-</div>
-
-    <!-- Script for toggle + match checker --> 
-      <script>
-    const togglePassword = document.getElementById("togglePassword");
-    const password = document.getElementById("password");
-    togglePassword.addEventListener("click", () => {
-      const type = password.type === "password" ? "text" : "password";
-      password.type = type;
-      togglePassword.textContent = type === "password" ? "Show" : "Hide";
-    });
-
-    const toggleConfirm = document.getElementById("toggleConfirm");
-    const confirmPassword = document.getElementById("confirmPassword");
-    toggleConfirm.addEventListener("click", () => {
-      const type = confirmPassword.type === "password" ? "text" : "password";
-      confirmPassword.type = type;
-      toggleConfirm.textContent = type === "password" ? "Show" : "Hide";
-    });
-
-    const msg = document.getElementById("passwordMatchMsg");
-    confirmPassword.addEventListener("input", () => {
-      msg.textContent = password.value !== confirmPassword.value ? "Passwords do not match!" : "";
-    });
-  </script>  
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+                    <div class="text-center mt-3">
+                        <small>Already have an account? <a href="login.html">Login</a></small>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/signup.js"></script>
+</body>
 </html>

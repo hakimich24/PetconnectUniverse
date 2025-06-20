@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services | PetUniverse Connect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .navbar {
+            background-color: #f8f9fa; /* Light background for navbar */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .navbar-brand .logo-img {
+            width: 30px; /* Adjust size as needed */
+            height: 30px;
+            margin-right: 8px;
+        }
+        .navbar-brand .brand-text {
+            font-weight: bold;
+            font-size: 1.25rem;
+            color: #000;
+        }
+        .content-section {
+            flex-grow: 1; /* Allows content to take up available space */
+            padding: 4rem 0; /* Vertical padding */
+            background-color: #f8f9fa; /* Light background for content */
+        }
+        .card {
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .section-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+        .service-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        .service-icon {
+            font-size: 2.5rem;
+            color: #007bff;
+            margin-right: 1rem;
+            min-width: 50px; /* Ensure icon doesn't shrink too much */
+            text-align: center;
+        }
+        .service-text h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+        .service-text p {
+            font-size: 0.95rem;
+            color: #555;
+        }
+        footer {
+            background-color: #343a40; /* Dark background for footer */
+            color: #f8f9fa;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .content-section {
+                padding: 2rem 0;
+            }
+            .navbar-brand .brand-text {
+                font-size: 1rem;
+            }
+            .service-item {
+                flex-direction: column; /* Stack icon and text vertically on small screens */
+                text-align: center;
+            }
+            .service-icon {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="images/Vector.png" alt="PetUniverse Logo" class="logo-img">
+                <span class="brand-text">PetUniverse<br>Connect</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="services.html">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-primary ms-lg-3" href="login.html">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary text-white ms-lg-2" href="signup.html">Sign Up</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Section -->
+    <section class="content-section text-center">
+        <div class="container">
+            <h1 class="section-title display-1 mt-4">Our Services</h1>
+            
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="card p-4">
+                        <p class="lead mb-4">
+                            PetUniverse Connect offers a comprehensive suite of services designed to meet every pet owner's needs. 
+                            Our platform facilitates connections between pet lovers and trusted professionals.
+                        </p>
+                        <div class="row mt-4">
+                            <div class="col-md-6 mb-4">
+                                <div class="service-item">
+                                    <div class="service-icon"><i class="fas fa-paw"></i></div>
+                                    <div class="service-text">
+                                        <h3>Veterinary Care Appointments</h3>
+                                        <p>Easily book appointments with certified veterinarians for check-ups, emergencies, and specialized treatments.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="service-item">
+                                    <div class="service-icon"><i class="fas fa-cut"></i></div>
+                                    <div class="service-text">
+                                        <h3>Professional Grooming</h3>
+                                        <p>Find and schedule grooming services, from simple baths to full styling and pet spa experiences.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="service-item">
+                                    <div class="service-icon"><i class="fas fa-home"></i></div>
+                                    <div class="service-text">
+                                        <h3>Pet Sitting & Boarding</h3>
+                                        <p>Connect with trusted pet sitters and boarding facilities for when you're away.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="service-item">
+                                    <div class="service-icon"><i class="fas fa-bone"></i></div>
+                                    <div class="service-text">
+                                        <h3>Pet Supplies & Nutrition</h3>
+                                        <p>Access recommendations and resources for high-quality pet food, toys, and accessories.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="service-item">
+                                    <div class="service-icon"><i class="fas fa-walking"></i></div>
+                                    <div class="service-text">
+                                        <h3>Dog Walking & Training</h3>
+                                        <p>Find experienced dog walkers and certified trainers to keep your pet happy and well-behaved.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="service-item">
+                                    <div class="service-icon"><i class="fas fa-users"></i></div>
+                                    <div class="service-text">
+                                        <h3>Community Events & Forums</h3>
+                                        <p>Join local pet events, workshops, and engage in our forums for advice and discussions.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="mt-auto">
+        <div class="container">
+            <p>&copy; 2025 PetUniverse Connect. All rights reserved.</p>
+            <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
