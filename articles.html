@@ -1,128 +1,288 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pet Articles | PetUniverse Connect</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pet Care Article: Understanding Pet Nutrition</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex; /* Use flexbox for sticky footer */
+            flex-direction: column; /* Column direction for body */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+        }
+        .layout-wrapper {
+            display: flex;
+            min-height: 100vh; /* Still needed for internal layout if we had sidebar */
+            flex-grow: 1; /* Allow main content to grow */
+            flex-direction: column; /* Change to column to allow footer at bottom */
+        }
+        /* Sidebar styles are now removed as the sidebar is removed */
+
+        .main-wrapper {
+            flex-grow: 1; /* Allow main content wrapper to take available space */
+            width: 100%; /* Ensure it takes full width */
+        }
+        .main-content {
+            background-color: #ffffff;
+            padding: 2rem;
+            flex-grow: 1; /* Ensure content pushes footer down */
+        }
+        .nav-link { /* These styles are now largely irrelevant without the sidebar */
+            color: #333;
+            padding: 0.5rem 0.75rem;
+            font-weight: 500;
+            border-radius: 0.375rem;
+            display: flex;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+        .nav-link i {
+            margin-right: 10px;
+            font-size: 1.3rem;
+        }
+        .nav-link:hover {
+            background-color: #e9ecef;
+            color: #000;
+        }
+        .nav-link.active {
+            background-color: #0868f7;
+            color: #fff !important;
+        }
+        /* Styles for the article content */
+        .article-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+        .article-content h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .article-content h2, .article-content h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        .article-content p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        .article-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .article-meta {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-bottom: 2rem;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .back-link i {
+            margin-right: 5px;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: #343a40; /* Dark background for footer */
+            color: #fff;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: auto; /* Push footer to the bottom */
+            flex-shrink: 0; /* Prevent footer from shrinking */
+        }
+        .footer a {
+            color: #adb5bd;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .footer a:hover {
+            color: #fff;
+        }
+        .footer .social-icons i {
+            font-size: 1.5rem;
+            margin: 0 10px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            /* Sidebar removal specific adjustments */
+            .main-content {
+                padding: 1rem;
+            }
+            .d-flex.justify-content-between.align-items-center.mb-4 {
+                flex-direction: column;
+                align-items: flex-start !important;
+            }
+            .d-flex.align-items-center.gap-3:last-child {
+                margin-top: 1rem;
+                width: 100%;
+                justify-content: space-between;
+            }
+            .topbar .input-group {
+                width: 100% !important;
+                max-width: 300px; /* Constrain search input width */
+            }
+            /* Adjust dropdown positions for smaller screens */
+            #notif-dropdown {
+                right: 0 !important; /* Align to right edge */
+                left: auto !important;
+                width: 95% !important; /* Adjust width */
+                max-width: 250px;
+            }
+            #profile-dropdown {
+                right: 0 !important; /* Align to right edge */
+                left: auto !important;
+            }
+            .article-content h1 {
+                font-size: 2rem;
+            }
+            .article-content h2, .article-content h3 {
+                font-size: 1.5rem;
+            }
+            .article-content p {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            
+        }
+    </style>
 </head>
 <body>
-<a href="index.html" class="btn btn-outline-primary mb-3" style="margin: 20px;">Back to Dashboard</a>
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #6db3f2;">
-    <div class="container-fluid justify-content-center">
-      <a class="navbar-brand" href="index.html">PetUniverse Connect</a>
+    <div class="layout-wrapper">
+        <!-- Main Content -->
+        <div class="main-wrapper">
+            <div class="main-content">
+                <!-- Header -->
+                <div class="topbar d-flex justify-content-between align-items-center mb-4">
+                    <div class="d-flex align-items-center gap-3">
+                        <img src="images/Ellipse 2.png" alt="User Profile" style="width: 40px; height: 30px;" />
+                        <span class="fw-semibold"><span id="greeting-text"></span></span>
+                    </div>
+                    <div class="d-flex align-items-center gap-3 position-relative">
+                        <i id="notif-icon" class="bi bi-bell fs-4" style="cursor: pointer;"></i>
+                        <i id="profile-icon" class="bi bi-person-circle fs-4" style="cursor: pointer;"></i>
+                        <!-- Note: '+ Add a Pet' button is removed here as it's dashboard-specific -->
+
+                        <!-- Notification Dropdown -->
+                        <div id="notif-dropdown" class="position-absolute bg-white border shadow-sm p-3"
+                            style="top: 40px; right: 100px; width: 250px; display: none; z-index: 10; border-radius: 10px;" >
+                            <p class="fw-bold mb-2">Notifications</p>
+                            <p class="text-muted mb-1">• Appointment on June 6</p>
+                            <p class="text-muted mb-1">• Benny’s vaccination added</p>
+                            <p class="text-muted">• New care tips available</p>
+                            <a href="notifications.html" class="text-primary mt-2 d-block text-end">View All</a>
+                        </div>
+
+                        <!-- Profile Dropdown -->
+                        <div id="profile-dropdown" class="position-absolute bg-white border shadow-sm p-3"
+                            style="top: 40px; right: 50px; width: 150px; display: none; z-index: 10; border-radius: 10px;" >
+                            <p class="mb-2"><i class="bi bi-gear me-2"></i><a href="settings.html" class="text-decoration-none text-dark">Settings</a></p>
+                            <p class="mb-0"><i class="bi bi-box-arrow-right me-2"></i><a href="logout.html" class="text-decoration-none text-dark">Logout</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Article Content -->
+                <a href="dashboard.html" class="back-link">
+                    <i class="bi bi-arrow-left-circle"></i> Back to Dashboard
+                </a>
+
+                <div class="article-content">
+                    <h1>Understanding Pet Nutrition: A Guide to a Healthy Diet</h1>
+                    <p class="article-meta">By PetUniverse Connect Team | June 20, 2025</p>
+
+                    <p>
+                        Providing your pet with the right nutrition is one of the most fundamental aspects of ensuring their long-term health and happiness. A balanced diet supports everything from a shiny coat and strong bones to a robust immune system and high energy levels. But with so many options available, how do you choose what’s best?
+                    </p>
+
+                    <img src="https://placehold.co/800x450/A3C1AD/FFFFFF?text=Healthy+Pet+Food" alt="Healthy Pet Food" class="img-fluid my-4">
+
+                    <h2>The Basics of a Balanced Pet Diet</h2>
+                    <p>
+                        Just like humans, pets require a specific balance of macronutrients (proteins, fats, carbohydrates) and micronutrients (vitamins, minerals) to thrive. The ideal ratios vary significantly between species, breeds, ages, and activity levels.
+                    </p>
+                    <ul>
+                        <li><strong>Proteins:</strong> Essential for muscle development, tissue repair, and enzyme production. Sources include meat, fish, and eggs.</li>
+                        <li><strong>Fats:</strong> Provide concentrated energy, support healthy skin and coat, and aid in vitamin absorption. Look for sources like chicken fat, fish oil, and flaxseed.</li>
+                        <li><strong>Carbohydrates:</strong> Offer energy and fiber for digestive health. Grains, vegetables, and legumes are common sources.</li>
+                        <li><strong>Vitamins and Minerals:</strong> Crucial for countless bodily functions, from bone health (calcium, phosphorus) to vision (Vitamin A).</li>
+                    </ul>
+
+                    <h2>Reading Pet Food Labels</h2>
+                    <p>
+                        Understanding pet food labels is key to making informed decisions. Look for a statement from AAFCO (Association of American Feed Control Officials), which indicates the food meets nutritional standards for a specific life stage.
+                    </p>
+                    <p>
+                        Ingredients are listed in descending order by weight. Prioritize foods where high-quality protein sources are among the first few ingredients. Be wary of excessive fillers or artificial additives.
+                    </p>
+
+                    <h2>Common Nutritional Mistakes to Avoid</h2>
+                    <p>
+                        Even with good intentions, pet owners can sometimes make nutritional errors.
+                    </p>
+                    <ol>
+                        <li><strong>Overfeeding:</strong> Leading to obesity, which can cause numerous health problems.</li>
+                        <li><strong>Inconsistent Diet:</strong> Frequent changes can upset your pet's digestive system.</li>
+                        <li><strong>Too Many Treats:</b> Treats should only make up a small portion of daily caloric intake.</li>
+                        <li><strong>Feeding Human Food:</strong> Many human foods are toxic to pets or lack proper nutritional balance.</li>
+                    </ol>
+
+                    <h2>When to Consult Your Veterinarian</h2>
+                    <p>
+                        Your veterinarian is your best resource for personalized nutritional advice. They can help determine the best diet based on your pet's age, breed, health conditions, and lifestyle. If your pet experiences digestive issues, weight changes, or a dull coat, it’s time for a vet visit.
+                    </p>
+
+                    <p class="text-muted text-center mt-5">
+                        <em>This article is for informational purposes only and does not constitute veterinary advice. Always consult with a qualified veterinarian regarding your pet's health and dietary needs.</em>
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
-  </nav>
 
-  <!-- Page Header -->
-  <header class="bg-light py-4 mb-4 border-bottom">
-    <div class="container text-center">
-      <h2 class="mb-0">Explore Pet Care Articles</h2>
-      <p class="text-muted">Learn how to take better care of your furry friends 🐾</p>
-    </div>
-  </header>
-
-  <!-- Articles Section -->
-  <main class="container">
-    <div class="row row-cols-1 row-cols-md-2 g-4">
-
-      <!-- Article 1 -->
-      <div class="col">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Understanding Pet Allergies</h5>
-            <p class="card-text">Learn to identify common allergy symptoms in pets and how to manage them effectively.</p>
-            <a href="#" class="btn btn-outline-primary btn-sm">Read More</a>
-          </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <p>&copy; 2025 PetUniverse Connect. All rights reserved.</p>
+                </div>
+                <div class="col-md-6">
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook"><i class="bi bi-facebook me-3"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="bi bi-twitter me-3"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+    </footer>
 
-      <!-- Article 2 -->
-      <div class="col">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Best Practices for Pet Hygiene</h5>
-            <p class="card-text">Explore how regular grooming and hygiene habits can improve your pet’s well-being.</p>
-            <a href="#" class="btn btn-outline-primary btn-sm">Read More</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Article 3 -->
-      <div class="col">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Training Tips for New Pet Owners</h5>
-            <p class="card-text">Simple behavioral tips to help you raise a well-trained and obedient pet.</p>
-            <a href="#" class="btn btn-outline-primary btn-sm">Read More</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Article 4 -->
-      <div class="col">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Common Pet Diseases and Prevention</h5>
-            <p class="card-text">An overview of frequent illnesses in pets and how to prevent them through care and vaccines.</p>
-            <a href="#" class="btn btn-outline-primary btn-sm">Read More</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Article 5 -->
-      <div class="col">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Pet Dental Care Guide</h5>
-            <p class="card-text">Discover why dental care matters and how to clean your pet's teeth at home.</p>
-            <a href="#" class="btn btn-outline-primary btn-sm">Read More</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Article 6 -->
-      <div class="col">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Traveling with Pets: What to Know</h5>
-            <p class="card-text">Essential checklist and safety tips for stress-free travel with your pet.</p>
-            <a href="#" class="btn btn-outline-primary btn-sm">Read More</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Article 7 -->
-      <div class="col">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Seasonal Pet Care Tips</h5>
-            <p class="card-text">Adjust your pet's care routine for cold, rainy, or hot weather seasons.</p>
-            <a href="#" class="btn btn-outline-primary btn-sm">Read More</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Article 8 -->
-      <div class="col">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">How to Recognize Pet Pain</h5>
-            <p class="card-text">Signs your pet may be in pain and when it’s time to visit the vet.</p>
-            <a href="#" class="btn btn-outline-primary btn-sm">Read More</a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="bg-dark text-white text-center py-3 mt-5">
-    <small>&copy; 2025 PetUniverse Connect</small>
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/common.js"></script> <!-- Ensure common.js is loaded -->
+    <!-- No page-specific JS needed for this simple article page currently -->
 </body>
 </html>
