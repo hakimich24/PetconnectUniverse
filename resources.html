@@ -16,7 +16,8 @@
         .layout-wrapper {
             display: flex;
             min-height: 100vh;
-            flex-direction: row;
+            /* Allow content to wrap on small screens */
+            flex-wrap: wrap;
         }
 
         .sidebar {
@@ -25,11 +26,18 @@
             padding: 2rem 2rem 1rem 2rem;
             box-sizing: border-box;
             border-right: 1px solid #dee2e6;
+            /* Ensure sidebar is sticky on desktop, full height */
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto; /* Enable scrolling for long sidebars */
         }
 
         .main-wrapper {
             flex-grow: 1;
-            width: 100%;
+            /* Adjusted width for desktop layout */
+            width: calc(100% - 270px);
+            padding: 0;
         }
 
         .main-content {
@@ -68,6 +76,7 @@
             padding: 6px 12px;
             border-radius: 20px;
             font-size: 0.9rem;
+            white-space: nowrap; /* Prevent buttons from breaking words */
         }
 
         .filter-button.active {
@@ -84,6 +93,8 @@
 
         .card {
             transition: all 0.2s ease-in-out;
+            border: 1px solid #dee2e6; /* Add subtle border */
+            border-radius: 15px; /* Rounded corners */
         }
 
         .card:hover {
@@ -91,80 +102,137 @@
             transform: scale(1.01);
         }
 
-        @media (max-width: 992px) {
-            .layout-wrapper {
-                flex-direction: column;
-            }
+        /* Topbar adjustments */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem; /* Add some space below the topbar */
+        }
 
+        /* Dropdown styling */
+        #notif-dropdown, #profile-dropdown {
+            width: 250px; /* Default width for dropdowns */
+        }
+        #profile-dropdown {
+            width: 150px; /* Specific width for profile dropdown */
+        }
+
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 991.98px) { /* Adjusts for screens smaller than 'lg' breakpoint (992px) */
+            .layout-wrapper {
+                flex-direction: column; /* Stacks sidebar and main content vertically */
+            }
             .sidebar {
-                width: 100%;
+                width: 100%; /* Sidebar takes full width */
+                height: auto; /* Height adjusts to content */
+                position: relative; /* No longer sticky on top */
                 border-right: none;
                 border-bottom: 1px solid #dee2e6;
-                padding: 1rem;
+                padding: 1rem; /* Reduced padding for mobile */
             }
-
+            .main-wrapper {
+                width: 100%; /* Main content takes full width */
+            }
             .main-content {
-                padding: 1rem;
+                padding: 1rem; /* Adjust main content padding */
             }
-
-            .d-flex.align-items-center.gap-3 {
-                flex-direction: column;
-                align-items: flex-start !important;
+            /* Hide the sidebar nav by default on mobile, show only when toggled */
+            .sidebar-nav-collapse {
+                display: none;
             }
-
-            .row > [class*="col-"] {
-                margin-bottom: 1rem;
+            .sidebar-nav-collapse.show {
+                display: block;
+            }
+            .nav-link {
+                margin-bottom: 0.5rem; /* Closer spacing for stacked nav links */
+            }
+            .sidebar .d-flex.align-items-start.mb-4 {
+                margin-bottom: 1rem !important; /* Adjust logo margin */
+            }
+            .topbar {
+                flex-direction: column; /* Stack header items vertically */
+                align-items: flex-start !important; /* Align items to the left */
+                gap: 1rem; /* Space between stacked elements */
+            }
+            .topbar > div:last-child { /* Targets the search, icons and add pet button */
+                width: 100%; /* Make this group take full width */
+                justify-content: space-between; /* Distribute items horizontally */
+                margin-top: 0.5rem; /* Add some space above */
+            }
+            .input-group {
+                width: auto !important; /* Allow search input to size naturally or take more space */
+                flex-grow: 1; /* Allow search input to grow */
             }
         }
 
-        @media (max-width: 576px) {
-            .input-group {
-                width: 100% !important;
+        @media (max-width: 767.98px) { /* Adjusts for screens smaller than 'md' breakpoint (768px) */
+            .card.d-flex.flex-row {
+                flex-direction: column; /* Stack image and text vertically in cards */
+                align-items: center; /* Center items when stacked */
+                text-align: center;
             }
-
-            .d-flex.justify-content-between {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
             .card img {
-                width: 80px !important;
-                margin-right: 20px !important;
+                margin-right: 0 !important; /* Remove right margin */
+                margin-bottom: 1rem; /* Add bottom margin for separation */
+                width: 120px !important; /* Make image slightly larger on small screens */
+                height: 120px; /* Ensure square aspect ratio */
             }
-
+            .card-body.p-0 {
+                padding: 1rem 0 !important; /* Add padding to card body */
+                width: 100%; /* Ensure card body takes full width */
+            }
             .card-title {
                 font-size: 1.2rem !important;
             }
-
             .filter-bar {
-                justify-content: center;
+                justify-content: center; /* Center filter buttons */
+            }
+            /* Dropdown adjustments for mobile */
+            #notif-dropdown, #profile-dropdown {
+                top: auto !important; /* Override fixed top */
+                bottom: -10px; /* Position relative to its parent 'position-relative' div */
+                right: 0 !important; /* Align to the right of its parent */
+                left: auto !important; /* Override any left alignment */
+                width: 200px !important; /* Adjust width, use max-width for safety */
+                max-width: 90vw; /* Ensure it doesn't overflow small screens */
+            }
+            #profile-dropdown {
+                width: 120px !important; /* Adjust specific width for profile */
             }
         }
     </style>
 </head>
 <body>
     <div class="layout-wrapper">
-        <!-- Sidebar -->
         <div class="sidebar">
-            <div class="d-flex align-items-start mb-4">
-                <img src="images/Vector.png" alt="pet logo" width="30" height="30" class="me-2 mt-1">
-                <div class="d-flex flex-column" style="font-size: 1.5rem;">
-                    <span class="fw-bold" style="line-height: 1;">PetUniverse</span>
-                    <div class="fw-bold ms-2">Connect</div>
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <div class="d-flex align-items-start">
+                    <img src="images/Vector.png" alt="pet logo" width="30" height="30" class="me-2 mt-1">
+                    <div class="d-flex flex-column" style="font-size: 1.5rem;">
+                        <span class="fw-bold" style="line-height: 1;">PetUniverse</span>
+                        <div class="fw-bold ms-2">Connect</div>
+                    </div>
                 </div>
+                <button class="btn d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarNav" aria-controls="sidebarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="bi bi-list fs-3"></i>
+                </button>
             </div>
-            <a href="dashboard.html" class="nav-link"><i class="bi bi-house-door"></i> Dashboard</a>
-            <a href="pet-profile.html" class="nav-link"><i class="bi bi-house-heart"></i> Pet Profile</a>
-            <a href="health-record.html" class="nav-link"><i class="bi bi-heart"></i> Health Records</a>
-            <a href="resources.html" class="nav-link active"><i class="bi bi-journal-text"></i> Resources</a>
-            <a href="service-directory.html" class="nav-link"><i class="bi bi-geo-alt"></i> Service Directory</a>
-            <a href="community.html" class="nav-link"><i class="bi bi-people"></i> Community</a>
+
+            <nav class="collapse d-lg-block sidebar-nav-collapse" id="sidebarNav">
+                <a href="dashboard.html" class="nav-link"><i class="bi bi-house-door"></i> Dashboard</a>
+                <a href="pet-profile.html" class="nav-link"><i class="bi bi-house-heart"></i> Pet Profile</a>
+                <a href="health-record.html" class="nav-link"><i class="bi bi-heart"></i> Health Records</a>
+                <a href="resources.html" class="nav-link active"><i class="bi bi-journal-text"></i> Resources</a>
+                <a href="service-directory.html" class="nav-link"><i class="bi bi-geo-alt"></i> Service Directory</a>
+                <a href="community.html" class="nav-link"><i class="bi bi-people"></i> Community</a>
+            </nav>
         </div>
 
-        <!-- Main Content -->
         <div class="main-wrapper">
             <div class="main-content">
-                <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+                <div class="topbar d-flex justify-content-between align-items-center flex-wrap mb-4">
                     <div class="d-flex align-items-center gap-3">
                         <img src="images/Ellipse 2.png" alt="" style="width: 40px; height: 30px;" />
                         <span class="fw-semibold" id="greeting-text"></span>
@@ -174,7 +242,6 @@
                             <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
                             <input type="text" class="form-control" placeholder="Search"/>
                         </div>
-                        <!-- Notification Icon and Dropdown -->
                         <div class="position-relative">
                             <i class="bi bi-bell fs-4" id="notif-icon" title="Notifications" style="cursor: pointer;"></i>
                             <div
@@ -186,7 +253,6 @@
                             </div>
                         </div>
 
-                        <!-- Profile Icon and Dropdown -->
                         <div class="position-relative">
                             <i class="bi bi-person-circle fs-4" id="profile-icon" title="Profile" style="cursor: pointer;"></i>
                             <div
@@ -208,9 +274,8 @@
                 <p class="mb-3" style="font-size: 2rem;">Petcare Resources</p>
                 <h5 class="mb-3" style="font-weight: 600;">Featured Topics</h5>
 
-                <!-- Card Grid -->
                 <div class="row">
-                    <div class="col-lg-6 col-md-12 mb-3" data-category="training">
+                    <div class="col-12 col-lg-6 mb-3" data-category="training">
                         <div class="card d-flex flex-row align-items-center p-2">
                             <img src="images/potty-training-tips-ZjqR3w4r.jpg" class="rounded" alt="Potty Training" style="width: 100px; object-fit: cover; margin-right: 30px;">
                             <div class="card-body p-0">
@@ -219,7 +284,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-12 mb-3" data-category="health">
+                    <div class="col-12 col-lg-6 mb-3" data-category="health">
                         <div class="card d-flex flex-row align-items-center p-2">
                             <img src="images/FA_The-importance-of-dental-care-for-your-pet-1[1].png" class="rounded" alt="Dental Care" style="width: 100px; object-fit: cover; margin-right: 30px;">
                             <div class="card-body p-0">
@@ -228,18 +293,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-12 mb-3" data-category="training">
+                    <div class="col-12 col-lg-6 mb-3" data-category="training">
                         <div class="card d-flex flex-row align-items-center p-2">
-                            <img src="images\socializing-an-older-dog[1].jpg" class="rounded" alt="Socializing" style="width: 100px; object-fit: cover; margin-right: 30px;">
+                            <img src="images/socializing-an-older-dog[1].jpg" class="rounded" alt="Socializing" style="width: 100px; object-fit: cover; margin-right: 30px;">
                             <div class="card-body p-0">
                                 <h6 class="card-title" style="font-size: 1.4rem;">How To Socialise<br>Pets</h6>
                                 <a href="#" class="btn btn-dark btn-sm mt-2">View More</a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-12 mb-3" data-category="nutrition">
+                    <div class="col-12 col-lg-6 mb-3" data-category="nutrition">
                         <div class="card d-flex flex-row align-items-center p-2">
-                            <img src="images\8-Power-Foods-to-Add-to-Your-Dog’s-Homemade-or-Raw-Diet[1].jpg" class="rounded" alt="Diet" style="width: 100px; object-fit: cover; margin-right: 30px;">
+                            <img src="images/8-Power-Foods-to-Add-to-Your-Dog’s-Homemade-or-Raw-Diet[1].jpg" class="rounded" alt="Diet" style="width: 100px; object-fit: cover; margin-right: 30px;">
                             <div class="card-body p-0">
                                 <h6 class="card-title" style="font-size: 1.4rem;">Safe Pets<br>Diets</h6>
                                 <a href="#" class="btn btn-dark btn-sm mt-2">View More</a>
@@ -248,7 +313,6 @@
                     </div>
                 </div>
 
-                <!-- Filters -->
                 <div class="filter-bar my-4">
                     <button class="filter-button active" data-filter="all">All</button>
                     <button class="filter-button" data-filter="training">Training</button>
@@ -258,11 +322,10 @@
                     <button class="filter-button" data-filter="general pet tips">General Pet Tips</button>
                 </div>
 
-                <!-- More Resources Section -->
                 <div class="row">
-                    <div class="col-lg-6 col-md-12 mb-3" data-category="training">
+                    <div class="col-12 col-lg-6 mb-3" data-category="training">
                         <div class="card d-flex flex-row align-items-center p-2">
-                            <img src="images\basic-puppy-training-1024x548[1].jpg" class="rounded" alt="Puppy Training" style="width: 100px; object-fit: cover; margin-right: 30px;">
+                            <img src="images/basic-puppy-training-1024x548[1].jpg" class="rounded" alt="Puppy Training" style="width: 100px; object-fit: cover; margin-right: 30px;">
                             <div class="card-body p-0">
                                 <h6 class="card-title" style="font-size: 1.4rem;">How to Train<br>Your Puppy</h6>
                                 <p class="text-muted" style="font-size: 0.9rem;">Learn tips to get your dogs to obey your commands</p>
@@ -270,9 +333,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-12 mb-3" data-category="health">
+                    <div class="col-12 col-lg-6 mb-3" data-category="health">
                         <div class="card d-flex flex-row align-items-center p-2">
-                            <img src="images\Dog-Fitness-1068x601[1].jpg" class="rounded" alt="Pet Fitness" style="width: 100px; object-fit: cover; margin-right: 30px;">
+                            <img src="images/Dog-Fitness-1068x601[1].jpg" class="rounded" alt="Pet Fitness" style="width: 100px; object-fit: cover; margin-right: 30px;">
                             <div class="card-body p-0">
                                 <h6 class="card-title" style="font-size: 1.4rem;">Keeping Your<br>Pet Fit</h6>
                                 <p class="text-muted" style="font-size: 0.9rem;">Discover Ways To Maintain a<br> Healthy Weight For Your Pet</p>
@@ -280,9 +343,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-12 mb-3" data-category="health">
+                    <div class="col-12 col-lg-6 mb-3" data-category="health">
                         <div class="card d-flex flex-row align-items-center p-2">
-                            <img src="images\Importance-of-Vet-Visits[1].jpg" class="rounded" alt="Vet Visits" style="width: 100px; object-fit: cover; margin-right: 30px;">
+                            <img src="images/Importance-of-Vet-Visits[1].jpg" class="rounded" alt="Vet Visits" style="width: 100px; object-fit: cover; margin-right: 30px;">
                             <div class="card-body p-0">
                                 <h6 class="card-title" style="font-size: 1.4rem;">Routine Vet Visits<br> Explained</h6>
                                 <p class="text-muted" style="font-size: 0.9rem;">Understand what happens<br> during a typical check-up</p>
@@ -290,9 +353,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-12 mb-3" data-category="grooming">
+                    <div class="col-12 col-lg-6 mb-3" data-category="grooming">
                         <div class="card d-flex flex-row align-items-center p-2">
-                            <img src="images\cat-grooming-services[1].jpg" class="rounded" alt="Grooming" style="width: 100px; object-fit: cover; margin-right: 30px;">
+                            <img src="images/cat-grooming-services[1].jpg" class="rounded" alt="Grooming" style="width: 100px; object-fit: cover; margin-right: 30px;">
                             <div class="card-body p-0">
                                 <h6 class="card-title" style="font-size: 1.4rem;">Grooming<br>Basics</h6>
                                 <p class="text-muted" style="font-size: 0.9rem;">Essential grooming techniques<br> for pets at home</p>

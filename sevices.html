@@ -1,219 +1,294 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>User Settings</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services | PetUniverse Connect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            margin: 0;
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', sans-serif;
-            display: flex; /* Use flexbox for sticky footer */
-            flex-direction: column; /* Column direction for body */
-            min-height: 100vh; /* Ensure body takes full viewport height */
-        }
-        .layout-wrapper {
-            display: flex;
+            font-family: 'Segoe UI', Arial, sans-serif;
             min-height: 100vh;
-            flex-grow: 1; /* Allow main content to grow */
-            flex-direction: column; /* Change to column to allow footer at bottom */
+            display: flex;
+            flex-direction: column;
+            background-color: #f0f2f5;
         }
-        .main-wrapper {
-            flex-grow: 1; /* Allow main content wrapper to take available space */
-            width: 100%; /* Ensure it takes full width */
-        }
-        .main-content {
+        .navbar {
             background-color: #ffffff;
-            padding: 2rem;
-            flex-grow: 1; /* Ensure content pushes footer down */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+        }
+        .navbar-brand .logo-img {
+            width: 35px;
+            height: 35px;
+            margin-right: 10px;
+        }
+        .navbar-brand .brand-text {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: #333;
+            line-height: 1.2;
+        }
+        .nav-link {
+            font-weight: 500;
+            color: #555;
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #007bff;
+        }
+        .nav-link.active {
+            color: #007bff;
+            font-weight: 600;
+        }
+        .btn-outline-primary {
+            border-color: #007bff;
+            color: #007bff;
+            transition: all 0.3s ease;
+        }
+        .btn-outline-primary:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
         }
 
-        /* Footer Styles (Copied from thread.html) */
+        .content-section {
+            flex-grow: 1;
+            padding: 6rem 0 4rem;
+            background-color: #f8f9fa;
+        }
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        .section-title {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 3rem;
+            font-size: 3.5rem;
+        }
+        .lead {
+            font-size: 1.15rem;
+            color: #555;
+        }
+        .service-icon {
+            font-size: 3.5rem;
+            color: #007bff;
+            margin-bottom: 1rem;
+        }
+        .service-card h3 {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.75rem;
+        }
+        .service-card p {
+            color: #666;
+            line-height: 1.6;
+        }
         .footer {
-            background-color: #343a40; /* Dark background for footer */
-            color: #fff;
-            padding: 2rem 0;
+            background-color: #343a40;
+            color: #f8f9fa;
+            padding: 2.5rem 0;
             text-align: center;
-            margin-top: auto; /* Push footer to the bottom */
-            flex-shrink: 0; /* Prevent footer from shrinking */
+            margin-top: auto;
+        }
+        .footer p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
         }
         .footer a {
-            color: #adb5bd;
+            color: #8bb4e0;
             text-decoration: none;
-            margin: 0 10px;
+            transition: color 0.3s ease;
         }
         .footer a:hover {
             color: #fff;
-        }
-        .footer .social-icons i {
-            font-size: 1.5rem;
-            margin: 0 10px;
+            text-decoration: underline;
         }
 
-        /* Responsive adjustments for pages without sidebar */
+        /* Responsive adjustments */
         @media (max-width: 992px) {
-            .main-content {
-                padding: 1rem;
+            .navbar-brand .brand-text {
+                font-size: 1.2rem;
             }
-            .topbar { /* Ensure topbar adjusts correctly */
-                flex-direction: column;
-                align-items: flex-start !important;
+            .section-title {
+                font-size: 3rem;
             }
-            .topbar .d-flex.align-items-center.gap-3:last-child {
-                margin-top: 1rem;
-                width: 100%;
-                justify-content: space-between;
+        }
+
+        @media (max-width: 768px) {
+            .content-section {
+                padding: 5rem 0 3rem;
             }
-            /* Adjust dropdown positions for smaller screens */
-            #notif-dropdown {
-                right: 0 !important; /* Align to right edge */
-                left: auto !important;
-                width: 95% !important; /* Adjust width */
-                max-width: 250px;
+            .section-title {
+                font-size: 2.5rem;
+                margin-bottom: 2rem;
             }
-            #profile-dropdown {
-                right: 0 !important; /* Align to right edge */
-                left: auto !important;
+            .lead {
+                font-size: 1rem;
+            }
+            .card {
+                padding: 1.5rem !important;
+            }
+            .navbar-collapse {
+                text-align: center;
+            }
+            .navbar-nav .nav-item {
+                margin: 0.5rem 0;
+            }
+            .navbar-nav .btn {
+                width: 80%;
+                margin-left: auto !important;
+                margin-right: auto !important;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .content-section {
+                padding: 4.5rem 0 2rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .card {
+                margin: 0 1rem 1.5rem;
+            }
+            .footer {
+                padding: 1.5rem 0;
             }
         }
     </style>
 </head>
 <body>
-    <div class="layout-wrapper">
-        <!-- Main Content -->
-        <div class="main-wrapper">
-            <div class="main-content">
-                <!-- Header (Topbar) -->
-                <div class="topbar d-flex justify-content-between align-items-center mb-4">
-                    <div class="d-flex align-items-center gap-3">
-                        <img src="images/Ellipse 2.png" alt="User Profile" style="width: 40px; height: 30px;" />
-                        <span class="fw-semibold"><span id="greeting-text"></span></span>
-                    </div>
-                    <div class="d-flex align-items-center gap-3 position-relative">
-                        <i id="notif-icon" class="bi bi-bell fs-4" style="cursor: pointer;"></i>
-                        <i id="profile-icon" class="bi bi-person-circle fs-4" style="cursor: pointer;"></i>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="images/Vector.png" alt="PetUniverse Logo" class="logo-img">
+                <span class="brand-text">PetUniverse<br>Connect</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="services.html">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="community.html">Community</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                    <li class="nav-item mt-2 mt-lg-0">
+                        <a class="nav-link btn btn-outline-primary" href="login.html">Login</a>
+                    </li>
+                    <li class="nav-item mt-2 mt-lg-0 ms-lg-2">
+                        <a class="nav-link btn btn-primary text-white" href="signup.html">Sign Up</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-                        <!-- Notification Dropdown (consistent with other pages) -->
-                        <div id="notif-dropdown" class="position-absolute bg-white border shadow-sm p-3"
-                            style="top: 40px; right: 100px; width: 250px; display: none; z-index: 10; border-radius: 10px;" >
-                            <p class="fw-bold mb-2">Notifications</p>
-                            <p class="text-muted mb-1">• Appointment on June 6</p>
-                            <p class="text-muted mb-1">• Benny’s vaccination added</p>
-                            <p class="text-muted">• New care tips available</p>
-                            <a href="notifications.html" class="text-primary mt-2 d-block text-end">View All</a>
-                        </div>
-
-                        <!-- Profile Dropdown (consistent with other pages) -->
-                        <div id="profile-dropdown" class="position-absolute bg-white border shadow-sm p-3"
-                            style="top: 40px; right: 50px; width: 150px; display: none; z-index: 10; border-radius: 10px;" >
-                            <p class="mb-2"><i class="bi bi-gear me-2"></i><a id="settingsLink" href="settings.html" class="text-decoration-none text-dark">Settings</a></p>
-                            <p class="mb-0"><i class="bi bi-box-arrow-right me-2"></i><a id="logoutLink" href="logout.html" class="text-decoration-none text-dark">Logout</a></p>
-                        </div>
+    <section class="content-section text-center">
+        <div class="container">
+            <h1 class="section-title display-4">Our Services</h1>
+            
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-8 col-md-10">
+                    <div class="card p-4 p-md-5">
+                        <p class="lead mb-4">
+                            At **PetUniverse Connect**, we offer a comprehensive suite of services designed to make pet ownership easier, healthier, and more enjoyable for everyone. Our platform bridges the gap between pet owners and quality pet care providers.
+                        </p>
+                        <p class="text-muted">
+                            Whether you need to find a trusted veterinarian, book a grooming appointment, or connect with local pet sitters, we've got you covered. Explore our services below to discover how we can help you provide the best for your furry, feathered, or scaled companion.
+                        </p>
                     </div>
                 </div>
+            </div>
 
-                <!-- Back to Dashboard Link -->
-                <div class="mb-3">
-                    <a href="dashboard.html" class="btn btn-outline-secondary btn-sm">
-                        <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
-                    </a>
+            <h2 class="section-title h3 mb-4">What We Offer</h2>
+            <div class="row text-center justify-content-center">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card p-4 h-100 service-card">
+                        <i class="fas fa-stethoscope service-icon"></i>
+                        <h3 class="h5 mb-3">Veterinary Finder & Booking</h3>
+                        <p>Locate nearby veterinarians, read reviews, and schedule appointments with ease for your pet's health needs.</p>
+                    </div>
                 </div>
-
-                <!-- Settings Content -->
-                <h1 class="mb-4">Account Settings</h1>
-
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <div class="card p-4 h-100">
-                            <h5 class="card-title fw-semibold mb-3">Profile Information</h5>
-                            <form>
-                                <div class="mb-3">
-                                    <label for="userName" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="userName" value="Ada" />
-                                </div>
-                                <div class="mb-3">
-                                    <label for="userEmail" class="form-label">Email address</label>
-                                    <input type="email" class="form-control" id="userEmail" value="ada.lovelace@example.com" />
-                                </div>
-                                <div class="mb-3">
-                                    <label for="userLocation" class="form-label">Location</label>
-                                    <input type="text" class="form-control" id="userLocation" value="Nairobi, Kenya" />
-                                </div>
-                                <button type="submit" class="btn btn-primary">Save Changes</button>
-                            </form>
-                        </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card p-4 h-100 service-card">
+                        <i class="fas fa-cut service-icon"></i>
+                        <h3 class="h5 mb-3">Grooming & Spa Appointments</h3>
+                        <p>Find professional groomers and book pampering sessions to keep your pet looking and feeling their best.</p>
                     </div>
-                    <div class="col-md-6">
-                        <div class="card p-4 h-100">
-                            <h5 class="card-title fw-semibold mb-3">Password Management</h5>
-                            <form>
-                                <div class="mb-3">
-                                    <label for="currentPassword" class="form-label">Current Password</label>
-                                    <input type="password" class="form-control" id="currentPassword" />
-                                </div>
-                                <div class="mb-3">
-                                    <label for="newPassword" class="form-label">New Password</label>
-                                    <input type="password" class="form-control" id="newPassword" />
-                                </div>
-                                <div class="mb-3">
-                                    <label for="confirmPassword" class="form-label">Confirm New Password</label>
-                                    <input type="password" class="form-control" id="confirmPassword" />
-                                </div>
-                                <button type="submit" class="btn btn-primary">Change Password</button>
-                            </form>
-                        </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card p-4 h-100 service-card">
+                        <i class="fas fa-home service-icon"></i>
+                        <h3 class="h5 mb-3">Pet Sitting & Boarding</h3>
+                        <p>Connect with reliable pet sitters and quality boarding facilities for when you're away.</p>
                     </div>
-                    <div class="col-md-12">
-                        <div class="card p-4">
-                            <h5 class="card-title fw-semibold mb-3">Notification Preferences</h5>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="emailNotifs" checked>
-                                <label class="form-check-label" for="emailNotifs">
-                                    Email Notifications
-                                </label>
-                            </div>
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="smsNotifs">
-                                <label class="form-check-label" for="smsNotifs">
-                                    SMS Notifications
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="appNotifs" checked>
-                                <label class="form-check-label" for="appNotifs">
-                                    In-App Notifications
-                                </label>
-                            </div>
-                            <button type="submit" class="btn btn-primary mt-3 w-auto align-self-start">Update Preferences</button>
-                        </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card p-4 h-100 service-card">
+                        <i class="fas fa-dog service-icon"></i>
+                        <h3 class="h5 mb-3">Dog Walking & Training</h3>
+                        <p>Discover experienced dog walkers and certified trainers to enhance your dog's well-being and behavior.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card p-4 h-100 service-card">
+                        <i class="fas fa-boxes service-icon"></i>
+                        <h3 class="h5 mb-3">Pet Product Marketplace</h3>
+                        <p>Browse and purchase essential pet supplies, food, toys, and accessories from trusted vendors.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card p-4 h-100 service-card">
+                        <i class="fas fa-paw service-icon"></i>
+                        <h3 class="h5 mb-3">Adoption & Rescue Resources</h3>
+                        <p>Find information on local shelters, adoption events, and ways to support animal rescue organizations.</p>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Footer (consistent with thread.html) -->
     <footer class="footer">
         <div class="container">
-            <div class="row">
-                <div class="col-md-6 mb-3 mb-md-0">
-                    <p>&copy; 2025 PetUniverse Connect. All rights reserved.</p>
-                </div>
-                <div class="col-md-6">
-                    <div class="social-icons">
-                        <a href="#" aria-label="Facebook"><i class="bi bi-facebook me-3"></i></a>
-                        <a href="#" aria-label="Twitter"><i class="bi bi-twitter me-3"></i></a>
-                        <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-                    </div>
-                </div>
-            </div>
+            <p>&copy; 2025 PetUniverse Connect. All rights reserved.</p>
+            <p>
+                <a href="#">Privacy Policy</a> | 
+                <a href="#">Terms of Service</a>
+            </p>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/settings.js"></script> <!-- Linking to the page-specific JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

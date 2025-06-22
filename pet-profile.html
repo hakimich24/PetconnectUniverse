@@ -15,6 +15,8 @@
     .layout-wrapper {
       display: flex;
       min-height: 100vh;
+      /* Allow content to wrap on small screens */
+      flex-wrap: wrap;
     }
     .sidebar {
       width: 270px;
@@ -23,15 +25,71 @@
       box-sizing: border-box;
       overflow-y: auto;
       border-right: 1px solid #dee2e6;
+      /* Responsive adjustments for sidebar */
+      position: sticky; /* Keep sidebar visible while scrolling main content */
+      top: 0;
+      height: 100vh; /* Make sidebar full height */
     }
+    /* Hide sidebar on small screens and show toggle button */
+    @media (max-width: 991.98px) { /* Bootstrap's 'lg' breakpoint */
+      .sidebar {
+        width: 100%;
+        height: auto; /* Allow sidebar to be dynamic height */
+        border-right: none;
+        border-bottom: 1px solid #dee2e6;
+        padding: 1rem; /* Adjust padding for mobile */
+      }
+      .layout-wrapper {
+        flex-direction: column; /* Stack sidebar and main content vertically */
+      }
+      .main-wrapper {
+        width: 100%; /* Take full width on small screens */
+      }
+      /* Ensure nav links are visible when sidebar is open on mobile */
+      .sidebar .nav-link {
+        margin-bottom: 1rem; /* Adjust spacing for stacked links */
+      }
+      /* Hide the sidebar menu by default on mobile */
+      .sidebar-nav-collapse {
+        display: none;
+      }
+      .sidebar-nav-collapse.show {
+        display: block;
+      }
+    }
+
     .main-wrapper {
       flex-grow: 1;
+      width: calc(100% - 270px); /* Adjust width for desktop */
     }
+    @media (max-width: 991.98px) {
+      .main-wrapper {
+        width: 100%; /* Full width on mobile */
+      }
+    }
+
     .main-content {
       height: 100%;
       background-color: #ffffff;
       padding: 2rem;
     }
+    @media (max-width: 767.98px) { /* Bootstrap's 'md' breakpoint */
+      .main-content {
+        padding: 1rem; /* Reduce padding on very small screens */
+      }
+      /* Adjust spacing for header elements on mobile */
+      .main-content .d-flex.justify-content-between.align-items-center.mb-4 {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 1rem;
+      }
+      .main-content .d-flex.align-items-center.gap-3:last-child {
+        margin-top: 1rem;
+        width: 100%;
+        justify-content: space-between; /* Distribute icons and button */
+      }
+    }
+
     .nav-link {
       color: #333;
       padding: 0.5rem 0.75rem;
@@ -40,6 +98,11 @@
       display: flex;
       align-items: center;
       margin-bottom: 3rem;
+    }
+    @media (max-width: 991.98px) {
+      .nav-link {
+        margin-bottom: 0.5rem; /* Closer spacing when sidebar is stacked */
+      }
     }
     .nav-link i {
       margin-right: 10px;
@@ -66,6 +129,11 @@
       padding: 2rem;
       background-color: #fff;
     }
+    @media (max-width: 767.98px) {
+      .profile-card, .info-box {
+        padding: 1.5rem; /* Smaller padding on mobile cards */
+      }
+    }
     .info-box.appointment-box {
       background-color: #E1EAEF82;
       padding: 2rem;
@@ -90,24 +158,33 @@
 <body>
   <div class="layout-wrapper">
     <div class="sidebar">
-      <div class="d-flex align-items-start mb-4">
-        <img src="images/Vector.png" alt="pet logo" width="30" height="30" class="me-2 mt-1" />
-        <div class="d-flex flex-column" style="font-size: 1.5rem;">
-          <span class="fw-bold" style="line-height: 1;">PetUniverse</span>
-          <div class="fw-bold ms-2">Connect</div>
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <div class="d-flex align-items-start">
+          <img src="images/Vector.png" alt="pet logo" width="30" height="30" class="me-2 mt-1" />
+          <div class="d-flex flex-column" style="font-size: 1.5rem;">
+            <span class="fw-bold" style="line-height: 1;">PetUniverse</span>
+            <div class="fw-bold ms-2">Connect</div>
+          </div>
         </div>
+        <button class="btn d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarNav" aria-controls="sidebarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="bi bi-list fs-3"></i>
+        </button>
       </div>
-      <a href="index.html" class="nav-link"><i class="bi bi-house-door"></i> Dashboard</a>
-      <a href="pet-profile.html" class="nav-link active"><i class="bi bi-house-heart"></i> Pet Profile</a>
-      <a href="health-record.html" class="nav-link"><i class="bi bi-heart"></i> Health Records</a>
-      <a href="resources.html" class="nav-link"><i class="bi bi-journal-text"></i> Resources</a>
-      <a href="service-directory.html" class="nav-link"><i class="bi bi-geo-alt"></i> Service Directory</a>
-      <a href="community.html" class="nav-link"><i class="bi bi-people"></i> Community</a>
+
+      <nav class="collapse d-lg-block sidebar-nav-collapse" id="sidebarNav">
+        <a href="index.html" class="nav-link"><i class="bi bi-house-door"></i> Dashboard</a>
+        <a href="pet-profile.html" class="nav-link active"><i class="bi bi-house-heart"></i> Pet Profile</a>
+        <a href="health-record.html" class="nav-link"><i class="bi bi-heart"></i> Health Records</a>
+        <a href="resources.html" class="nav-link"><i class="bi bi-journal-text"></i> Resources</a>
+        <a href="service-directory.html" class="nav-link"><i class="bi bi-geo-alt"></i> Service Directory</a>
+        <a href="community.html" class="nav-link"><i class="bi bi-people"></i> Community</a>
+      </nav>
     </div>
+
     <div class="main-wrapper">
       <div class="main-content">
-        <div class="d-flex justify-content-between align-items-center mb-4 position-relative">
-          <div class="d-flex align-items-center gap-3">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 position-relative">
+          <div class="d-flex align-items-center gap-3 mb-3 mb-md-0">
             <img src="images/Ellipse 2.png" alt="User" style="width: 40px; height: 30px;" />
             <span class="fw-semibold"><span id="greeting-text"></span></span>
           </div>
@@ -149,8 +226,7 @@
         </p>
 
         <div class="row" id="pet-cards-container">
-          <div class="col-md-4">
-            <div class="profile-card">
+          <div class="col-12 col-md-6 col-lg-4 mb-4"> <div class="profile-card">
               <div class="text-center mb-3">
                 <img
                   src="images/46046486.jpg"
@@ -171,8 +247,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="d-flex flex-column gap-3">
+          <div class="col-12 col-md-6 col-lg-4 mb-4"> <div class="d-flex flex-column gap-3">
               <div class="info-box text-center p-0">
                 <table class="table table-bordered mb-0">
                   <thead class="table-light">

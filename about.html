@@ -8,73 +8,178 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif; /* Prefer Segoe UI for a modern look */
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            background-color: #f0f2f5; /* Light grey background for the entire page */
         }
         .navbar {
-            background-color: #f8f9fa; /* Light background for navbar */
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            background-color: #ffffff; /* White background for navbar */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* More pronounced shadow */
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
         }
         .navbar-brand .logo-img {
-            width: 30px; /* Adjust size as needed */
-            height: 30px;
-            margin-right: 8px;
+            width: 35px; /* Slightly larger logo */
+            height: 35px;
+            margin-right: 10px;
         }
         .navbar-brand .brand-text {
-            font-weight: bold;
-            font-size: 1.25rem;
-            color: #000;
+            font-weight: 700; /* Bolder text */
+            font-size: 1.4rem; /* Larger font size */
+            color: #333; /* Darker text for better contrast */
+            line-height: 1.2; /* Adjust line height for multi-line brand name */
         }
+        .nav-link {
+            font-weight: 500;
+            color: #555;
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #007bff; /* Primary color on hover */
+        }
+        .nav-link.active {
+            color: #007bff;
+            font-weight: 600;
+        }
+        .btn-outline-primary {
+            border-color: #007bff;
+            color: #007bff;
+            transition: all 0.3s ease;
+        }
+        .btn-outline-primary:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
         .content-section {
-            flex-grow: 1; /* Allows content to take up available space */
-            padding: 4rem 0; /* Vertical padding */
+            flex-grow: 1;
+            padding: 6rem 0 4rem; /* Increased top padding to account for fixed navbar */
             background-color: #f8f9fa; /* Light background for content */
         }
         .card {
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: none; /* Remove default bootstrap card border */
+            border-radius: 15px; /* More rounded corners */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1); /* Softer, larger shadow */
+            overflow: hidden; /* Ensures content stays within rounded corners */
+            margin-bottom: 1.5rem; /* Space between cards in stacks */
         }
         .section-title {
-            font-weight: bold;
+            font-weight: 700;
             color: #333;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem; /* More space below title */
+            font-size: 3.5rem; /* Larger for display-3 effect */
+        }
+        .lead {
+            font-size: 1.15rem;
+            color: #555;
         }
         .feature-icon {
-            font-size: 3rem;
+            font-size: 3.5rem; /* Slightly larger icons */
             color: #007bff; /* Primary color for icons */
             margin-bottom: 1rem;
         }
-        footer {
-            background-color: #343a40; /* Dark background for footer */
+        .feature-card .h5 {
+            font-weight: 600; /* Bolder heading for features */
+            color: #333;
+            margin-bottom: 0.75rem;
+        }
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        .footer {
+            background-color: #343a40;
             color: #f8f9fa;
-            padding: 2rem 0;
+            padding: 2.5rem 0; /* More vertical padding */
             text-align: center;
+            margin-top: auto;
         }
-        footer a {
-            color: #007bff;
+        .footer p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        .footer a {
+            color: #8bb4e0; /* Lighter blue for footer links */
             text-decoration: none;
+            transition: color 0.3s ease;
         }
-        footer a:hover {
+        .footer a:hover {
+            color: #fff;
             text-decoration: underline;
         }
+
         /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .navbar-brand .brand-text {
+                font-size: 1.2rem;
+            }
+            .section-title {
+                font-size: 3rem;
+            }
+        }
+
         @media (max-width: 768px) {
             .content-section {
-                padding: 2rem 0;
+                padding: 5rem 0 3rem; /* Adjust padding for fixed navbar */
             }
-            .navbar-brand .brand-text {
+            .section-title {
+                font-size: 2.5rem;
+                margin-bottom: 2rem;
+            }
+            .lead {
                 font-size: 1rem;
+            }
+            .card {
+                padding: 1.5rem !important; /* Adjust card padding */
+            }
+            .navbar-collapse {
+                text-align: center; /* Center navbar items when collapsed */
+            }
+            .navbar-nav .nav-item {
+                margin: 0.5rem 0; /* Add vertical margin to stacked nav items */
+            }
+            .navbar-nav .btn {
+                width: 80%; /* Make buttons wider when stacked */
+                margin-left: auto !important;
+                margin-right: auto !important;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .content-section {
+                padding: 4.5rem 0 2rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .card {
+                margin: 0 1rem 1.5rem; /* Add horizontal margin to card and consistent bottom margin */
+            }
+            .footer {
+                padding: 1.5rem 0;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <a class="navbar-brand" href="index.html">
                 <img src="images/Vector.png" alt="PetUniverse Logo" class="logo-img">
                 <span class="brand-text">PetUniverse<br>Connect</span>
             </a>
@@ -90,36 +195,32 @@
                         <a class="nav-link active" aria-current="page" href="about.html">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="sevices.html">Services</a>
-                    </li>
+                        <a class="nav-link" href="services.html">Services</a> </li>
                     <li class="nav-item">
                         <a class="nav-link" href="contact.html">Contact</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary ms-lg-3" href="login.html">Login</a>
+                    <li class="nav-item mt-2 mt-lg-0"> <a class="nav-link btn btn-outline-primary" href="login.html">Login</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-primary text-white ms-lg-2" href="signup.html">Sign Up</a>
+                    <li class="nav-item mt-2 mt-lg-0 ms-lg-2"> <a class="nav-link btn btn-primary text-white" href="signup.html">Sign Up</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content Section -->
     <section class="content-section text-center">
         <div class="container">
-            <h1 class="section-title display-3 mt-4">About PetUniverse Connect</h1>
+            <h1 class="section-title display-4">About PetUniverse Connect</h1>
             
             <div class="row justify-content-center mb-5">
-                <div class="col-md-8">
-                    <div class="card p-4">
+                <div class="col-lg-8 col-md-10">
+                    <div class="card p-4 p-md-5">
                         <p class="lead mb-4">
-                            Welcome to PetUniverse Connect, your trusted digital hub for all things pets! 
+                            Welcome to **PetUniverse Connect**, your trusted digital hub for all things pets! 
                             We believe in fostering a vibrant community where pet owners, veterinarians, groomers, 
                             and animal lovers can connect, share, and find the best care for their beloved companions.
                         </p>
-                        <p>
+                        <p class="text-muted">
                             Our mission is to simplify pet care and enhance the bond between humans and animals. 
                             From finding essential services to sharing heartwarming stories, PetUniverse Connect is 
                             designed to be your go-to resource. We are committed to providing a secure, supportive, 
@@ -130,23 +231,19 @@
             </div>
 
             <h2 class="section-title h3 mb-4">Our Core Values</h2>
-            <div class="row text-center">
-                <div class="col-md-4 mb-4">
-                    <div class="card p-4 h-100">
+            <div class="row text-center justify-content-center"> <div class="col-lg-4 col-md-6 mb-4"> <div class="card p-4 h-100 feature-card">
                         <i class="fas fa-heart feature-icon"></i>
                         <h3 class="h5 mb-3">Compassion</h3>
                         <p>We treat every animal with kindness and respect, advocating for their well-being.</p>
                     </div>
                 </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card p-4 h-100">
+                <div class="col-lg-4 col-md-6 mb-4"> <div class="card p-4 h-100 feature-card">
                         <i class="fas fa-hands-helping feature-icon"></i>
                         <h3 class="h5 mb-3">Community</h3>
                         <p>Building a supportive network where knowledge and experiences are freely shared.</p>
                     </div>
                 </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card p-4 h-100">
+                <div class="col-lg-4 col-md-6 mb-4"> <div class="card p-4 h-100 feature-card">
                         <i class="fas fa-shield-alt feature-icon"></i>
                         <h3 class="h5 mb-3">Integrity</h3>
                         <p>Upholding transparency and trust in all our interactions and services.</p>
@@ -156,11 +253,13 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="mt-auto">
+    <footer class="footer">
         <div class="container">
             <p>&copy; 2025 PetUniverse Connect. All rights reserved.</p>
-            <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            <p>
+                <a href="#">Privacy Policy</a> | 
+                <a href="#">Terms of Service</a>
+            </p>
         </div>
     </footer>
 

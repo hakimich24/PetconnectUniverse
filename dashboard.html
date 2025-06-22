@@ -15,6 +15,8 @@
     .layout-wrapper {
       display: flex;
       min-height: 100vh;
+      /* Allow content to wrap on small screens */
+      flex-wrap: wrap;
     }
     .sidebar {
       width: 270px;
@@ -24,9 +26,15 @@
       overflow-y: auto;
       padding-top: 20px;
       border-right: 1px solid #dee2e6;
+      /* Ensure sidebar is sticky on desktop, full height */
+      position: sticky;
+      top: 0;
+      height: 100vh;
     }
     .main-wrapper {
       flex-grow: 1;
+      /* Adjusted width for desktop layout */
+      width: calc(100% - 270px); 
     }
     .main-content {
       height: 100%;
@@ -54,17 +62,6 @@
       background-color: #0868f7;
       color: #fff !important;
     }
-    @media (max-width: 768px) {
-      .layout-wrapper {
-        flex-direction: column;
-      }
-      .sidebar {
-        width: 100%;
-        position: relative;
-        border-right: none;
-        border-bottom: 1px solid #dee2e6;
-      }
-    }
     .card-box {
       border: 1px solid #dee2e6;
       border-radius: 20px;
@@ -78,44 +75,140 @@
       flex-direction: column;
       justify-content: space-between;
     }
+
+    /* --- Responsive Adjustments for Mobile --- */
+    @media (max-width: 991.98px) { /* Adjusts for screens smaller than 'lg' breakpoint (992px) */
+      .layout-wrapper {
+        flex-direction: column; /* Stacks sidebar and main content vertically */
+      }
+      .sidebar {
+        width: 100%; /* Sidebar takes full width */
+        height: auto; /* Height adjusts to content */
+        position: relative; /* No longer sticky on top */
+        border-right: none;
+        border-bottom: 1px solid #dee2e6;
+        padding: 1rem; /* Reduced padding for mobile */
+      }
+      .main-wrapper {
+        width: 100%; /* Main content takes full width */
+      }
+      /* Hide the sidebar nav by default on mobile, show only when toggled */
+      .sidebar-nav-collapse {
+        display: none;
+      }
+      .sidebar-nav-collapse.show {
+        display: block;
+      }
+      .nav-link {
+        margin-bottom: 0.5rem; /* Closer spacing for stacked nav links */
+      }
+      .sidebar .d-flex.align-items-start.mb-4 {
+        margin-bottom: 1rem !important; /* Adjust logo margin */
+      }
+    }
+
+    @media (max-width: 767.98px) { /* Adjusts for screens smaller than 'md' breakpoint (768px) */
+      .main-content {
+        padding: 1rem; /* Reduce main content padding */
+      }
+      /* Header adjustments: stack items vertically */
+      .main-content .d-flex.justify-content-between.align-items-center.mb-4 {
+        flex-direction: column;
+        align-items: flex-start !important; /* Align items to the left */
+        gap: 1rem; /* Space between stacked elements */
+      }
+      /* Icons and button group in header: take full width and distribute */
+      .main-content .d-flex.align-items-center.gap-3:last-child {
+        margin-top: 1rem; /* Space from greeting */
+        width: 100%;
+        justify-content: space-between; /* Distribute notification, profile, and add pet button */
+      }
+
+      /* Adjust dropdown positioning for mobile */
+      #notif-dropdown, #profile-dropdown {
+          top: auto !important; /* Remove fixed top position */
+          bottom: -10px; /* Position relative to its parent 'position-relative' div */
+          right: 0 !important; /* Align to the right of its parent */
+          left: auto !important; /* Override any left alignment */
+          width: 200px !important; /* Adjust width, use max-width for safety */
+          max-width: 90vw; /* Ensure it doesn't overflow small screens */
+          transform: translateX(0); /* Remove any transform that might shift it */
+      }
+      #profile-dropdown {
+          right: 0 !important;
+          width: 120px !important;
+      }
+
+
+      /* My Pet Today section */
+      .d-flex.flex-wrap.align-items-start.gap-3.mb-4 {
+        flex-direction: column; /* Stack image and text vertically */
+        align-items: center !important; /* Center content */
+        text-align: center;
+      }
+      .d-flex.flex-wrap.align-items-start.gap-3.mb-4 > div:first-child {
+        max-width: 100%; /* Ensure the card takes full width */
+        padding: 1rem !important; /* Adjust padding for smaller screens */
+      }
+      .d-flex.flex-wrap.align-items-start.gap-3.mb-4 img {
+        margin-right: 0 !important; /* Remove right margin */
+        margin-bottom: 1rem; /* Add bottom margin for spacing */
+      }
+      .d-flex.flex-wrap.align-items-start.gap-3.mb-4 .align-self-center.ms-5 {
+        margin-left: 0 !important; /* Remove left margin */
+        margin-top: 1.5rem !important; /* Add top margin */
+      }
+
+      /* Modal adjustments for custom modals */
+      #addPetModal > div, #updateHealthModal > div {
+          width: 90% !important; /* Ensure modals don't overflow on small screens */
+          max-width: 400px; /* Keep original max-width */
+      }
+    }
   </style>
 </head>
 <body>
   <div class="layout-wrapper">
-    <!-- Sidebar -->
     <div class="sidebar">
-      <div class="d-flex align-items-start mb-4">
-        <img src="images/Vector.png" alt="pet logo" width="30" height="30" class="me-2 mt-1" />
-        <div class="d-flex flex-column" style="font-size: 1.5rem;">
-          <span class="fw-bold" style="line-height: 1;">PetUniverse</span>
-          <div class="fw-bold ms-2">Connect</div>
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <div class="d-flex align-items-start">
+          <img src="images/Vector.png" alt="pet logo" width="30" height="30" class="me-2 mt-1" />
+          <div class="d-flex flex-column" style="font-size: 1.5rem;">
+            <span class="fw-bold" style="line-height: 1;">PetUniverse</span>
+            <div class="fw-bold ms-2">Connect</div>
+          </div>
         </div>
+        <button class="btn d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarNav" aria-controls="sidebarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="bi bi-list fs-3"></i>
+        </button>
       </div>
-      <a href="dashboard.html" class="nav-link active">
-        <i class="bi bi-house-door"></i> Dashboard
-      </a>
-      <a href="pet-profile.html" class="nav-link">
-        <i class="bi bi-house-heart"></i> Pet Profile
-      </a>
-      <a href="health-record.html" class="nav-link">
-        <i class="bi bi-heart"></i> Health Record
-      </a>
-      <a href="resources.html" class="nav-link">
-        <i class="bi bi-journal-text"></i> Resources
-      </a>
-      <a href="service-directory.html" class="nav-link">
-        <i class="bi bi-geo-alt"></i> Service Directory
-      </a>
-      <a href="community.html" class="nav-link">
-        <i class="bi bi-people"></i> Community
-      </a>
+
+      <nav class="collapse d-lg-block sidebar-nav-collapse" id="sidebarNav">
+        <a href="dashboard.html" class="nav-link active">
+          <i class="bi bi-house-door"></i> Dashboard
+        </a>
+        <a href="pet-profile.html" class="nav-link">
+          <i class="bi bi-house-heart"></i> Pet Profile
+        </a>
+        <a href="health-record.html" class="nav-link">
+          <i class="bi bi-heart"></i> Health Record
+        </a>
+        <a href="resources.html" class="nav-link">
+          <i class="bi bi-journal-text"></i> Resources
+        </a>
+        <a href="service-directory.html" class="nav-link">
+          <i class="bi bi-geo-alt"></i> Service Directory
+        </a>
+        <a href="community.html" class="nav-link">
+          <i class="bi bi-people"></i> Community
+        </a>
+      </nav>
     </div>
-    <!-- Main Content -->
+
     <div class="main-wrapper">
       <div class="main-content">
-        <!-- Header -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <div class="d-flex align-items-center gap-3">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+          <div class="d-flex align-items-center gap-3 mb-3 mb-md-0">
             <img src="images/Ellipse 2.png" alt="" style="width: 40px; height: 30px;" />
             <span class="fw-semibold" id="greeting-text"></span>
           </div>
@@ -124,39 +217,35 @@
             <i id="profile-icon" class="bi bi-person-circle fs-4" style="cursor: pointer;"></i>
             <button class="btn btn-primary btn-sm">+ Add a Pet</button>
 
-            <!-- Notification Dropdown -->
             <div id="notif-dropdown" class="position-absolute bg-white border shadow-sm p-3"
-         style="top: 40px; right: 100px; width: 250px; display: none; z-index: 10; border-radius: 10px;" >
+           style="top: 40px; right: 0; width: 250px; display: none; z-index: 10; border-radius: 10px;" >
               <p class="fw-bold mb-2">Notifications</p>
               <p class="text-muted mb-1">• Appointment on June 6</p>
               <p class="text-muted mb-1">• Benny’s vaccination added</p>
               <p class="text-muted">• New care tips available</p>
             </div>
 
-            <!-- Profile Dropdown -->
-            <div id="profile-dropdown" class="position-absolute bg-white border shadow-sm p-3" style="top: 40px; right: 50px; width: 150px; display: none; z-index: 10; border-radius: 10px;"  >
+            <div id="profile-dropdown" class="position-absolute bg-white border shadow-sm p-3" style="top: 40px; right: 0; width: 150px; display: none; z-index: 10; border-radius: 10px;" >
               <p class="mb-2"><i class="bi bi-gear me-2"></i>Settings</p>
               <p class="mb-0"><i class="bi bi-box-arrow-right me-2"></i>Logout</p>
             </div>
           </div>
         </div>
 
-        <!-- Dashboard Cards -->
         <h5 class="mb-4 fw-semibold">My Dashboard</h5>
         <div class="row g-3 mb-4">
-          <div class="col-md-4">
-            <div class="card-box">
+          <div class="col-12 col-md-4"> <div class="card-box">
               <div>Pets</div>
               <div class="fs-3 mt-2 fw-bold">3</div>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-12 col-md-4">
             <div class="card-box">
               <div>Upcoming<br />Appointments</div>
               <div class="fs-3 mt-2 fw-bold">1</div>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-12 col-md-4">
             <div class="card-box">
               <div> Vaccinations</div>
               <div class="fs-3 mt-2 fw-bold">1</div>
@@ -164,11 +253,10 @@
           </div>
         </div>
 
-        <!-- My Pet Today -->
         <h5 class="mb-3 fw-semibold">My Pet Today</h5>
-        <div class="d-flex flex-wrap align-items-start gap-3 mb-4">
-          <div class="d-flex align-items-center p-4" style="min-height: 180px; width: 100%; max-width: 600px; border: 2px solid #dee2e6; border-radius: 30px;">
-            <img src="images/46046486.jpg" alt="Dog" class="rounded-circle me-3"
+        <div class="d-flex flex-column flex-md-row align-items-center align-items-md-start gap-3 mb-4">
+          <div class="d-flex flex-column flex-sm-row align-items-center align-items-sm-start p-4 text-center text-sm-start" style="min-height: 180px; width: 100%; max-width: 600px; border: 2px solid #dee2e6; border-radius: 30px;">
+            <img src="images/46046486.jpg" alt="Dog" class="rounded-circle me-0 me-sm-3 mb-3 mb-sm-0"
            style="width: 120px; height: 120px; object-fit: cover"/>
             <div>
               <p class="mb-1 fw-bold">
@@ -182,14 +270,13 @@
               <p class="mb-1"> ✘ Vet Visit</p>
             </div>
           </div>
-          <div class="align-self-center ms-5">
+          <div class="align-self-center mt-3 mt-md-0 ms-md-5">
             <button id="updateHealthBtn" class="btn btn-primary">Update Health Record</button>
           </div>
         </div>
 
-        <!-- Reminder & Articles -->
         <div class="row g-3">
-          <div class="col-md-6">
+          <div class="col-12 col-md-6">
             <div class="p-4" style="border: 1px solid #dee2e6; border-radius: 20px;">
               <h6 class="fw-bold mb-2">
                 Reminder <i class="bi bi-calendar-event"></i>
@@ -198,7 +285,7 @@
               <p class="mb-0">Charlie missed its vaccination last week</p>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-12 col-md-6">
             <div class="p-4" style="border: 1px solid #dee2e6; border-radius: 20px;">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <h6 class="fw-bold mb-0">New Articles</h6>
@@ -213,13 +300,12 @@
     </div>
   </div>
 
-  <!-- Add Pet Modal -->
   <div
     id="addPetModal"
     class="position-fixed top-0 start-0 w-100 h-100 align-items-center justify-content-center"
     style="background-color: rgba(0,0,0,0.4); display: none; z-index: 20;"
   >
-    <div class="bg-white p-4 rounded" style="width: 400px; border-radius: 15px;">
+    <div class="bg-white p-4 rounded" style="width: 400px; max-width: 90%; border-radius: 15px;">
       <h5 class="fw-bold mb-3">Add New Pet</h5>
       <form id="addPetForm">
         <div class="mb-2">
@@ -242,13 +328,12 @@
     </div>
   </div>
 
-  <!-- Update Health Modal -->
   <div
     id="updateHealthModal"
     style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1050;"
   >
-    <div class="bg-white p-4 rounded" style="width: 400px;">
+    <div class="bg-white p-4 rounded" style="width: 400px; max-width: 90%;">
       <h5 class="fw-bold mb-3">Update Health Record</h5>
       <form id="updateHealthForm">
         <div class="form-check">
@@ -271,6 +356,7 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js\dashboard.js"></script>
 </body>
 </html>

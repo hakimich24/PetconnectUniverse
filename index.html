@@ -1,254 +1,469 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PetUniverse Connect</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"/>
     <style>
-      /* Reset and base styles - kept here for global application as * is not possible inline */
-      body {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box; /* Applied to body as a workaround for global reset */
-        font-family: "Segoe UI", sans-serif;
-        background: #f9f9f9;
-        color: #333;
-      }
+        /* Reset and base styles */
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
+            background: #f9f9f9;
+            color: #333;
+        }
 
-      /* Specific blockquote and testimonial-user styles from your original HTML */
-      .blockquote {
-        background-color: #f8f9fa;
-        padding: 1.5rem 2rem;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        min-height: 180px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-      .blockquote footer {
-        margin-top: 1rem;
-        font-weight: 600;
-        font-style: normal;
-        color: #495057;
-        user-select: none;
-      }
-      .blockquote p {
-        font-size: 1.1rem;
-        line-height: 1.5;
-        color: #212529;
-      }
-      .testimonial-user {
-        background: none !important;
-        box-shadow: none !important;
-        outline: none !important;
-        padding: 0;
-        margin-top: 1rem;
-        font-weight: 600;
-        font-style: normal;
-        color: #495057;
-        display: block;
-        user-select: text;
-      }
-
-      /* Responsive Adjustments (Media Queries) */
-      @media (max-width: 768px) {
+        /* Navbar */
         .navbar {
-          flex-direction: column;
-          align-items: center;
-          padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: #fff;
         }
-        .navbar ul {
-          flex-direction: column;
-          gap: 0.5rem;
-          margin-top: 1rem; /* Add space below logo on small screens */
+        .navbar .logo {
+            font-size: 1.2rem;
+            line-height: 1.2;
+            display: flex;
+            align-items: center;
         }
-        .navbar ul li {
-            width: 100%; /* Make list items take full width */
-            text-align: center;
+        .navbar .logo img {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
         }
+        .navbar nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* Hero Section */
         .hero {
-          flex-direction: column;
-          text-align: center;
-          padding: 1.5rem 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2rem;
+            background: #fff;
         }
         .hero-content {
-          max-width: 100%; /* Allow content to take full width */
-          margin-bottom: 2rem; /* Space between content and image */
+            max-width: 500px;
         }
         .hero-content h1 {
-          font-size: 1.8rem; /* Smaller font on mobile */
+            font-size: 2.2rem;
+            color: #2a4c7c;
+            margin-bottom: 1rem;
+        }
+        .hero-content h1 span {
+            color: #3064a3;
+        }
+        .hero-content p {
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+        .hero-content .login-btn {
+            background: #1e2a47;
+            color: #fff;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .hero-content .login-btn a {
+            text-decoration: none;
+            color: white;
         }
         .hero-img img {
-          max-width: 80%; /* Shrink image on mobile */
-          height: auto;
+            max-width: 300px;
+            border-radius: 10px;
+            height: auto;
         }
+
+        /* Features Section */
         .features {
-          padding: 2rem 1rem;
-        }
-        .feature-grid {
-          grid-template-columns: 1fr; /* Stack features vertically on small screens */
-          gap: 1.5rem;
-        }
-        .feature-image img {
-            width: 100% !important; /* Make image full width */
-            height: auto !important;
-            max-width: 300px; /* Constrain max width for image */
-            margin: 0 auto; /* Center image */
-        }
-        .feature-icon {
-          margin-left: 0; /* Remove left margin on mobile */
-          width: 100%; /* Make feature icons take full width */
-          height: auto; /* Adjust height automatically */
-          padding: 1.5rem; /* Adjust padding */
-        }
-        .footer-grid {
-            grid-template-columns: 1fr; /* Stack footer sections */
+            background: #3064a3;
+            color: #fff;
+            padding: 3rem 2rem;
             text-align: center;
         }
-        .footer-grid > div {
-            margin-bottom: 1.5rem; /* Space between stacked footer sections */
-        }
-        .footer-grid > div:last-child {
-            margin-bottom: 0;
-        }
-        .footer-bottom {
-            margin-top: 1rem;
-        }
-      }
-
-      @media (min-width: 769px) and (max-width: 992px) {
-        /* Tablet specific adjustments if needed */
-        .hero-content h1 {
-          font-size: 2rem;
-        }
-        .hero-img img {
-          max-width: 250px;
+        .features h2 {
+            margin-bottom: 2rem;
         }
         .feature-grid {
-          grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Adjust grid for tablets */
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            margin-top: 2rem;
+            gap: 1rem;
+            align-items: center;
+            justify-items: center;
+        }
+        .feature-image {
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 250px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+        .feature-image img {
+            width: 360px;
+            height: 260px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 0;
         }
         .feature-icon {
-            width: 180px; /* Slightly smaller width for feature icons */
-            height: 160px;
-            margin-left: 50px; /* Keep some margin */
+            background: #fff;
+            border-radius: 15px;
+            padding: 1rem;
+            margin-left: 100px; /* This will be overridden by media query */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 180px;
+            width: 200px;
+            color: #333;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
         }
-      }
+        .feature-icon img {
+            width: 70px; /* Default for paw icon */
+            height: 70px; /* Default for paw icon */
+            object-fit: contain;
+            margin-bottom: 1rem;
+            border-radius: 20px;
+        }
+        /* Specific image sizes for feature icons */
+        .feature-icon:nth-of-type(2) img { /* Learn with Trusted Content (Search icon) */
+            width: 80px;
+            height: 80px;
+        }
+        .feature-icon:nth-of-type(3) img { /* Find Vets & Services (Stethoscope icon) */
+            width: 80px;
+            height: 80px;
+        }
+        .feature-icon div {
+            line-height: 1.3;
+        }
+        .feature-icon div span {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background-color: #f8f9fa !important;
+            padding-top: 3rem !important;
+            padding-bottom: 3rem !important;
+        }
+        .testimonials .container {
+            max-width: 960px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+        .testimonials h2 {
+            margin-bottom: 2rem;
+        }
+        .blockquote {
+            background-color: #f8f9fa;
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .blockquote p {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            color: #212529;
+            margin-bottom: 0;
+        }
+        .blockquote footer {
+            margin-top: 1rem;
+            font-weight: 600;
+            font-style: normal;
+            color: #495057;
+            user-select: none;
+            background: none !important;
+            box-shadow: none !important;
+            outline: none !important;
+            padding: 0;
+            display: block;
+            user-select: text;
+        }
+        .testimonials .btn {
+            background-color: #6c757d;
+            color: #fff;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 0.375rem;
+            font-size: 1.25rem;
+            line-height: 1.5;
+            margin-top: 1rem !important;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        footer {
+            background: #4787d6;
+            color: #fff;
+            padding: 2rem;
+        }
+        footer .container {
+            max-width: 960px;
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        }
+        footer h5 {
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+        footer ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        footer ul li {
+            margin-bottom: 0.5rem;
+        }
+        footer ul li a {
+            text-decoration: none;
+            color: #fff;
+        }
+        footer .list-inline .list-inline-item {
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+        footer .list-inline .list-inline-item a {
+            font-size: 1.5rem;
+        }
+        footer .footer-bottom {
+            text-align: center;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        /* Responsive Adjustments (Media Queries) */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: center;
+                padding: 1rem;
+            }
+            .navbar nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+                margin-top: 1rem;
+            }
+            .navbar nav ul li {
+                width: 100%;
+                text-align: center;
+            }
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding: 1.5rem 1rem;
+            }
+            .hero-content {
+                max-width: 100%;
+                margin-bottom: 2rem;
+            }
+            .hero-content h1 {
+                font-size: 1.8rem;
+            }
+            .hero-img img {
+                max-width: 80%;
+                height: auto;
+            }
+            .features {
+                padding: 2rem 1rem;
+            }
+            .feature-grid {
+                grid-template-columns: 1fr; /* Stack features vertically on small screens */
+                gap: 1.5rem;
+            }
+            .feature-image img {
+                width: 100% !important;
+                height: auto !important;
+                max-width: 300px; /* Constrain max width for image */
+                margin: 0 auto; /* Center image */
+            }
+            .feature-icon {
+                margin-left: 0; /* Remove left margin on mobile */
+                width: 100%; /* Make feature icons take full width */
+                height: auto; /* Adjust height automatically */
+                padding: 1.5rem; /* Adjust padding */
+            }
+            .testimonials .row.g-4 > .col-md-6 { /* Target columns directly to prevent Bootstrap's flex from breaking grid */
+                flex: 0 0 100%; /* Stack testimonial columns */
+                max-width: 100%;
+            }
+            footer .container {
+                flex-direction: column; /* Stack footer sections */
+                text-align: center;
+            }
+            footer .container > div {
+                margin-bottom: 1.5rem; /* Space between stacked footer sections */
+            }
+            footer .container > div:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 992px) {
+            /* Tablet specific adjustments */
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            .hero-img img {
+                max-width: 250px;
+            }
+            .feature-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Adjust grid for tablets */
+            }
+            .feature-icon {
+                width: 180px; /* Slightly smaller width for feature icons */
+                height: 160px;
+                margin-left: 50px; /* Keep some margin */
+            }
+        }
     </style>
-  </head>
-  <body style="background: #f9f9f9; color: #333;">
-    <header class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: #fff;">
-      <div class="logo" style="font-size: 1.2rem; line-height: 1.2; display: flex; align-items: center;">
-        <img src="images\Vector.png" alt="" style="width: 20px; height: 20px; margin-right: 5px;" >
-        <span class="fw-bold">PetUniverse<br>Connect</span>
-      </div>
-      <nav>
-        <ul style="list-style: none; display: flex; gap: 1.5rem; margin: 0; padding: 0;">
-          <li><a href="about.html" style="text-decoration: none; color: #333; font-weight: 500;">About</a></li>
-          <li><a href="sevices.html" style="text-decoration: none; color: #333; font-weight: 500;">Services</a></li>
-          <li><a href="commune.html" style="text-decoration: none; color: #333; font-weight: 500;">Community</a></li>
-          <li><a href="contact.html" style="text-decoration: none; color: #333; font-weight: 500;">Contact</a></li>
-        </ul>
-      </nav>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <img src="images/Vector.png" alt="" >
+            <span class="fw-bold">PetUniverse<br>Connect</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="about.html">About</a></li>
+                <li><a href="sevices.html">Services</a></li>
+                <li><a href="commune.html">Community</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <section class="hero" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; padding: 2rem; background: #fff;">
-      <div class="hero-content" style="max-width: 500px;">
-        <h1 style="font-size: 2.2rem; color: #2a4c7c; margin-bottom: 1rem;">All-in-One Pet Care<br><span style="color: #3064a3;">for Every Pet Parent</span></h1>
-        <p style="margin-bottom: 1.5rem; color: #555;">Track health, learn, connect & find pet services–all in one place</p>
-        <button class="login-btn" style="background: #1e2a47; color: #fff; padding: 0.7rem 1.5rem; border: none; border-radius: 4px; cursor: pointer;">
-            <a href="login.html" style="text-decoration: none; color: white;"> Login </a>
-        </button>
-      </div>
-      <div class="hero-img">
-        <img src="images\ai-generated-woman-holding-dogs-in-her-arms-on-transparent-background-ai-generated-free-png 1.jpg" alt="Woman hugging dog" style="max-width: 300px; border-radius: 10px; height: auto;"/>
-      </div>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>All-in-One Pet Care<br><span>for Every Pet Parent</span></h1>
+            <p>Track health, learn, connect & find pet services–all in one place</p>
+            <button class="login-btn">
+                <a href="login.html"> Login </a>
+            </button>
+        </div>
+        <div class="hero-img">
+            <img src="images/ai-generated-woman-holding-dogs-in-her-arms-on-transparent-background-ai-generated-free-png 1.jpg" alt="Woman hugging dog"/>
+        </div>
     </section>
 
-    <section class="features" id="services" style="background: #3064a3; color: #fff; padding: 3rem 2rem; text-align: center;">
-      <h2 style="margin-bottom: 2rem;">Why PetUniverse Connect?</h2>
-      <div class="feature-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin-top: 2rem; gap: 1rem; align-items: center; justify-items: center;">
-        <div class="feature-image" style="background: #fff; border-radius: 20px; overflow: hidden; padding: 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 250px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);">
-          <img src="images\cat-dog-gazing-into-camera-against-white-backdrop_908985-53316 1.jpg"
-            alt="Dog and Cat" style="width: 360px; height: 260px; object-fit: cover; border-radius: 10px; margin-bottom: 0;" /> </div>
-        <div class="feature-icon" style="background: #fff; border-radius: 15px; padding: 1rem; margin-left: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 180px; width: 200px; color: #333; font-weight: bold; text-align: center; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);">
-          <img src="images\Vector (3).png" alt="Paw icon" style="width: 70px; height: 70px; object-fit: contain; margin-bottom: 1rem; border-radius: 20px;" />
-          <div style="line-height: 1.3;">Health Tracking<br /><span style="font-size: 0.9em; color: #666;">Made Simple</span></div>
+    <section class="features" id="services">
+        <h2>Why PetUniverse Connect?</h2>
+        <div class="feature-grid">
+            <div class="feature-image">
+                <img src="images/cat-dog-gazing-into-camera-against-white-backdrop_908985-53316 1.jpg" alt="Dog and Cat" />
+            </div>
+            <div class="feature-icon">
+                <img src="images/Vector (3).png" alt="Paw icon" />
+                <div>Health Tracking<br /><span>Made Simple</span></div>
+            </div>
+            <div class="feature-icon">
+                <img src="images/Vector (2).png" alt="Search icon"/>
+                <div>Learn with<br /><span>Trusted Content</span></div>
+            </div>
+            <div class="feature-icon">
+                <img src="images/Vector (1).png" alt="Stethoscope icon"/>
+                <div>Find Vets & Services<br /><span>Nearby</span></div>
+            </div>
         </div>
-        <div class="feature-icon" style="background: #fff; border-radius: 15px; padding: 1rem; margin-left: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 180px; width: 200px; color: #333; font-weight: bold; text-align: center; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);">
-          <img src="images\Vector (2).png" alt="Search icon" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 1rem; border-radius: 20px;"/>
-          <div style="line-height: 1.3;">Learn with<br /><span style="font-size: 0.9em; color: #666;">Trusted Content</span></div>
-        </div>
-        <div class="feature-icon" style="background: #fff; border-radius: 15px; padding: 1rem; margin-left: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 180px; width: 200px; color: #333; font-weight: bold; text-align: center; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);">
-          <img src="images\Vector (1).png" alt="Stethoscope icon" style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 1rem; border-radius: 20px;"/>
-          <div style="line-height: 1.3;">Find Vets & Services<br /><span style="font-size: 0.9em; color: #666;">Nearby</span></div>
-        </div>
-      </div>
     </section>
 
-    <section class="bg-light py-5" style="background-color: #f8f9fa !important; padding-top: 3rem !important; padding-bottom: 3rem !important;">
-        <div class="container text-center" style="max-width: 960px; margin-left: auto; margin-right: auto; text-align: center;">
-            <h2 style="margin-bottom: 2rem;">What Our Users Are Saying</h2>
-            <div class="row g-4" style="display: flex; flex-wrap: wrap; margin-top: -1.5rem; margin-left: -1.5rem;">
-                <div class="col-md-6 mb-4" style="flex: 0 0 auto; width: 50%; padding-left: 1.5rem; margin-top: 1.5rem;">
-                    <blockquote class="blockquote" style="background-color: #f8f9fa; padding: 1.5rem 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); min-height: 180px; display: flex; flex-direction: column; justify-content: space-between;">
-                        <p style="font-size: 1.1rem; line-height: 1.5; color: #212529; margin-bottom: 0;">"As a new pet parent, I was overwhelmed. PetConnect Universe helped me track vaccinations, find care, learn, connect & it's all in one place. It made everything feel so easy!"</p>
-                        <footer class="testimonial-user" style="margin-top: 1rem; font-weight: 600; font-style: normal; color: #495057; user-select: none; background: none !important; box-shadow: none !important; outline: none !important; padding: 0; display: block; user-select: text;">Jane Doe</footer>
+    <section class="testimonials bg-light py-5">
+        <div class="container text-center">
+            <h2>What Our Users Are Saying</h2>
+            <div class="row g-4">
+                <div class="col-md-6 mb-4">
+                    <blockquote class="blockquote">
+                        <p>"As a new pet parent, I was overwhelmed. PetConnect Universe helped me track vaccinations, find care, learn, connect & it's all in one place. It made everything feel so easy!"</p>
+                        <footer class="testimonial-user">Jane Doe</footer>
                     </blockquote>
                 </div>
-                <div class="col-md-6" style="flex: 0 0 auto; width: 50%; padding-left: 1.5rem; margin-top: 1.5rem;">
-                    <blockquote class="blockquote" style="background-color: #f8f9fa; padding: 1.5rem 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); min-height: 180px; display: flex; flex-direction: column; justify-content: space-between;">
-                        <p style="font-size: 1.1rem; line-height: 1.5; color: #212529; margin-bottom: 0;">"With my work schedule, I kept missing my dog's checkups. Now, the reminders and resources from PetConnect Universe keep me on track. I can't imagine managing without it!"</p>
-                        <footer class="testimonial-user" style="margin-top: 1rem; font-weight: 600; font-style: normal; color: #495057; user-select: none; background: none !important; box-shadow: none !important; outline: none !important; padding: 0; display: block; user-select: text;">John Smith</footer>
+                <div class="col-md-6">
+                    <blockquote class="blockquote">
+                        <p>"With my work schedule, I kept missing my dog's checkups. Now, the reminders and resources from PetConnect Universe keep me on track. I can't imagine managing without it!"</p>
+                        <footer class="testimonial-user">John Smith</footer>
                     </blockquote>
                 </div>
             </div>
-            <button class="btn btn-secondary btn-lg mt-3" style="background-color: #6c757d; color: #fff; padding: 0.8rem 1.5rem; border: none; border-radius: 0.375rem; font-size: 1.25rem; line-height: 1.5; margin-top: 1rem !important; cursor: pointer;">Join our Community</button>
+            <button class="btn btn-secondary btn-lg mt-3">Join our Community</button>
         </div>
     </section>
 
-    <footer style="background: #4787d6; color: #fff; padding: 2rem;">
-        <div class="container d-flex justify-content-between" style="max-width: 960px; margin-left: auto; margin-right: auto; display: flex; justify-content: space-between; flex-wrap: wrap;">
-            <div style="margin-bottom: 1rem;">
-                <h5 style="margin-bottom: 1rem; font-size: 1.25rem;">PetUniverseConnect</h5>
-                <ul class="list-unstyled" style="list-style: none; padding: 0; margin: 0;">
-                    <li style="margin-bottom: 0.5rem;"><a href="#" class="text-white" style="text-decoration: none; color: #fff;">Our Mission</a></li>
-                    <li style="margin-bottom: 0.5rem;"><a href="#" class="text-white" style="text-decoration: none; color: #fff;">Team</a></li>
-                    <li style="margin-bottom: 0.5rem;"><a href="#" class="text-white" style="text-decoration: none; color: #fff;">Careers</a></li>
+    <footer>
+        <div class="container">
+            <div>
+                <h5>PetUniverseConnect</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Our Mission</a></li>
+                    <li><a href="#">Team</a></li>
+                    <li><a href="#">Careers</a></li>
                 </ul>
             </div>
-            <div style="margin-bottom: 1rem;">
-                <h5 style="margin-bottom: 1rem; font-size: 1.25rem;">Support</h5>
-                <ul class="list-unstyled" style="list-style: none; padding: 0; margin: 0;">
-                    <li style="margin-bottom: 0.5rem;"><a href="#" class="text-white" style="text-decoration: none; color: #fff;">Help Center</a></li>
-                    <li style="margin-bottom: 0.5rem;"><a href="#" class="text-white" style="text-decoration: none; color: #fff;">Contact Us</a></li>
-                    <li style="margin-bottom: 0.5rem;"><a href="#" class="text-white" style="text-decoration: none; color: #fff;">FAQs</a></li>
-                    <li style="margin-bottom: 0.5rem;"><a href="#" class="text-white" style="text-decoration: none; color: #fff;">Community Guidelines</a></li>
+            <div>
+                <h5>Support</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Community Guidelines</a></li>
                 </ul>
             </div>
-            <div style="margin-bottom: 1rem;">
-                <h5 style="margin-bottom: 1rem; font-size: 1.25rem;">Legal</h5>
-                <ul class="list-unstyled" style="list-style: none; padding: 0; margin: 0;">
-                    <li style="margin-bottom: 0.5rem;"><a href="#" class="text-white" style="text-decoration: none; color: #fff;">Terms of Services</a></li>
-                    <li style="margin-bottom: 0.5rem;"><a href="#" class="text-white" style="text-decoration: none; color: #fff;">Accessibility</a></li>
+            <div>
+                <h5>Legal</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Terms of Services</a></li>
+                    <li><a href="#">Accessibility</a></li>
                 </ul>
             </div>
-            <div style="margin-bottom: 1rem;">
-                <h5 style="margin-bottom: 1rem; font-size: 1.25rem;">Follow Us</h5>
-                <ul class="list-inline" style="list-style: none; padding: 0; margin: 0;">
-                    <li class="list-inline-item" style="display: inline-block; margin-right: 0.5rem;"><a href="#" class="text-white" style="text-decoration: none; color: #fff; font-size: 1.5rem;"><i class="bi bi-facebook"></i></a></li>
-                    <li class="list-inline-item" style="display: inline-block; margin-right: 0.5rem;"><a href="#" class="text-white" style="text-decoration: none; color: #fff; font-size: 1.5rem;"><i class="bi bi-instagram"></i></a></li>
-                    <li class="list-inline-item" style="display: inline-block; margin-right: 0.5rem;"><a href="#" class="text-white" style="text-decoration: none; color: #fff; font-size: 1.5rem;"><i class="bi bi-youtube"></i></a></li>
-                    <li class="list-inline-item" style="display: inline-block;"><a href="#" class="text-white" style="text-decoration: none; color: #fff; font-size: 1.5rem;"><i class="bi bi-twitter"></i></a></li>
+            <div>
+                <h5>Follow Us</h5>
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="#" class="text-white"><i class="bi bi-facebook"></i></a></li>
+                    <li class="list-inline-item"><a href="#" class="text-white"><i class="bi bi-instagram"></i></a></li>
+                    <li class="list-inline-item"><a href="#" class="text-white"><i class="bi bi-youtube"></i></a></li>
+                    <li class="list-inline-item"><a href="#" class="text-white"><i class="bi bi-twitter"></i></a></li>
                 </ul>
             </div>
         </div>
-        <div style="text-align: center; font-size: 0.9rem; margin-top: 1rem;">
+        <div class="footer-bottom">
             © 2025 PetConnect Universe. All rights reserved.
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+</body>
 </html>

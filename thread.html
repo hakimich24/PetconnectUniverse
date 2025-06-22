@@ -1,201 +1,495 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Community Thread - PetUniverse</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <style>
-    .reply-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin-right: 10px;
-      object-fit: cover;
-    }
-    .reply-item {
-      display: flex;
-      align-items: flex-start;
-      margin-bottom: 1rem;
-    }
-    .reply-content {
-      flex-grow: 1;
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community Thread - PetUniverse Connect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #f0f2f5;
+        }
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+        }
+        .navbar-brand .logo-img {
+            width: 35px;
+            height: 35px;
+            margin-right: 10px;
+        }
+        .navbar-brand .brand-text {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: #333;
+            line-height: 1.2;
+        }
+        .nav-link {
+            font-weight: 500;
+            color: #555;
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #007bff;
+        }
+        .nav-link.active {
+            color: #007bff;
+            font-weight: 600;
+        }
+        .btn-outline-primary {
+            border-color: #007bff;
+            color: #007bff;
+            transition: all 0.3s ease;
+        }
+        .btn-outline-primary:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        /* Main Content Styling */
+        .content-container {
+            flex-grow: 1;
+            padding-top: 6rem; /* Space for fixed navbar */
+            padding-bottom: 3rem;
+            background-color: #f8f9fa;
+        }
+
+        .thread-header h1 {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 2.5rem; /* Slightly smaller than page title for sub-page */
+        }
+        .thread-header .text-muted {
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+        .thread-content-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            background-color: #fff;
+        }
+
+        /* Replies Section */
+        .replies-section h4 {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+        .replies-list {
+            max-height: 450px; /* Increased max-height for replies list */
+            overflow-y: auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .reply-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee; /* Separator for replies */
+        }
+        .reply-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        .reply-avatar {
+            width: 48px; /* Slightly larger avatar */
+            height: 48px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+            border: 2px solid #ddd; /* Subtle border */
+        }
+        .reply-content {
+            flex-grow: 1;
+            text-align: left; /* Ensure reply text aligns left */
+        }
+        .reply-content strong {
+            color: #007bff; /* Highlight username */
+            font-weight: 600;
+        }
+        .reply-content p {
+            margin-bottom: 0.25rem; /* Less space between name and content */
+            color: #444;
+            line-height: 1.5;
+        }
+        .reply-content small {
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        /* Reply Form */
+        .reply-form h5 {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        .reply-form textarea {
+            border-radius: 8px;
+            padding: 1rem;
+            border: 1px solid #ced4da;
+            resize: vertical; /* Allow vertical resizing */
+        }
+        .reply-form .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #343a40;
+            color: #f8f9fa;
+            padding: 2.5rem 0;
+            text-align: center;
+            margin-top: auto;
+        }
+        .footer p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        .footer a {
+            color: #8bb4e0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+        .footer .list-unstyled a {
+            color: #f8f9fa; /* Ensure footer links are visible */
+        }
+        .footer .list-inline-item .fab {
+            font-size: 1.5rem;
+            margin: 0 0.5rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .navbar-brand .brand-text {
+                font-size: 1.2rem;
+            }
+            .thread-header h1 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-container {
+                padding-top: 5rem;
+                padding-bottom: 2rem;
+            }
+            .thread-header h1 {
+                font-size: 2rem;
+            }
+            .thread-content-card {
+                padding: 1.5rem;
+            }
+            .replies-list {
+                padding: 1rem;
+            }
+            .reply-avatar {
+                width: 40px;
+                height: 40px;
+                margin-right: 10px;
+            }
+            .navbar-collapse {
+                text-align: center;
+            }
+            .navbar-nav .nav-item {
+                margin: 0.5rem 0;
+            }
+            .navbar-nav .btn {
+                width: 80%;
+                margin-left: auto !important;
+                margin-right: auto !important;
+            }
+            .footer .container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .footer div {
+                margin-bottom: 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .content-container {
+                padding-top: 4.5rem;
+            }
+            .thread-header h1 {
+                font-size: 1.8rem;
+            }
+            .thread-content-card, .replies-list {
+                margin: 0 1rem 1.5rem; /* Add horizontal margin to card and consistent bottom margin */
+                padding: 1rem;
+            }
+            .reply-item {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .reply-avatar {
+                margin-bottom: 0.5rem;
+                margin-right: 0;
+            }
+            .reply-content {
+                text-align: center;
+            }
+            .footer {
+                padding: 1.5rem 0;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container mt-4">
-    <a href="community.html" class="btn btn-link">&larr; Back to Community</a>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="images/Vector.png" alt="PetUniverse Logo" class="logo-img">
+                <span class="brand-text">PetUniverse<br>Connect</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="services.html">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="community.html">Community</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                    <li class="nav-item mt-2 mt-lg-0">
+                        <a class="nav-link btn btn-outline-primary" href="login.html">Login</a>
+                    </li>
+                    <li class="nav-item mt-2 mt-lg-0 ms-lg-2">
+                        <a class="nav-link btn btn-primary text-white" href="signup.html">Sign Up</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-    <h1 id="thread-title" class="mb-3"></h1>
-    <p class="text-muted">Posted by <strong id="thread-author"></strong> on <span id="thread-date"></span></p>
+    <div class="container content-container">
+        <a href="community.html" class="btn btn-link text-decoration-none mb-4 d-flex align-items-center">
+            <i class="fas fa-arrow-left me-2"></i> Back to Community
+        </a>
 
-    <div class="card p-3 mb-4" id="thread-content"></div>
+        <div class="thread-header mb-4">
+            <h1 id="thread-title" class="mb-2">How do I handle my cat when sick?</h1>
+            <p class="text-muted">Posted by <strong id="thread-author">Ada</strong> on <span id="thread-date">June 15, 2025</span></p>
+        </div>
 
-    <h4>Replies (<span id="reply-count">0</span>)</h4>
-    <div id="replies" style="max-height: 400px; overflow-y: auto;" class="mb-4"></div>
+        <div class="card thread-content-card" id="thread-content">
+            My cat has been lethargic and refusing food. What can I do to help her feel better?
+        </div>
 
-    <h5>Add a Reply</h5>
-    <form id="replyForm">
-      <div class="mb-3">
-        <textarea id="replyText" class="form-control" rows="3" placeholder="Write your reply here..."></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary">Submit Reply</button>
-    </form>
-  </div>
-
-  <script>
-    // Simulated thread data
-    const threadData = {
-      id: 1,
-      title: "How do I handle my cat when sick?",
-      author: "Ada",
-      date: "June 15, 2025",
-      content: "My cat has been lethargic and refusing food. What can I do to help her feel better?",
-      replies: [
-        {
-          id: 1,
-          username: "John",
-          avatar: "https://i.pravatar.cc/40?img=12",
-          content: "Have you tried taking her to the vet? Sometimes cats hide when they are sick.",
-          date: "June 15, 2025, 10:30 AM"
-        },
-        {
-          id: 2,
-          username: "Mary",
-          avatar: "https://i.pravatar.cc/40?img=45",
-          content: "Try warming her food and see if that encourages eating.",
-          date: "June 15, 2025, 11:00 AM"
-        }
-      ]
-    };
-
-    // DOM elements
-    const titleEl = document.getElementById('thread-title');
-    const authorEl = document.getElementById('thread-author');
-    const dateEl = document.getElementById('thread-date');
-    const contentEl = document.getElementById('thread-content');
-    const repliesEl = document.getElementById('replies');
-    const replyCountEl = document.getElementById('reply-count');
-    const replyForm = document.getElementById('replyForm');
-    const replyText = document.getElementById('replyText');
-
-    // Load thread info
-    function loadThread() {
-      titleEl.textContent = threadData.title;
-      authorEl.textContent = threadData.author;
-      dateEl.textContent = threadData.date;
-      contentEl.textContent = threadData.content;
-      renderReplies();
-    }
-
-    // Render all replies
-    function renderReplies() {
-      repliesEl.innerHTML = ''; // clear existing
-      threadData.replies.forEach(reply => {
-        const replyDiv = document.createElement('div');
-        replyDiv.className = 'reply-item';
-
-        replyDiv.innerHTML = `
-          <img src="${reply.avatar}" alt="${reply.username}" class="reply-avatar" />
-          <div class="reply-content">
-            <p><strong>${reply.username}:</strong> ${reply.content}</p>
-            <small class="text-muted">${reply.date}</small>
-          </div>
-        `;
-        repliesEl.appendChild(replyDiv);
-      });
-      replyCountEl.textContent = threadData.replies.length;
-    }
-
-    // Handle new reply submission
-    replyForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const text = replyText.value.trim();
-      if (!text) {
-        alert('Please enter a reply.');
-        return;
-      }
-
-      // Simulate new reply object
-      const now = new Date();
-      const newReply = {
-        id: threadData.replies.length + 1,
-        username: "You",
-        avatar: "https://i.pravatar.cc/40?img=65",
-        content: text,
-        date: now.toLocaleString()
-      };
-
-      // Add new reply to data and re-render
-      threadData.replies.push(newReply);
-      renderReplies();
-
-      // Clear input
-      replyText.value = '';
-    });
-
-    // Initialize page
-    loadThread();
-  </script>
-</body>
-</html>
-
-<section class="bg-light py-5">
-        <div class="container text-center">
-            <h2>What Our Users Are Saying</h2>
-            <div class="row">
-                <div class="col-md-6">
-                    <blockquote class="blockquote">
-                        <p>"As a new pet parent, I was overwhelmed. PetConnect Universe helped me track vaccinations, find care, learn, connect & it's all in one place. It made everything feel so easy!"</p>
-                        <footer class="blockquote-footer">Jane Doe</footer>
-                    </blockquote>
+        <div class="replies-section">
+            <h4>Replies (<span id="reply-count">2</span>)</h4>
+            <div id="replies" class="replies-list">
+                <div class="reply-item">
+                    <img src="https://i.pravatar.cc/40?img=12" alt="John" class="reply-avatar" />
+                    <div class="reply-content">
+                        <p><strong>John:</strong> Have you tried taking her to the vet? Sometimes cats hide when they are sick.</p>
+                        <small class="text-muted">June 15, 2025, 10:30 AM</small>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <blockquote class="blockquote">
-                        <p>"With my work schedule, I kept missing my dog's checkups. Now, the reminders and resources from PetConnect Universe keep me on track. I can't imagine managing without it!"</p>
-                        <footer class="blockquote-footer">John Smith</footer>
-                    </blockquote>
+                <div class="reply-item">
+                    <img src="https://i.pravatar.cc/40?img=45" alt="Mary" class="reply-avatar" />
+                    <div class="reply-content">
+                        <p><strong>Mary:</strong> Try warming her food and see if that encourages eating.</p>
+                        <small class="text-muted">June 15, 2025, 11:00 AM</small>
+                    </div>
                 </div>
             </div>
-            <button class="btn btn-secondary btn-lg mt-3">Join our Community</button>
         </div>
-    </section>
-    
-    <footer class="bg-dark text-white py-4">
-        <div class="container d-flex justify-content-between">
-            <div>
+
+        <div class="reply-form mt-4">
+            <h5>Add a Reply</h5>
+            <form id="replyForm">
+                <div class="mb-3">
+                    <textarea id="replyText" class="form-control" rows="4" placeholder="Write your reply here..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Reply</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container d-flex flex-wrap justify-content-between align-items-start">
+            <div class="footer-column">
                 <h5>PetUniverseConnect</h5>
                 <ul class="list-unstyled">
-                    <li><a href="#" class="text-white">Our Mission</a></li>
-                    <li><a href="#" class="text-white">Team</a></li>
-                    <li><a href="#" class="text-white">Careers</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Our Mission</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Team</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Careers</a></li>
                 </ul>
             </div>
-            <div>
+            <div class="footer-column">
                 <h5>Support</h5>
                 <ul class="list-unstyled">
-                    <li><a href="#" class="text-white">Help Center</a></li>
-                    <li><a href="#" class="text-white">Contact Us</a></li>
-                    <li><a href="#" class="text-white">FAQs</a></li>
-                    <li><a href="#" class="text-white">Community Guidelines</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Help Center</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Contact Us</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">FAQs</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Community Guidelines</a></li>
                 </ul>
             </div>
-            <div>
+            <div class="footer-column">
                 <h5>Legal</h5>
                 <ul class="list-unstyled">
-                    <li><a href="#" class="text-white">Terms of Services</a></li>
-                    <li><a href="#" class="text-white">Accessibility</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Terms of Service</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Privacy Policy</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Accessibility</a></li>
                 </ul>
             </div>
-            <div>
+            <div class="footer-column">
                 <h5>Follow Us</h5>
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="#" class="text-white"><i class="fab fa-facebook"></i></a></li>
+                    <li class="list-inline-item"><a href="#" class="text-white"><i class="fab fa-facebook-f"></i></a></li>
                     <li class="list-inline-item"><a href="#" class="text-white"><i class="fab fa-instagram"></i></a></li>
                     <li class="list-inline-item"><a href="#" class="text-white"><i class="fab fa-youtube"></i></a></li>
                     <li class="list-inline-item"><a href="#" class="text-white"><i class="fab fa-twitter"></i></a></li>
                 </ul>
             </div>
         </div>
+        <div class="container text-center mt-3">
+            <p class="mb-0">&copy; 2025 PetUniverse Connect. All rights reserved.</p>
+        </div>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Simulated thread data (unchanged, but now the HTML matches it for initial load)
+        const threadData = {
+            id: 1,
+            title: "How do I handle my cat when sick?",
+            author: "Ada",
+            date: "June 15, 2025",
+            content: "My cat has been lethargic and refusing food. What can I do to help her feel better?",
+            replies: [
+                {
+                    id: 1,
+                    username: "John",
+                    avatar: "https://i.pravatar.cc/40?img=12",
+                    content: "Have you tried taking her to the vet? Sometimes cats hide when they are sick.",
+                    date: "June 15, 2025, 10:30 AM"
+                },
+                {
+                    id: 2,
+                    username: "Mary",
+                    avatar: "https://i.pravatar.cc/40?img=45",
+                    content: "Try warming her food and see if that encourages eating.",
+                    date: "June 15, 2025, 11:00 AM"
+                }
+            ]
+        };
+
+        // DOM elements (updated to reflect new structure where necessary)
+        const titleEl = document.getElementById('thread-title');
+        const authorEl = document.getElementById('thread-author');
+        const dateEl = document.getElementById('thread-date');
+        const contentEl = document.getElementById('thread-content');
+        const repliesEl = document.getElementById('replies');
+        const replyCountEl = document.getElementById('reply-count');
+        const replyForm = document.getElementById('replyForm');
+        const replyText = document.getElementById('replyText');
+
+        // Load thread info
+        function loadThread() {
+            titleEl.textContent = threadData.title;
+            authorEl.textContent = threadData.author;
+            dateEl.textContent = threadData.date;
+            contentEl.textContent = threadData.content;
+            renderReplies();
+        }
+
+        // Render all replies
+        function renderReplies() {
+            repliesEl.innerHTML = ''; // clear existing
+            threadData.replies.forEach(reply => {
+                const replyDiv = document.createElement('div');
+                replyDiv.className = 'reply-item'; // Use the new class
+
+                replyDiv.innerHTML = `
+                    <img src="${reply.avatar}" alt="${reply.username}" class="reply-avatar" />
+                    <div class="reply-content">
+                        <p><strong>${reply.username}:</strong> ${reply.content}</p>
+                        <small class="text-muted">${reply.date}</small>
+                    </div>
+                `;
+                repliesEl.appendChild(replyDiv);
+            });
+            replyCountEl.textContent = threadData.replies.length;
+        }
+
+        // Handle new reply submission
+        replyForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const text = replyText.value.trim();
+            if (!text) {
+                alert('Please enter a reply.');
+                return;
+            }
+
+            // Simulate new reply object
+            const now = new Date();
+            const newReply = {
+                id: threadData.replies.length + 1,
+                username: "You", // Assuming "You" is the logged-in user
+                avatar: "https://i.pravatar.cc/40?img=65", // Generic avatar for 'You'
+                content: text,
+                date: now.toLocaleString()
+            };
+
+            // Add new reply to data and re-render
+            threadData.replies.push(newReply);
+            renderReplies();
+
+            // Clear input and scroll to bottom of replies
+            replyText.value = '';
+            repliesEl.scrollTop = repliesEl.scrollHeight; // Scroll to the newest reply
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', loadThread);
+    </script>
+</body>
+</html>

@@ -15,6 +15,8 @@
         .layout-wrapper {
             display: flex;
             min-height: 100vh;
+            /* Allow content to wrap on small screens */
+            flex-wrap: wrap;
         }
         .sidebar {
             width: 270px;
@@ -22,9 +24,12 @@
             padding: 2rem 2rem 1rem 2rem;
             box-sizing: border-box;
             overflow-y: auto;
-            padding-top: 20px;
             border-right: 1px solid #dee2e6;
             flex-shrink: 0;
+            /* Make sidebar sticky on desktop, full height */
+            position: sticky;
+            top: 0;
+            height: 100vh;
         }
         .main-content {
             flex-grow: 1;
@@ -55,6 +60,8 @@
         }
         .main-wrapper {
             flex-grow: 1;
+            /* Adjusted width for desktop layout */
+            width: calc(100% - 270px);
             padding: 0;
         }
         .card-title {
@@ -104,18 +111,60 @@
             margin-top: 1rem; /* Add some space above search bar and tabs */
         }
 
-        /* Media queries for responsiveness */
-        @media (max-width: 992px) {
+        /* Dropdown styling */
+        #notif-dropdown, #profile-dropdown {
+            width: 250px; /* Default width for dropdowns */
+        }
+        #profile-dropdown {
+            width: 150px; /* Specific width for profile dropdown */
+        }
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 991.98px) { /* Adjusts for screens smaller than 'lg' breakpoint (992px) */
+            .layout-wrapper {
+                flex-direction: column; /* Stacks sidebar and main content vertically */
+            }
             .sidebar {
-                width: 220px;
-                padding: 1.5rem;
+                width: 100%; /* Sidebar takes full width */
+                height: auto; /* Height adjusts to content */
+                position: relative; /* No longer sticky on top */
+                border-right: none;
+                border-bottom: 1px solid #dee2e6;
+                padding: 1rem; /* Reduced padding for mobile */
+            }
+            .main-wrapper {
+                width: 100%; /* Main content takes full width */
+            }
+            .main-content {
+                padding: 1rem; /* Adjust main content padding */
+            }
+            /* Hide the sidebar nav by default on mobile, show only when toggled */
+            .sidebar-nav-collapse {
+                display: none;
+            }
+            .sidebar-nav-collapse.show {
+                display: block;
             }
             .nav-link {
-                font-size: 0.95rem;
+                margin-bottom: 0.5rem; /* Closer spacing for stacked nav links */
             }
-            .nav-link i {
-                font-size: 1.1rem;
+            .sidebar .d-flex.align-items-start.mb-10 { /* Corrected class name from HTML */
+                margin-bottom: 1rem !important; /* Adjust logo margin */
             }
+            .topbar {
+                flex-direction: column; /* Stack header items vertically */
+                align-items: flex-start !important; /* Align items to the left */
+                gap: 1rem; /* Space between stacked elements */
+            }
+            .topbar > div:last-child { /* Targets the search, icons and add pet button */
+                width: 100%; /* Make this group take full width */
+                justify-content: space-between; /* Distribute items horizontally */
+                margin-top: 0.5rem; /* Add some space above */
+            }
+            .input-group {
+                width: auto !important; /* Allow search input to size naturally or take more space */
+                flex-grow: 1; /* Allow search input to grow */
+            }
+
             .card-title {
                 font-size: 1.5rem;
             }
@@ -124,29 +173,8 @@
             }
         }
 
-        @media (max-width: 768px) {
-            .layout-wrapper {
-                flex-direction: column;
-            }
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-                border-right: none;
-                border-bottom: 1px solid #dee2e6;
-                padding: 1rem;
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 10px;
-            }
-            .sidebar .d-flex.align-items-start.mb-10 {
-                width: 100%;
-                justify-content: center;
-                margin-bottom: 1rem !important;
-            }
-            .sidebar .nav-link {
-                margin-bottom: 0;
+        @media (max-width: 767.98px) { /* Adjusts for screens smaller than 'md' breakpoint (768px) */
+            .sidebar .nav-link { /* Adjust sidebar links when it's horizontal */
                 padding: 0.4rem 0.6rem;
                 font-size: 0.85rem;
             }
@@ -154,72 +182,54 @@
                 font-size: 1rem;
                 margin-right: 5px;
             }
-            .main-content {
-                padding: 1rem; /* Adjust main content padding on small screens */
-            }
-            .topbar {
-                flex-direction: column;
-                align-items: flex-start !important;
-                padding-bottom: 0.5rem; /* Reduce padding below topbar */
-                margin-bottom: 1rem; /* Adjust margin below topbar */
-            }
-            .topbar .d-flex.align-items-center.gap-3:last-child {
-                margin-top: 1rem;
-                width: 100%;
-                justify-content: space-between;
-            }
-            .input-group {
-                width: 100% !important;
-                max-width: 300px;
-            }
-            .card {
-                width: 100% !important;
-            }
             .card .row.g-0 {
-                flex-direction: column-reverse;
+                flex-direction: column-reverse; /* Stack image and text vertically in cards, image at bottom */
                 align-items: center !important;
+                text-align: center;
             }
             .card .col-md-9, .card .col-md-3 {
-                width: 100%;
-                text-align: center;
-                padding: 0.5rem !important;
+                width: 100%; /* Ensure columns take full width when stacked */
+                padding: 0.5rem !important; /* Adjust padding */
             }
             .card-img-container {
-                margin-bottom: 1rem;
+                margin-bottom: 1rem; /* Add space below image when stacked */
+                margin-left: auto; /* Center image container */
+                margin-right: auto; /* Center image container */
             }
             .nav-tabs .nav-item {
-                flex-grow: 1;
+                flex-grow: 1; /* Make tabs distribute space evenly */
                 text-align: center;
             }
             .nav-tabs .nav-link {
-                padding: 0.5rem;
+                padding: 0.5rem; /* Adjust tab padding */
             }
-            /* Ensure spacing within the "Find services" section is good on mobile */
-            .search-section-bg {
-                padding: 0.5rem; /* Slightly reduced padding */
+            /* Dropdown adjustments for mobile */
+            #notif-dropdown, #profile-dropdown {
+                top: auto !important; /* Override fixed top */
+                bottom: -10px; /* Position relative to its parent 'position-relative' div */
+                right: 0 !important; /* Align to the right of its parent */
+                left: auto !important; /* Override any left alignment */
+                width: 200px !important; /* Adjust width, use max-width for safety */
+                max-width: 90vw; /* Ensure it doesn't overflow small screens */
             }
-            .search-section-bg > * {
-                padding-top: 0.25rem;
-                padding-bottom: 0.25rem;
+            #profile-dropdown {
+                width: 120px !important; /* Adjust specific width for profile */
             }
         }
 
-        @media (max-width: 576px) {
+        @media (max-width: 575.98px) { /* Adjusts for screens smaller than 'sm' breakpoint (576px) */
             .sidebar {
-                flex-direction: column;
-                align-items: center;
+                flex-direction: column; /* Stack sidebar items vertically */
+                align-items: center; /* Center them */
             }
             .sidebar .nav-link {
-                width: 80%;
-                text-align: center;
+                width: 80%; /* Give nav links more width */
+                justify-content: center; /* Center link content */
+                margin-bottom: 0.5rem; /* Closer spacing */
+            }
+            .sidebar .d-flex.align-items-start { /* Target the logo/brand for centering */
+                width: 100%;
                 justify-content: center;
-                margin-bottom: 0.5rem;
-            }
-            .card-title {
-                font-size: 1.25rem;
-            }
-            .card-text {
-                font-size: 0.85rem;
             }
             .search-section-bg h4 {
                 font-size: 1.5rem;
@@ -233,31 +243,39 @@
 <body>
     <div class="layout-wrapper">
         <div class="sidebar">
-            <div class="d-flex align-items-start mb-10">
-                <img src="images/Vector.png" alt="pet logo" width="30" height="30" class="me-2 mt-1">
-                <div class="d-flex flex-column" style="font-size: 1.5rem;">
-                    <span class="fw-bold" style="line-height: 1;">PetUniverse</span>
-                    <div class="fw-bold ms-2">Connect</div>
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <div class="d-flex align-items-start">
+                    <img src="images/Vector.png" alt="pet logo" width="30" height="30" class="me-2 mt-1">
+                    <div class="d-flex flex-column" style="font-size: 1.5rem;">
+                        <span class="fw-bold" style="line-height: 1;">PetUniverse</span>
+                        <div class="fw-bold ms-2">Connect</div>
+                    </div>
                 </div>
+                <button class="btn d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarNav" aria-controls="sidebarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="bi bi-list fs-3"></i>
+                </button>
             </div>
-            <a href="dashboard.html" class="nav-link">
-                <i class="bi bi-house-door"></i> Dashboard
-            </a>
-            <a href="pet-profile.html" class="nav-link">
-                <i class="bi bi-house-heart"></i> Pet Profile
-            </a>
-            <a href="health-record.html" class="nav-link">
-                <i class="bi bi-heart"></i> Health Records
-            </a>
-            <a href="resources.html" class="nav-link">
-                <i class="bi bi-journal-text"></i> Resources
-            </a>
-            <a href="service-directory.html" class="nav-link active">
-                <i class="bi bi-geo-alt"></i> Service Directory
-            </a>
-            <a href="community.html" class="nav-link">
-                <i class="bi bi-people"></i> Community
-            </a>
+
+            <nav class="collapse d-lg-block sidebar-nav-collapse" id="sidebarNav">
+                <a href="dashboard.html" class="nav-link">
+                    <i class="bi bi-house-door"></i> Dashboard
+                </a>
+                <a href="pet-profile.html" class="nav-link">
+                    <i class="bi bi-house-heart"></i> Pet Profile
+                </a>
+                <a href="health-record.html" class="nav-link">
+                    <i class="bi bi-heart"></i> Health Records
+                </a>
+                <a href="resources.html" class="nav-link">
+                    <i class="bi bi-journal-text"></i> Resources
+                </a>
+                <a href="service-directory.html" class="nav-link active">
+                    <i class="bi bi-geo-alt"></i> Service Directory
+                </a>
+                <a href="community.html" class="nav-link">
+                    <i class="bi bi-people"></i> Community
+                </a>
+            </nav>
         </div>
 
         <div class="main-wrapper">
@@ -274,7 +292,6 @@
                             </span>
                             <input type="text" class="form-control" id="searchInput" placeholder="Search" style="font-size: 1rem;"/>
                         </div>
-                        <!-- Notification Icon and Dropdown -->
                         <div class="position-relative">
                             <i class="bi bi-bell fs-4" id="notif-icon" title="Notifications" style="cursor: pointer;"></i>
                             <div
@@ -285,7 +302,6 @@
                                 <small class="text-muted">No new notifications</small>
                             </div>
                         </div>
-                        <!-- Profile Icon and Dropdown -->
                         <div class="position-relative">
                             <i class="bi bi-person-circle fs-4" id="profile-icon" title="Profile" style="cursor: pointer;"></i>
                             <div

@@ -45,11 +45,14 @@
         }
 
         /* Logo and brand text container */
-        .logo-brand-container { 
+        .logo-brand-container {
             position: absolute; /* Keep it absolute for desktop overlay */
             top: 2rem; /* Adjusted from m-4 for more control */
             left: 2rem; /* Adjusted from m-4 */
             z-index: 10; /* Ensure logo is above the image */
+            display: flex; /* Ensure flex behavior for centering logo/text */
+            align-items: center; /* Vertically align items */
+            gap: 1rem; /* Space between logo circle and text */
         }
         .logo { /* Your specific logo circle style */
             width: 60px;
@@ -63,10 +66,10 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Added subtle shadow */
         }
         .logo img { /* Ensure logo image within circle is sized correctly */
-            width: 30px; 
-            height: 30px; 
-            margin-right: 0.5rem; /* Space between image and text */
-            margin-top: 0.25rem; /* Small vertical adjust */
+            width: 30px;
+            height: 30px;
+            margin-right: 0; /* No margin-right inside the circle */
+            margin-top: 0; /* No margin-top inside the circle */
         }
         .brand-text { /* Your specific brand text style */
             font-weight: bold;
@@ -74,6 +77,7 @@
             color: #000; /* Reverted to black as requested */
             white-space: nowrap; /* Prevent "PetUniverse Connect" from wrapping */
             text-shadow: none; /* Removed text-shadow */
+            line-height: 1.2; /* Adjust line height for multiline text */
         }
 
         /* Right section (form) - formerly col-lg-5 */
@@ -93,7 +97,6 @@
             max-width: 420px; /* Max-width from original code */
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            /* Added min-height to ensure card has enough space even with tight content */
             min-height: 400px; /* Adjust as needed, allows it to be visible */
             display: flex; /* Make it a flex container to manage card-body children */
             flex-direction: column; /* Stack children vertically */
@@ -192,7 +195,6 @@
                 overflow: visible; /* Allow content to overflow and be scrollable by body */
             }
             .info-section {
-                /* REVEAL THE INFO SECTION AND MAKE IT A BANNER */
                 display: flex !important; /* Override d-none d-lg-block to make it visible */
                 height: 250px; /* Fixed height for the banner on mobile */
                 width: 100%; /* Takes full width */
@@ -221,8 +223,8 @@
                 width: max-content; /* Ensure the container only takes width it needs */
             }
             /* Brand text color already set to black, now ensure proper contrast.
-               NOTE: Black text on a dark image background may have poor contrast.
-                     Consider making the image lighter or changing text color for mobile banner. */
+                NOTE: Black text on a dark image background may have poor contrast.
+                      Consider making the image lighter or changing text color for mobile banner. */
             .brand-text {
                 color: #000 !important; /* Force black text as requested */
                 text-shadow: none !important; /* Remove text shadow */
@@ -251,8 +253,7 @@
                 border-radius: 0; /* Remove rounded corners for edge-to-edge look */
                 box-shadow: none; /* Remove shadow for cleaner mobile look */
                 max-width: 100%; /* Allow form to take full width on very small screens */
-                /* Remove min-height here to allow full compression if needed */
-                min-height: auto; 
+                min-height: auto;
             }
             /* Adjust logo size for smaller phones */
             .logo {
@@ -267,7 +268,7 @@
             .brand-text {
                 font-size: 16px; /* Slightly smaller text for smaller phones */
             }
-             /* Reduce margins for elements within the card body on smallest screens */
+            /* Reduce margins for elements within the card body on smallest screens */
             .card-body h2.mb-3 {
                 margin-bottom: 0.25rem !important; /* Further reduced from 0.5rem */
             }
@@ -296,32 +297,38 @@
 </head>
 <body class="bg-light">
     <div class="container-fluid p-0 page-wrapper">
-        <div class="col-lg-7 position-relative info-section"> <img src="images/image 17.png" alt="img" class="hero-img" />
+        <div class="info-section">
+            <img src="images/image 17.png" alt="img" class="hero-img" />
 
             <div class="logo-brand-container">
-                <div class="d-flex align-items-center">
-                    <div class="d-flex align-items-center justify-content-center me-3 logo">
-                        <img src="images/Vector.png" alt="pet logo" width="30" height="30" class="me-2 mt-1" />
-                    </div>
-                    <div class="fw-bold fs-5 brand-text"> PetUniverse<br />Connect
-                    </div>
+                <div class="logo">
+                    <img src="images/Vector.png" alt="pet logo" />
+                </div>
+                <div class="brand-text">
+                    PetUniverse<br />Connect
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-5 d-flex align-items-center justify-content-center p-4 form-section"> <div class="card border-0 shadow-lg rounded-4 w-100 login-card">
+        <div class="form-section">
+            <div class="card border-0 shadow-lg rounded-4 login-card">
                 <div class="card-body p-5">
-                    <h2 class="fw-bold text-dark mb-3">Welcome Back!</h2> <p class="text-muted mb-3"> Log in to manage your pet's universe
-                    </p>
+                    <h2 class="fw-bold text-dark mb-3">Welcome Back!</h2>
+                    <p class="text-muted mb-3">Log in to manage your pet's universe</p>
 
                     <form id="loginForm">
                         <div class="mb-3">
                             <label class="form-label fw-medium text-dark">
-                                <i class="fas fa-user me-2"></i>Email</label> <input
-                                type="text"
+                                <i class="fas fa-user me-2"></i>Email</label>
+                            <input
+                                type="email"
                                 class="form-control form-control-lg bg-light border-2 rounded-3"
-                                id="loginUsername" name="username" title="Email"
-                                placeholder="Enter your email" required />
+                                id="loginUsername"
+                                name="username"
+                                title="Email"
+                                placeholder="Enter your email"
+                                required
+                            />
                         </div>
 
                         <div class="mb-3">
@@ -355,7 +362,7 @@
                             </div>
                         </div>
 
-                        <p id="loginMessage" class="text-center mt-3"></p>
+                        <p id="loginMessage" class="text-center mt-3" style="display: none;"></p>
 
                         <button
                             type="submit"
