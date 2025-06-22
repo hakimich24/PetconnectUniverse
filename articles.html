@@ -3,286 +3,571 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pet Care Article: Understanding Pet Nutrition</title>
+    <title>Pet Care Article: Understanding Pet Nutrition | PetUniverse Connect</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
     <style>
         body {
+            font-family: 'Segoe UI', Arial, sans-serif; /* Consistent font */
             margin: 0;
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', sans-serif;
-            display: flex; /* Use flexbox for sticky footer */
-            flex-direction: column; /* Column direction for body */
+            background-color: #f0f2f5; /* Light grey background */
+            display: flex;
+            flex-direction: column;
             min-height: 100vh; /* Ensure body takes full viewport height */
         }
-        .layout-wrapper {
-            display: flex;
-            min-height: 100vh; /* Still needed for internal layout if we had sidebar */
-            flex-grow: 1; /* Allow main content to grow */
-            flex-direction: column; /* Change to column to allow footer at bottom */
-        }
-        /* Sidebar styles are now removed as the sidebar is removed */
 
-        .main-wrapper {
-            flex-grow: 1; /* Allow main content wrapper to take available space */
-            width: 100%; /* Ensure it takes full width */
-        }
-        .main-content {
+        /* Navbar (Top Bar) */
+        .navbar {
             background-color: #ffffff;
-            padding: 2rem;
-            flex-grow: 1; /* Ensure content pushes footer down */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding-top: 1rem;
+            padding-bottom: 1rem;
         }
-        .nav-link { /* These styles are now largely irrelevant without the sidebar */
-            color: #333;
-            padding: 0.5rem 0.75rem;
-            font-weight: 500;
-            border-radius: 0.375rem;
+        .navbar-brand {
             display: flex;
             align-items: center;
-            margin-bottom: 3rem;
         }
-        .nav-link i {
+        .navbar-brand .logo-img {
+            width: 35px;
+            height: 35px;
             margin-right: 10px;
-            font-size: 1.3rem;
+        }
+        .navbar-brand .brand-text {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: #333;
+            line-height: 1.2;
+        }
+        .nav-link {
+            font-weight: 500;
+            color: #555;
+            transition: color 0.3s ease;
         }
         .nav-link:hover {
-            background-color: #e9ecef;
-            color: #000;
+            color: #007bff;
         }
         .nav-link.active {
-            background-color: #0868f7;
-            color: #fff !important;
+            color: #007bff;
+            font-weight: 600;
         }
-        /* Styles for the article content */
+        .btn-outline-primary {
+            border-color: #007bff;
+            color: #007bff;
+            transition: all 0.3s ease;
+        }
+        .btn-outline-primary:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        /* Header (User Info / Notifications) */
+        .dashboard-header {
+            background-color: #ffffff;
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+            margin-bottom: 2rem; /* Space between header and article */
+        }
+        .dashboard-header .profile-img {
+            width: 45px; /* Slightly larger profile image */
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+            border: 2px solid #007bff; /* Accent border */
+        }
+        .dashboard-header .greeting-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+        .dashboard-header .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.6rem; /* Larger icons */
+            color: #555;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .dashboard-header .icon-btn:hover {
+            background-color: #e9ecef;
+            color: #007bff;
+        }
+        .dashboard-header .dropdown-menu {
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: none;
+            padding: 0.75rem 0;
+        }
+        .dashboard-header .dropdown-menu .dropdown-item {
+            padding: 0.75rem 1.25rem;
+            font-weight: 500;
+            color: #333;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .dashboard-header .dropdown-menu .dropdown-item:hover {
+            background-color: #f8f9fa;
+            color: #007bff;
+        }
+        .dashboard-header .dropdown-menu .dropdown-item i {
+            margin-right: 10px;
+            color: #007bff; /* Icon color */
+        }
+        .dashboard-header .dropdown-menu .notification-item {
+            font-size: 0.9rem;
+            padding: 0.5rem 1.25rem;
+            color: #555;
+        }
+        .dashboard-header .dropdown-menu .notification-item:hover {
+            background-color: #f8f9fa;
+        }
+        .dashboard-header .dropdown-menu .text-primary {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Article Content Specifics */
+        .article-page-wrapper {
+            flex-grow: 1; /* Allows the article content to push footer down */
+            background-color: #f8f9fa;
+            padding: 2rem 0;
+        }
         .article-content {
-            max-width: 800px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            max-width: 900px; /* Wider content area for better reading */
             margin: 0 auto;
-            padding: 20px 0;
+            padding: 2.5rem; /* More internal padding */
         }
         .article-content h1 {
-            font-size: 2.5rem;
+            font-size: 2.8rem; /* Larger main title */
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            color: #333;
         }
         .article-content h2, .article-content h3 {
-            font-size: 1.8rem;
+            font-size: 2rem; /* Larger sub-headings */
             font-weight: 600;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1.2rem;
+            color: #333;
         }
         .article-content p {
-            font-size: 1.1rem;
-            line-height: 1.7;
+            font-size: 1.05rem; /* Slightly larger paragraph text */
+            line-height: 1.8; /* Improved line spacing */
             margin-bottom: 1rem;
+            color: #444;
+        }
+        .article-content ul, .article-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem; /* Standard padding for lists */
+        }
+        .article-content ul li, .article-content ol li {
+            margin-bottom: 0.5rem;
+            color: #444;
+            line-height: 1.6;
+        }
+        .article-content strong {
+            color: #007bff; /* Highlight important terms */
         }
         .article-content img {
             max-width: 100%;
             height: auto;
-            border-radius: 8px;
-            margin: 1.5rem 0;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 12px; /* More rounded corners for images */
+            margin: 2rem 0; /* More spacing around images */
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1); /* Softer shadow */
         }
         .article-meta {
-            font-size: 0.9rem;
-            color: #6c757d;
-            margin-bottom: 2rem;
+            font-size: 0.95rem;
+            color: #777;
+            margin-bottom: 2.5rem; /* More space below meta */
         }
         .back-link {
             display: inline-flex;
             align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem; /* More space above article title */
             color: #007bff;
             text-decoration: none;
             font-weight: 500;
+            transition: color 0.2s ease, text-decoration 0.2s ease;
         }
         .back-link:hover {
+            color: #0056b3;
             text-decoration: underline;
         }
         .back-link i {
-            margin-right: 5px;
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+        .article-disclaimer {
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px dashed #e9ecef; /* Subtle separation for disclaimer */
         }
 
-        /* Footer Styles */
+        /* Footer Styles - Adopted from your provided consistent footer */
         .footer {
-            background-color: #343a40; /* Dark background for footer */
-            color: #fff;
-            padding: 2rem 0;
+            background-color: #343a40;
+            color: #f8f9fa;
+            padding: 2.5rem 0;
             text-align: center;
-            margin-top: auto; /* Push footer to the bottom */
             flex-shrink: 0; /* Prevent footer from shrinking */
+        }
+        .footer-column {
+            margin-bottom: 1.5rem; /* Space between columns on smaller screens */
+        }
+        .footer h5 {
+            color: #fff;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .footer ul {
+            padding: 0;
+            list-style: none;
+        }
+        .footer ul li {
+            margin-bottom: 0.5rem;
         }
         .footer a {
             color: #adb5bd;
             text-decoration: none;
-            margin: 0 10px;
+            transition: color 0.3s ease;
         }
         .footer a:hover {
             color: #fff;
+            text-decoration: underline;
         }
-        .footer .social-icons i {
-            font-size: 1.5rem;
-            margin: 0 10px;
+        .footer .social-icons .fab {
+            font-size: 1.6rem;
+            margin: 0 0.75rem;
+            color: #adb5bd;
+            transition: color 0.3s ease;
+        }
+        .footer .social-icons .fab:hover {
+            color: #007bff;
+        }
+        .footer-copyright {
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1.5rem;
+            font-size: 0.9rem;
+            color: #ced4da;
         }
 
-        /* Responsive adjustments */
+        /* Responsive Adjustments */
         @media (max-width: 992px) {
-            /* Sidebar removal specific adjustments */
-            .main-content {
-                padding: 1rem;
+            .dashboard-header .greeting-text {
+                font-size: 1.1rem;
             }
-            .d-flex.justify-content-between.align-items-center.mb-4 {
-                flex-direction: column;
-                align-items: flex-start !important;
+            .dashboard-header .icon-btn {
+                font-size: 1.4rem;
             }
-            .d-flex.align-items-center.gap-3:last-child {
-                margin-top: 1rem;
-                width: 100%;
-                justify-content: space-between;
-            }
-            .topbar .input-group {
-                width: 100% !important;
-                max-width: 300px; /* Constrain search input width */
-            }
-            /* Adjust dropdown positions for smaller screens */
-            #notif-dropdown {
-                right: 0 !important; /* Align to right edge */
-                left: auto !important;
-                width: 95% !important; /* Adjust width */
-                max-width: 250px;
-            }
-            #profile-dropdown {
-                right: 0 !important; /* Align to right edge */
-                left: auto !important;
+            .article-content {
+                padding: 1.5rem;
             }
             .article-content h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
             .article-content h2, .article-content h3 {
-                font-size: 1.5rem;
+                font-size: 1.7rem;
             }
             .article-content p {
                 font-size: 1rem;
             }
+            /* Adjust dropdown positions for smaller screens */
+            .dashboard-header .dropdown-menu-end {
+                left: auto !important; /* Override inline style if any */
+                right: 0 !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start !important;
+                padding: 1rem;
+            }
+            .dashboard-header > div:last-child { /* Targets the icons/dropdowns container */
+                margin-top: 1rem;
+                width: 100%;
+                justify-content: space-between;
+            }
+            .dashboard-header .dropdown-menu {
+                width: 200px !important; /* Constrain width of dropdowns */
+            }
+            .article-page-wrapper {
+                padding: 1rem 0;
+            }
+            .article-content {
+                border-radius: 0; /* Remove border-radius on small screens for full width effect */
+                box-shadow: none; /* Remove shadow on small screens */
+                padding: 1rem;
+            }
+            .article-content h1 {
+                font-size: 1.8rem;
+            }
+            .article-content h2, .article-content h3 {
+                font-size: 1.4rem;
+            }
+            .back-link {
+                margin-left: 1rem; /* Indent back link on smaller screens */
+            }
+            .footer .container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .footer-column {
+                margin-bottom: 1.5rem;
+                text-align: center;
+            }
+            .footer-copyright {
+                text-align: center;
+                padding-top: 1rem;
+            }
         }
 
         @media (max-width: 576px) {
-            
+            .dashboard-header .profile-img {
+                width: 35px;
+                height: 35px;
+            }
+            .dashboard-header .greeting-text {
+                font-size: 1rem;
+            }
+            .dashboard-header .icon-btn {
+                font-size: 1.2rem;
+            }
+            .article-content {
+                padding: 0.75rem;
+            }
+            .article-content h1 {
+                font-size: 1.5rem;
+            }
+            .article-content h2, .article-content h3 {
+                font-size: 1.2rem;
+            }
+            .article-content p, .article-content ul li, .article-content ol li {
+                font-size: 0.95rem;
+            }
+            .back-link {
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="layout-wrapper">
-        <!-- Main Content -->
-        <div class="main-wrapper">
-            <div class="main-content">
-                <!-- Header -->
-                <div class="topbar d-flex justify-content-between align-items-center mb-4">
-                    <div class="d-flex align-items-center gap-3">
-                        <img src="images/Ellipse 2.png" alt="User Profile" style="width: 40px; height: 30px;" />
-                        <span class="fw-semibold"><span id="greeting-text"></span></span>
-                    </div>
-                    <div class="d-flex align-items-center gap-3 position-relative">
-                        <i id="notif-icon" class="bi bi-bell fs-4" style="cursor: pointer;"></i>
-                        <i id="profile-icon" class="bi bi-person-circle fs-4" style="cursor: pointer;"></i>
-                        <!-- Note: '+ Add a Pet' button is removed here as it's dashboard-specific -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <a class="navbar-brand" href="index.html">
+                <img src="images/Vector.png" alt="PetUniverse Logo" class="logo-img">
+                <span class="brand-text">PetUniverse<br>Connect</span>
+            </a>
+            
+            <div class="d-flex align-items-center gap-3">
+                <button class="icon-btn position-relative" type="button" id="notifDropdownToggle" aria-expanded="false">
+                    <i class="bi bi-bell"></i>
+                </button>
+                <button class="icon-btn" type="button" id="profileDropdownToggle" aria-expanded="false">
+                    <i class="bi bi-person-circle"></i>
+                </button>
+            </div>
 
-                        <!-- Notification Dropdown -->
-                        <div id="notif-dropdown" class="position-absolute bg-white border shadow-sm p-3"
-                            style="top: 40px; right: 100px; width: 250px; display: none; z-index: 10; border-radius: 10px;" >
-                            <p class="fw-bold mb-2">Notifications</p>
-                            <p class="text-muted mb-1">• Appointment on June 6</p>
-                            <p class="text-muted mb-1">• Benny’s vaccination added</p>
-                            <p class="text-muted">• New care tips available</p>
-                            <a href="notifications.html" class="text-primary mt-2 d-block text-end">View All</a>
-                        </div>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="notifDropdownToggle" id="notif-dropdown">
+                <h6 class="dropdown-header">Notifications</h6>
+                <a class="dropdown-item notification-item" href="#">Appointment on June 25th</a>
+                <a class="dropdown-item notification-item" href="#">Benny’s vaccination due soon</a>
+                <a class="dropdown-item notification-item" href="#">New care tips available</a>
+                <hr class="dropdown-divider">
+                <a class="dropdown-item text-primary text-center" href="notifications.html">View All Notifications</a>
+            </div>
 
-                        <!-- Profile Dropdown -->
-                        <div id="profile-dropdown" class="position-absolute bg-white border shadow-sm p-3"
-                            style="top: 40px; right: 50px; width: 150px; display: none; z-index: 10; border-radius: 10px;" >
-                            <p class="mb-2"><i class="bi bi-gear me-2"></i><a href="settings.html" class="text-decoration-none text-dark">Settings</a></p>
-                            <p class="mb-0"><i class="bi bi-box-arrow-right me-2"></i><a href="logout.html" class="text-decoration-none text-dark">Logout</a></p>
-                        </div>
-                    </div>
-                </div>
+            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdownToggle" id="profile-dropdown">
+                <a class="dropdown-item" href="settings.html"><i class="bi bi-gear"></i> Settings</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="logout.html"><i class="bi bi-box-arrow-right"></i> Logout</a>
+            </div>
+        </div>
+    </nav>
 
-                <!-- Article Content -->
-                <a href="dashboard.html" class="back-link">
-                    <i class="bi bi-arrow-left-circle"></i> Back to Dashboard
-                </a>
+    <div class="article-page-wrapper">
+        <div class="container">
+            <a href="dashboard.html" class="back-link">
+                <i class="bi bi-arrow-left-circle-fill"></i> Back to Dashboard
+            </a>
 
-                <div class="article-content">
-                    <h1>Understanding Pet Nutrition: A Guide to a Healthy Diet</h1>
-                    <p class="article-meta">By PetUniverse Connect Team | June 20, 2025</p>
+            <div class="article-content">
+                <h1>Understanding Pet Nutrition: A Guide to a Healthy Diet</h1>
+                <p class="article-meta">By PetUniverse Connect Team | June 20, 2025</p>
 
-                    <p>
-                        Providing your pet with the right nutrition is one of the most fundamental aspects of ensuring their long-term health and happiness. A balanced diet supports everything from a shiny coat and strong bones to a robust immune system and high energy levels. But with so many options available, how do you choose what’s best?
-                    </p>
+                <p>
+                    Providing your pet with the right nutrition is one of the most fundamental aspects of ensuring their long-term health and happiness. A balanced diet supports everything from a shiny coat and strong bones to a robust immune system and high energy levels. But with so many options available, how do you choose what’s best?
+                </p>
 
-                    <img src="https://placehold.co/800x450/A3C1AD/FFFFFF?text=Healthy+Pet+Food" alt="Healthy Pet Food" class="img-fluid my-4">
+                <img src="https://placehold.co/800x450/A3C1AD/FFFFFF?text=Healthy+Pet+Food" alt="Healthy Pet Food" class="img-fluid my-4">
 
-                    <h2>The Basics of a Balanced Pet Diet</h2>
-                    <p>
-                        Just like humans, pets require a specific balance of macronutrients (proteins, fats, carbohydrates) and micronutrients (vitamins, minerals) to thrive. The ideal ratios vary significantly between species, breeds, ages, and activity levels.
-                    </p>
-                    <ul>
-                        <li><strong>Proteins:</strong> Essential for muscle development, tissue repair, and enzyme production. Sources include meat, fish, and eggs.</li>
-                        <li><strong>Fats:</strong> Provide concentrated energy, support healthy skin and coat, and aid in vitamin absorption. Look for sources like chicken fat, fish oil, and flaxseed.</li>
-                        <li><strong>Carbohydrates:</strong> Offer energy and fiber for digestive health. Grains, vegetables, and legumes are common sources.</li>
-                        <li><strong>Vitamins and Minerals:</strong> Crucial for countless bodily functions, from bone health (calcium, phosphorus) to vision (Vitamin A).</li>
-                    </ul>
+                <h2>The Basics of a Balanced Pet Diet</h2>
+                <p>
+                    Just like humans, pets require a specific balance of macronutrients (proteins, fats, carbohydrates) and micronutrients (vitamins, minerals) to thrive. The ideal ratios vary significantly between species, breeds, ages, and activity levels.
+                </p>
+                <ul>
+                    <li><strong>Proteins:</strong> Essential for muscle development, tissue repair, and enzyme production. Sources include meat, fish, and eggs.</li>
+                    <li><strong>Fats:</strong> Provide concentrated energy, support healthy skin and coat, and aid in vitamin absorption. Look for sources like chicken fat, fish oil, and flaxseed.</li>
+                    <li><strong>Carbohydrates:</strong> Offer energy and fiber for digestive health. Grains, vegetables, and legumes are common sources.</li>
+                    <li><strong>Vitamins and Minerals:</strong> Crucial for countless bodily functions, from bone health (calcium, phosphorus) to vision (Vitamin A).</li>
+                </ul>
 
-                    <h2>Reading Pet Food Labels</h2>
-                    <p>
-                        Understanding pet food labels is key to making informed decisions. Look for a statement from AAFCO (Association of American Feed Control Officials), which indicates the food meets nutritional standards for a specific life stage.
-                    </p>
-                    <p>
-                        Ingredients are listed in descending order by weight. Prioritize foods where high-quality protein sources are among the first few ingredients. Be wary of excessive fillers or artificial additives.
-                    </p>
+                <h2>Reading Pet Food Labels</h2>
+                <p>
+                    Understanding pet food labels is key to making informed decisions. Look for a statement from **AAFCO (Association of American Feed Control Officials)**, which indicates the food meets nutritional standards for a specific life stage.
+                </p>
+                <p>
+                    Ingredients are listed in descending order by weight. Prioritize foods where high-quality protein sources are among the first few ingredients. Be wary of excessive fillers or artificial additives.
+                </p>
 
-                    <h2>Common Nutritional Mistakes to Avoid</h2>
-                    <p>
-                        Even with good intentions, pet owners can sometimes make nutritional errors.
-                    </p>
-                    <ol>
-                        <li><strong>Overfeeding:</strong> Leading to obesity, which can cause numerous health problems.</li>
-                        <li><strong>Inconsistent Diet:</strong> Frequent changes can upset your pet's digestive system.</li>
-                        <li><strong>Too Many Treats:</b> Treats should only make up a small portion of daily caloric intake.</li>
-                        <li><strong>Feeding Human Food:</strong> Many human foods are toxic to pets or lack proper nutritional balance.</li>
-                    </ol>
+                <h2>Common Nutritional Mistakes to Avoid</h2>
+                <p>
+                    Even with good intentions, pet owners can sometimes make nutritional errors.
+                </p>
+                <ol>
+                    <li>**Overfeeding:** Leading to obesity, which can cause numerous health problems.</li>
+                    <li>**Inconsistent Diet:** Frequent changes can upset your pet's digestive system.</li>
+                    <li>**Too Many Treats:** Treats should only make up a small portion of daily caloric intake.</li>
+                    <li>**Feeding Human Food:** Many human foods are toxic to pets or lack proper nutritional balance.</li>
+                </ol>
 
-                    <h2>When to Consult Your Veterinarian</h2>
-                    <p>
-                        Your veterinarian is your best resource for personalized nutritional advice. They can help determine the best diet based on your pet's age, breed, health conditions, and lifestyle. If your pet experiences digestive issues, weight changes, or a dull coat, it’s time for a vet visit.
-                    </p>
+                <h2>When to Consult Your Veterinarian</h2>
+                <p>
+                    Your **veterinarian** is your best resource for personalized nutritional advice. They can help determine the best diet based on your pet's age, breed, health conditions, and lifestyle. If your pet experiences digestive issues, weight changes, or a dull coat, it’s time for a vet visit.
+                </p>
 
-                    <p class="text-muted text-center mt-5">
-                        <em>This article is for informational purposes only and does not constitute veterinary advice. Always consult with a qualified veterinarian regarding your pet's health and dietary needs.</em>
-                    </p>
-                </div>
+                <p class="text-center article-disclaimer">
+                    <em>This article is for informational purposes only and does not constitute veterinary advice. Always consult with a qualified veterinarian regarding your pet's health and dietary needs.</em>
+                </p>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="row">
-                <div class="col-md-6 mb-3 mb-md-0">
-                    <p>&copy; 2025 PetUniverse Connect. All rights reserved.</p>
+            <div class="row justify-content-center text-start">
+                <div class="col-md-3 col-sm-6 footer-column">
+                    <h5>PetUniverse Connect</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">Our Mission</a></li>
+                        <li><a href="#" class="text-white">Team</a></li>
+                        <li><a href="#" class="text-white">Careers</a></li>
+                    </ul>
                 </div>
-                <div class="col-md-6">
-                    <div class="social-icons">
-                        <a href="#" aria-label="Facebook"><i class="bi bi-facebook me-3"></i></a>
-                        <a href="#" aria-label="Twitter"><i class="bi bi-twitter me-3"></i></a>
-                        <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-                    </div>
+                <div class="col-md-3 col-sm-6 footer-column">
+                    <h5>Support</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">Help Center</a></li>
+                        <li><a href="#" class="text-white">Contact Us</a></li>
+                        <li><a href="#" class="text-white">FAQs</a></li>
+                        <li><a href="#" class="text-white">Community Guidelines</a></li>
+                    </ul>
                 </div>
+                <div class="col-md-3 col-sm-6 footer-column">
+                    <h5>Legal</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">Terms of Service</a></li>
+                        <li><a href="#" class="text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="text-white">Accessibility</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-sm-6 footer-column">
+                    <h5>Follow Us</h5>
+                    <ul class="list-inline social-icons">
+                        <li class="list-inline-item"><a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+                        <li class="list-inline-item"><a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a></li>
+                        <li class="list-inline-item"><a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
+                        <li class="list-inline-item"><a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <p class="mb-0">&copy; 2025 PetUniverse Connect. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/common.js"></script> <!-- Ensure common.js is loaded -->
-    <!-- No page-specific JS needed for this simple article page currently -->
+    <script>
+        // JavaScript for greeting and dropdowns
+        document.addEventListener('DOMContentLoaded', function() {
+            const greetingTextEl = document.getElementById('greeting-text');
+            const notifDropdownToggle = document.getElementById('notifDropdownToggle');
+            const profileDropdownToggle = document.getElementById('profileDropdownToggle');
+            const notifDropdown = document.getElementById('notif-dropdown');
+            const profileDropdown = document.getElementById('profile-dropdown');
+
+            // Set greeting based on time of day
+            const now = new Date();
+            const hour = now.getHours();
+            let greeting;
+            if (hour < 12) {
+                greeting = "Good morning";
+            } else if (hour < 18) {
+                greeting = "Good afternoon";
+            } else {
+                greeting = "Good evening";
+            }
+            greetingTextEl.textContent = `${greeting}, User!`; // Replace 'User' with dynamic name if available
+
+            // Dropdown toggles
+            function toggleDropdown(dropdownElement, toggleButton) {
+                const isShown = dropdownElement.classList.contains('show');
+                // Hide other dropdown if it's open
+                if (dropdownElement === notifDropdown && profileDropdown.classList.contains('show')) {
+                    profileDropdown.classList.remove('show');
+                } else if (dropdownElement === profileDropdown && notifDropdown.classList.contains('show')) {
+                    notifDropdown.classList.remove('show');
+                }
+
+                if (isShown) {
+                    dropdownElement.classList.remove('show');
+                    toggleButton.setAttribute('aria-expanded', 'false');
+                } else {
+                    dropdownElement.classList.add('show');
+                    toggleButton.setAttribute('aria-expanded', 'true');
+                }
+            }
+
+            notifDropdownToggle.addEventListener('click', function() {
+                toggleDropdown(notifDropdown, this);
+            });
+
+            profileDropdownToggle.addEventListener('click', function() {
+                toggleDropdown(profileDropdown, this);
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!notifDropdownToggle.contains(event.target) && !notifDropdown.contains(event.target)) {
+                    notifDropdown.classList.remove('show');
+                    notifDropdownToggle.setAttribute('aria-expanded', 'false');
+                }
+                if (!profileDropdownToggle.contains(event.target) && !profileDropdown.contains(event.target)) {
+                    profileDropdown.classList.remove('show');
+                    profileDropdownToggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
