@@ -1,146 +1,372 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      rel="stylesheet"
-    />
+    <title>Login | PetUniverse Connect</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
     <style>
-      .logo {
-        width: 45px;
-        height: 45px;
-      }
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Inter', Arial, sans-serif; /* Using Inter as per guidelines, with fallbacks */
+            overflow-x: hidden; /* Prevent horizontal scrollbar on small screens */
+            background-color: #f8f9fa; /* Consistent background */
+        }
 
-      .hero-img {
-        object-position: center;
-        object-fit: cover;
-        height: 100vh;
-        width: 93%;
-        max-width: 100%;
-      }
-      .login-card {
-        max-width: 420px;
-      }
-      .min-vh-100 {
-        min-height: 100vh;
-      }
+        /* Container for the whole page (equivalent to signup-wrapper) */
+        .page-wrapper {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: row; /* Default to row for desktop */
+        }
+
+        /* Left section (image/info) - formerly col-lg-7 */
+        .info-section {
+            background-color: #f8f9fa; /* Light grey background */
+            width: 58.33%; /* col-lg-7 equivalent (7/12 * 100%) */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative; /* For absolute positioning of logo/text */
+            overflow: hidden; /* Ensures image doesn't spill */
+            padding: 1rem; /* Added padding for desktop */
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 100%; /* Fill the info-section */
+            object-fit: cover; /* Crop image to cover area without distortion */
+            object-position: center; /* Center the image within its container */
+            display: block;
+            border-radius: 10px; /* Rounded corners for the image */
+        }
+
+        /* Logo and brand text container */
+        .logo-brand-container { 
+            position: absolute; /* Keep it absolute for desktop overlay */
+            top: 2rem; /* Adjusted from m-4 for more control */
+            left: 2rem; /* Adjusted from m-4 */
+            z-index: 10; /* Ensure logo is above the image */
+        }
+        .logo { /* Your specific logo circle style */
+            width: 60px;
+            height: 60px;
+            background-color: #fdfafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            font-size: 24px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Added subtle shadow */
+        }
+        .logo img { /* Ensure logo image within circle is sized correctly */
+            width: 30px; 
+            height: 30px; 
+            margin-right: 0.5rem; /* Space between image and text */
+            margin-top: 0.25rem; /* Small vertical adjust */
+        }
+        .brand-text { /* Your specific brand text style */
+            font-weight: bold;
+            font-size: 20px;
+            color: #000; /* Changed to black as requested */
+            white-space: nowrap; /* Prevent "PetUniverse Connect" from wrapping */
+            /* Removed text-shadow as it was for white text contrast */
+        }
+
+        /* Right section (form) - formerly col-lg-5 */
+        .form-section {
+            background-color: #ffffff; /* White background for the form side */
+            width: 41.67%; /* col-lg-5 equivalent (5/12 * 100%) */
+            display: flex;
+            justify-content: center; /* Center form horizontally */
+            align-items: center; /* Center form vertically */
+            padding: 2rem; /* Initial padding around the form container */
+            overflow-y: auto; /* Allow scrolling if form content is too long for the screen */
+            flex-grow: 1; /* Allows it to grow if the info-section changes size */
+        }
+
+        .login-card {
+            width: 100%; /* Take full width of its parent (.form-section) */
+            max-width: 420px; /* Max-width from original code */
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* General form and button styles */
+        .form-label {
+            font-weight: 500;
+            margin-bottom: .5rem;
+            color: #333;
+        }
+        .form-control-lg {
+            border-radius: .5rem; /* Consistent rounded corners */
+            padding: .75rem 1rem;
+            border: 1px solid #ced4da;
+        }
+        .form-control-lg:focus {
+            border-color: #007bff; /* Primary blue on focus */
+            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+        }
+        .btn-dark {
+            background-color: #343a40; /* Dark button color */
+            border-color: #343a40;
+            padding: .75rem 1rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: .5rem; /* More rounded corners for buttons */
+            transition: background-color .2s ease, border-color .2s ease, box-shadow .2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .btn-dark:hover {
+            background-color: #23272b;
+            border-color: #1d2124;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        .btn-outline-secondary {
+            border-color: #6c757d;
+            color: #6c757d;
+            border-radius: .5rem; /* Consistent rounded corners */
+            transition: background-color .2s ease, color .2s ease;
+        }
+        .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: #fff;
+        }
+        /* Style for password toggle button in input-group */
+        .input-group .btn {
+            padding: 0.75rem 1rem; /* Adjust padding to match form-control-lg height */
+            height: auto; /* Allow height to adjust */
+        }
+        .input-group .form-control {
+            border-top-right-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+        }
+        .input-group .btn-outline-secondary {
+            border-top-left-radius: 0 !important;
+            border-bottom-left-radius: 0 !important;
+        }
+
+
+        #loginMessage {
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.75rem; /* Adjusted margin-bottom */
+        }
+        #loginMessage.alert-info {
+            background-color: #e0f7fa; /* Light blue for info */
+            border-color: #b2ebf2;
+            color: #00796b;
+        }
+        #loginMessage.alert-danger {
+            background-color: #ffebee; /* Light red for error */
+            border-color: #ffcdd2;
+            color: #c62828;
+        }
+        #loginMessage.alert-success {
+            background-color: #e8f5e9; /* Light green for success */
+            border-color: #c8e6c9;
+            color: #2e7d32;
+        }
+
+
+        /* Media Queries for Responsiveness */
+
+        /* Small to Medium devices (e.g., Tablets, up to 991.98px wide) */
+        @media (max-width: 991.98px) {
+            .page-wrapper {
+                flex-direction: column; /* Stack sections vertically */
+                height: auto; /* Allow height to adjust to content */
+                min-height: 100vh; /* Ensure it still takes full height if content is short */
+                overflow: visible; /* Allow content to overflow and be scrollable by body */
+            }
+            .info-section {
+                /* REVEAL THE INFO SECTION AND MAKE IT A BANNER */
+                display: flex !important; /* Override d-none d-lg-block to make it visible */
+                height: 250px; /* Fixed height for the banner on mobile */
+                width: 100%; /* Takes full width */
+                justify-content: center; /* Center content horizontally */
+                align-items: center; /* Center content vertically */
+                position: relative; /* Ensure absolute positioning children are relative to this */
+                padding: 0; /* Remove padding to make banner full width */
+                border-radius: 0; /* Remove rounded corners for banner effect */
+            }
+            .hero-img {
+                height: 100%; /* Image fills the banner height */
+                width: 100%; /* Image fills the banner width */
+                object-fit: cover; /* Cover the area */
+                object-position: center; /* Center the focus of the image */
+                border-radius: 0; /* Remove rounded corners for banner effect */
+            }
+
+            /* Adjust the logo/brand text positioning for the smaller banner */
+            .logo-brand-container {
+                /* Position for a more centered look on a smaller banner */
+                position: absolute;
+                top: 50%; /* Center vertically */
+                left: 50%; /* Center horizontally */
+                transform: translate(-50%, -50%); /* Adjust for element's own size */
+                margin: 0 !important; /* Remove fixed margin, use transform */
+                width: max-content; /* Ensure the container only takes width it needs */
+            }
+            /* Brand text color already set to black, now ensure proper contrast.
+               NOTE: Black text on a dark image background may have poor contrast.
+                     Consider making the image lighter or changing text color for mobile banner. */
+            .brand-text {
+                color: #000 !important; /* Force black text as requested */
+                text-shadow: none !important; /* Remove text shadow */
+            }
+            .form-section {
+                width: 100%; /* Form takes full width */
+                padding: 1.5rem; /* Slightly reduced padding on tablets */
+                justify-content: center; /* Center form horizontally */
+                align-items: center; /* Center form vertically */
+                min-height: calc(100vh - 250px); /* Fill remaining viewport height after info-section */
+                overflow-y: auto; /* Enable scrolling for this section */
+            }
+            .login-card {
+                max-width: 400px; /* Limit form width on tablets as well */
+                padding: 25px; /* Slightly reduced padding inside the form card */
+            }
+        }
+
+        /* Extra Small devices (e.g., Mobile Phones, up to 575.98px wide) */
+        @media (max-width: 575.98px) {
+            .form-section {
+                padding: 0.75rem; /* Further reduce padding around the form on small mobile */
+            }
+            .login-card {
+                padding: 15px; /* Even smaller padding inside the form card on small mobile */
+                border-radius: 0; /* Remove rounded corners for edge-to-edge look */
+                box-shadow: none; /* Remove shadow for cleaner mobile look */
+                max-width: 100%; /* Allow form to take full width on very small screens */
+            }
+            /* Adjust logo size for smaller phones */
+            .logo {
+                width: 45px; /* Slightly smaller logo circle */
+                height: 45px;
+                font-size: 20px; /* Adjust font size inside logo circle */
+            }
+            .logo img { /* Adjust logo image size inside circle */
+                width: 25px;
+                height: 25px;
+            }
+            .brand-text {
+                font-size: 16px; /* Slightly smaller text for smaller phones */
+            }
+             /* Reduce margins for elements within the card body on smallest screens */
+            .card-body h2.mb-3 {
+                margin-bottom: 0.25rem !important; /* Further reduced from 0.5rem */
+            }
+            .card-body p.mb-3 {
+                margin-bottom: 0.5rem !important; /* Further reduced from 0.75rem */
+            }
+            .mb-3 {
+                margin-bottom: 0.75rem !important; /* General reduction for all mb-3 elements in form */
+            }
+            .input-group + .text-end.mt-2 { /* Target only the mt-2 after input-group */
+                margin-top: 0.25rem !important; /* Reduce margin for forgot password link even more */
+            }
+            .btn-dark.mt-3.mb-3 {
+                margin-top: 0.75rem !important; /* Keep consistent with other mb-3 */
+                margin-bottom: 0.75rem !important; /* Keep consistent with other mb-3 */
+            }
+            .text-center.mt-3 {
+                margin-top: 0.75rem !important; /* Keep consistent with other mb-3 */
+            }
+            /* Explicitly set padding for card-body if still needed */
+            .card-body {
+                padding: 15px !important; /* Ensure padding is controlled within the card body */
+            }
+        }
     </style>
-  </head>
-  <body class="bg-light">
-    <div class="container-fluid p-0">
-      <div class="row g-0 min-vh-100">
-        <div
-          class="col-lg-7 position-relative d-none d-lg-block d-flex align-items-center justify-content-center"
-        >
-          <img src="images/image 17.png" alt="img" class="hero-img" />
+</head>
+<body class="bg-light">
+    <div class="container-fluid p-0 page-wrapper">
+        <div class="col-lg-7 position-relative info-section"> <img src="images/image 17.png" alt="img" class="hero-img" />
 
-          <div class="position-absolute top-0 start-0 m-4">
-            <div class="d-flex align-items-center">
-              <div
-                class="d-flex align-items-center justify-content-center me-3 logo"
-              >
-                <img
-                  src="images/Vector.png"
-                  alt="pet logo"
-                  width="30"
-                  height="30"
-                  class="me-2 mt-1"
-                />
-              </div>
-              <div class="text-dark fw-bold fs-5">
-                PetUniverse<br />Connect
-              </div>
+            <div class="logo-brand-container">
+                <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center justify-content-center me-3 logo">
+                        <img src="images/Vector.png" alt="pet logo" width="30" height="30" class="me-2 mt-1" />
+                    </div>
+                    <div class="fw-bold fs-5 brand-text"> PetUniverse<br />Connect
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
 
-        <div
-          class="col-lg-5 d-flex align-items-center justify-content-center p-4"
-        >
-          <div class="card border-0 shadow-lg rounded-4 w-100 login-card">
-            <div class="card-body p-5">
-              <h2 class="fw-bold text-dark mb-2">Welcome Back!</h2>
-              <p class="text-muted mb-4">
-                Log in to manage your pet's universe
-              </p>
+        <div class="col-lg-5 d-flex align-items-center justify-content-center p-4 form-section"> <div class="card border-0 shadow-lg rounded-4 w-100 login-card">
+                <div class="card-body p-5">
+                    <h2 class="fw-bold text-dark mb-3">Welcome Back!</h2> <p class="text-muted mb-3"> Log in to manage your pet's universe
+                    </p>
 
-              <form id="loginForm">
-                <div class="mb-3">
-                  <label class="form-label fw-medium text-dark">
-                    <i class="fas fa-user me-2"></i>Email (or Username) </label>
-                  <input
-                    type="text"
-                    class="form-control form-control-lg bg-light border-2 rounded-3"
-                    id="loginUsername"  name="username"
-                    title="Username"
-                    placeholder="Enter your email or username" required
-                  />
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label class="form-label fw-medium text-dark">
+                                <i class="fas fa-user me-2"></i>Email</label> <input
+                                type="text"
+                                class="form-control form-control-lg bg-light border-2 rounded-3"
+                                id="loginUsername" name="username" title="Email"
+                                placeholder="Enter your email" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-medium text-dark">
+                                <i class="fas fa-lock me-2"></i>Password
+                            </label>
+                            <div class="input-group">
+                                <input
+                                    type="password"
+                                    class="form-control form-control-lg bg-light border-2 rounded-3"
+                                    id="passwordField"
+                                    name="password"
+                                    placeholder="Enter your password"
+                                    title="Password"
+                                    aria-label="Password"
+                                    required
+                                />
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-secondary border-2 rounded-end-3"
+                                    onclick="togglePassword()"
+                                >
+                                    <i class="fas fa-eye" id="toggleIcon"></i>
+                                </button>
+                            </div>
+                            <div class="text-end mt-2">
+                                <a
+                                    href="#"
+                                    class="text-primary text-decoration-none small"
+                                >Forgot password?</a>
+                            </div>
+                        </div>
+
+                        <p id="loginMessage" class="text-center mt-3"></p>
+
+                        <button
+                            type="submit"
+                            class="btn btn-dark btn-lg w-100 rounded-3 fw-bold mt-3 mb-3"
+                        >
+                            LOGIN
+                        </button>
+
+                        <div class="text-center">
+                            <span class="text-muted">Don't have an account? </span>
+                            <a
+                                href="signup.html"
+                                class="text-primary text-decoration-none fw-medium"
+                            >Sign Up</a>
+                        </div>
+                    </form>
                 </div>
-
-                <div class="mb-3">
-                  <label class="form-label fw-medium text-dark">
-                    <i class="fas fa-lock me-2"></i>Password
-                  </label>
-                  <div class="input-group">
-                    <input
-                      type="password"
-                      class="form-control form-control-lg bg-light border-2 rounded-3"
-                      id="passwordField"
-                      name="password"
-                      placeholder="Enter your password"
-                      title="Password"
-                      aria-label="Password"
-                      required
-                    />
-                    <button
-                      type="button"
-                      class="btn btn-outline-secondary border-2 rounded-end-3"
-                      onclick="togglePassword()"
-                    >
-                      <i class="fas fa-eye" id="toggleIcon"></i>
-                    </button>
-                  </div>
-                  <div class="text-end mt-2">
-                    <a
-                      href="#"
-                      class="text-primary text-decoration-none small"
-                      >Forgot password?</a
-                    >
-                  </div>
-                </div>
-
-                <p id="loginMessage" class="text-center mt-3"></p>
-
-                <button
-                  type="submit"
-                  class="btn btn-dark btn-lg w-100 rounded-3 fw-bold mt-3 mb-3"
-                >
-                  LOGIN
-                </button>
-
-                <div class="text-center">
-                  <span class="text-muted">Don't have an account? </span>
-                  <a
-                    href="signup.html"
-                    class="text-primary text-decoration-none fw-medium"
-                    >Sign Up</a
-                  >
-                </div>
-              </form>
             </div>
-          </div>
         </div>
-      </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-    <script src="js\login.js"></script>
-  </body>
+    <script src="js/login.js"></script>
+</body>
 </html>
