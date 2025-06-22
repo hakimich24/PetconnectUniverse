@@ -2,21 +2,35 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     // --- Greeting Logic ---
-    const greetingElement = document.querySelector('.topbar .fw-semibold');
-    if (greetingElement) {
-        const now = new Date();
-        const hour = now.getHours();
-        let greeting = '';
+    const greetingTextElement = document.getElementById('greeting-text'); // This is the single span
+    const userDataString = localStorage.getItem('userData'); 
+    let username = 'User'; // Default username
 
-        if (hour >= 5 && hour < 12) {
-            greeting = 'Good Morning';
-        } else if (hour >= 12 && hour < 18) {
-            greeting = 'Good Afternoon';
-        } else {
-            greeting = 'Good Evening';
+    if (userDataString) {
+        const userData = JSON.parse(userDataString);
+        if (userData && userData.username) {
+            username = userData.username;
+        } else if (userData && userData.firstName) {
+            username = userData.firstName;
         }
+        // Optional: Redirect to login if user data not found (means not logged in)
+        // else { window.location.href = 'login.html'; }
+    } else {
+         // If no user data (not logged in), set to 'Guest' and optionally redirect
+         username = 'Guest';
+         // Optional: window.location.href = 'login.html'; 
+    }
 
-        greetingElement.textContent = `${greeting}, Ada`;
+    // Determine the time-based greeting prefix
+    const hour = new Date().getHours();
+    let greetingPrefix = "Hello,"; // Default prefix
+    if (hour < 12) greetingPrefix = "Good Morning,";
+    else if (hour < 18) greetingPrefix = "Good Afternoon,";
+    else greetingPrefix = "Good Evening,";
+
+    // Combine greeting prefix and username, then set to the HTML element
+    if (greetingTextElement) {
+        greetingTextElement.textContent = `${greetingPrefix} ${username}`;
     }
 
     // --- Sidebar Active Link ---

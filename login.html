@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login | PetUniverse Connect</title>
+    <title>Login</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
     <style>
@@ -71,9 +71,9 @@
         .brand-text { /* Your specific brand text style */
             font-weight: bold;
             font-size: 20px;
-            color: #000; /* Changed to black as requested */
+            color: #000; /* Reverted to black as requested */
             white-space: nowrap; /* Prevent "PetUniverse Connect" from wrapping */
-            /* Removed text-shadow as it was for white text contrast */
+            text-shadow: none; /* Removed text-shadow */
         }
 
         /* Right section (form) - formerly col-lg-5 */
@@ -93,7 +93,16 @@
             max-width: 420px; /* Max-width from original code */
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            /* Added min-height to ensure card has enough space even with tight content */
+            min-height: 400px; /* Adjust as needed, allows it to be visible */
+            display: flex; /* Make it a flex container to manage card-body children */
+            flex-direction: column; /* Stack children vertically */
+            justify-content: center; /* Center content vertically within the card */
         }
+        .login-card .card-body {
+            padding: 2.5rem; /* Default padding for card body */
+        }
+
 
         /* General form and button styles */
         .form-label {
@@ -174,7 +183,7 @@
 
         /* Media Queries for Responsiveness */
 
-        /* Small to Medium devices (e.g., Tablets, up to 991.98px wide) */
+        /* Medium devices and below (e.g., Tablets, up to 991.98px wide) */
         @media (max-width: 991.98px) {
             .page-wrapper {
                 flex-direction: column; /* Stack sections vertically */
@@ -238,10 +247,12 @@
                 padding: 0.75rem; /* Further reduce padding around the form on small mobile */
             }
             .login-card {
-                padding: 15px; /* Even smaller padding inside the form card on small mobile */
+                padding: 10px; /* Further reduced padding inside the form card on smallest mobile */
                 border-radius: 0; /* Remove rounded corners for edge-to-edge look */
                 box-shadow: none; /* Remove shadow for cleaner mobile look */
                 max-width: 100%; /* Allow form to take full width on very small screens */
+                /* Remove min-height here to allow full compression if needed */
+                min-height: auto; 
             }
             /* Adjust logo size for smaller phones */
             .logo {
@@ -276,9 +287,9 @@
             .text-center.mt-3 {
                 margin-top: 0.75rem !important; /* Keep consistent with other mb-3 */
             }
-            /* Explicitly set padding for card-body if still needed */
-            .card-body {
-                padding: 15px !important; /* Ensure padding is controlled within the card body */
+            /* Explicitly set padding for card-body on the smallest screens */
+            .login-card .card-body {
+                padding: 15px !important; /* Ensure padding is controlled within the card body for smallest screens */
             }
         }
     </style>
@@ -338,7 +349,7 @@
                             </div>
                             <div class="text-end mt-2">
                                 <a
-                                    href="#"
+                                    href="forgotpas.html"
                                     class="text-primary text-decoration-none small"
                                 >Forgot password?</a>
                             </div>

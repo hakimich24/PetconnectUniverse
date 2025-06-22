@@ -1,27 +1,37 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // API Base URL - Make sure this matches your backend's actual deployed URL or localhost:3000
+    // IMPORTANT: If you deploy your frontend and want to connect to a live backend,
+    // this URL must be updated to your Render backend API URL (e.g., 'https://your-petuniverse-backend.onrender.com')
+    const API_BASE_URL = 'http://localhost:3000'; 
+
     // --- Greeting Logic ---
-    const usernameDisplay = document.getElementById('username-display');
-    const userDataString = localStorage.getItem('userData'); // Get stored user data
+    const greetingTextElement = document.getElementById('greeting-text'); // This is the single span
+    const userDataString = localStorage.getItem('userData'); 
+    let username = 'User'; // Default username
 
     if (userDataString) {
         const userData = JSON.parse(userDataString);
         if (userData && userData.username) {
-            // Prefer username if available
-            usernameDisplay.textContent = userData.username;
+            username = userData.username;
         } else if (userData && userData.firstName) {
-            // Fallback to first name if username is not present (less ideal for unique display)
-            usernameDisplay.textContent = userData.firstName;
-        } else {
-            // Default if no identifiable name (should ideally not happen with proper signup)
-            usernameDisplay.textContent = 'User'; 
+            username = userData.firstName;
         }
     } else {
-        // If no user data is found (e.g., not logged in, or token expired/cleared)
-        // You might want to redirect to login.html here for security
-        usernameDisplay.textContent = 'Guest'; 
-        // Example: Redirect to login if not logged in
-        // window.location.href = 'login.html'; 
+        username = 'Guest';
     }
+
+    // Determine the time-based greeting prefix
+    const hour = new Date().getHours();
+    let greetingPrefix = "Hello,"; // Default prefix
+    if (hour < 12) greetingPrefix = "Good Morning,";
+    else if (hour < 18) greetingPrefix = "Good Afternoon,";
+    else greetingPrefix = "Good Evening,";
+
+    // Combine greeting prefix and username, then set to the HTML element
+    if (greetingTextElement) {
+        greetingTextElement.textContent = `${greetingPrefix} ${username}`;
+    }
+
 
     // --- Existing Dropdown Toggle Logic (Notifications & Profile) ---
     const notifIcon = document.getElementById('notif-icon');
@@ -32,9 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Toggle Notification Dropdown
     if (notifIcon && notifDropdown) {
         notifIcon.addEventListener('click', (event) => {
-            event.stopPropagation(); // Prevent click from closing immediately
+            event.stopPropagation(); 
             notifDropdown.style.display = notifDropdown.style.display === 'none' ? 'block' : 'none';
-            // Close other dropdown if open
             if (profileDropdown) profileDropdown.style.display = 'none';
         });
     }
@@ -42,9 +51,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Toggle Profile Dropdown
     if (profileIcon && profileDropdown) {
         profileIcon.addEventListener('click', (event) => {
-            event.stopPropagation(); // Prevent click from closing immediately
+            event.stopPropagation(); 
             profileDropdown.style.display = profileDropdown.style.display === 'none' ? 'block' : 'none';
-            // Close other dropdown if open
             if (notifDropdown) notifDropdown.style.display = 'none';
         });
     }
@@ -62,12 +70,39 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- Modal Logic (Add Pet & Update Health) ---
     const addPetModal = document.getElementById('addPetModal');
     const updateHealthModal = document.getElementById('updateHealthModal');
-    const addPetBtn = document.querySelector('.main-content .btn-primary'); // Assumes this is the "+ Add a Pet" button
+    const addPetBtn = document.querySelector('.main-content .btn-primary'); 
     const cancelAddPetBtn = document.getElementById('cancelAddPet');
-    const updateHealthBtn = document.getElementById('updateHealthBtn');
+    const updateHealthBtn = document.getElementById('updateHealthBtn'); 
     const cancelHealthUpdateBtn = document.getElementById('cancelHealthUpdate');
     const addPetForm = document.getElementById('addPetForm');
     const updateHealthForm = document.getElementById('updateHealthForm');
+    
+    // Message box element (to replace alert())
+    const messageBox = document.createElement('div');
+    messageBox.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        z-index: 9999;
+        display: none;
+        text-align: center;
+        border: 1px solid #ddd;
+    `;
+    document.body.appendChild(messageBox);
+
+    function showMessageBox(message, type = 'info') {
+        messageBox.textContent = message;
+        messageBox.style.display = 'block';
+        messageBox.style.color = type === 'error' ? 'red' : (type === 'success' ? 'green' : 'black');
+        setTimeout(() => {
+            messageBox.style.display = 'none';
+        }, 3000); // Hide after 3 seconds
+    }
 
 
     // Add Pet Modal Logic
@@ -77,7 +112,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         cancelAddPetBtn.addEventListener('click', () => {
             addPetModal.style.display = 'none';
-            if (addPetForm) addPetForm.reset(); // Clear form on cancel
+            if (addPetForm) addPetForm.reset(); 
+        });
+        // Close modal when clicking outside
+        addPetModal.addEventListener('click', (event) => {
+            if (event.target === addPetModal) {
+                addPetModal.style.display = 'none';
+                if (addPetForm) addPetForm.reset();
+            }
         });
     }
 
@@ -88,50 +130,76 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         cancelHealthUpdateBtn.addEventListener('click', () => {
             updateHealthModal.style.display = 'none';
-            if (updateHealthForm) updateHealthForm.reset(); // Clear form on cancel
+            if (updateHealthForm) updateHealthForm.reset(); 
+        });
+        // Close modal when clicking outside
+        updateHealthModal.addEventListener('click', (event) => {
+            if (event.target === updateHealthModal) {
+                updateHealthModal.style.display = 'none';
+                if (updateHealthForm) updateHealthForm.reset();
+            }
         });
     }
 
-    // Dummy form submission for Add Pet (replace with actual API call later)
+    // --- Add Pet Form Submission (MOCKED API Call) ---
     if (addPetForm) {
-        addPetForm.addEventListener('submit', (e) => {
+        addPetForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            // In a real app, you would collect data and send it to your backend
+
             const petName = document.getElementById('petName').value;
             const petSpecies = document.getElementById('petSpecies').value;
-            const petAge = document.getElementById('petAge').value;
-            console.log('Adding Pet (Dummy Data):', { petName, petSpecies, petAge });
-            // Close modal
-            if (addPetModal) addPetModal.style.display = 'none';
-            // Use a custom message box instead of alert() for better UI
-            alert('Pet added successfully (this is a dummy message)!'); 
-            addPetForm.reset();
+            const petAge = parseInt(document.getElementById('petAge').value, 10); 
+
+            // Basic validation
+            if (!petName || !petSpecies || isNaN(petAge) || petAge <= 0) {
+                showMessageBox('Please fill in all pet details correctly.', 'error');
+                return;
+            }
+
+            // --- MOCKED SUCCESS LOGIC for Add Pet ---
+            showMessageBox('Pet added successfully!', 'success'); 
+            if (addPetModal) addPetModal.style.display = 'none'; 
+            addPetForm.reset(); 
         });
     }
 
-    // Dummy form submission for Update Health (replace with actual API call later)
+    // --- Update Health Form Submission (MOCKED API Call) ---
     if (updateHealthForm) {
         updateHealthForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const updateVacc = document.getElementById('updateVacc').checked;
             const updateDeworm = document.getElementById('updateDeworm').checked;
             const updateSurgery = document.getElementById('updateSurgery').checked;
-            console.log('Updating Health (Dummy Data):', { updateVacc, updateDeworm, updateSurgery });
-            if (updateHealthModal) updateHealthModal.style.display = 'none';
-            // Use a custom message box instead of alert() for better UI
-            alert('Health record updated (this is a dummy message)!'); 
-            updateHealthForm.reset();
+
+            console.log('Update Health (Mocked):', { updateVacc, updateDeworm, updateSurgery }); 
+            showMessageBox('Health record updated successfully!', 'success'); 
+            if (updateHealthModal) updateHealthModal.style.display = 'none'; 
+            updateHealthForm.reset(); 
         });
     }
 
-    // --- Logout Logic ---
-    // Assuming the logout button is within the profileDropdown, and it's the last <p> tag
-    const logoutBtn = profileDropdown ? profileDropdown.querySelector('p:last-child') : null;
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
-            localStorage.removeItem('userToken'); // Clear JWT token
-            localStorage.removeItem('userData');  // Clear stored user data
-            window.location.href = 'login.html'; // Redirect to login page
+    // --- Profile Dropdown Links Activation ---
+    const settingsLink = document.getElementById('settingsLink'); 
+    const logoutLink = document.getElementById('logoutLink'); 
+
+    if (settingsLink) {
+        settingsLink.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent default link behavior if it's an <a> tag
+            if (profileDropdown) profileDropdown.style.display = 'none'; // Close dropdown first
+            window.location.href = 'settings.html'; // Redirect to your settings page
+        });
+    }
+
+    if (logoutLink) {
+        logoutLink.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent default link behavior if it's an <a> tag
+            localStorage.removeItem('userToken'); 
+            localStorage.removeItem('userData');  // Remove all user-related data
+            showMessageBox('You have been logged out.', 'success'); // Optional: show message before redirect
+            setTimeout(() => {
+                window.location.href = 'login.html'; // Redirect to login page
+            }, 1000); // Short delay before redirect
+            if (profileDropdown) profileDropdown.style.display = 'none'; // Close dropdown
         });
     }
 });

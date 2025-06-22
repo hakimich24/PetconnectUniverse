@@ -86,6 +86,67 @@
     table.health-table i {
       margin-right: 8px;
     }
+
+    /* Adjustments for responsive topbar/dropdowns on smaller screens */
+    @media (max-width: 992px) {
+        .main-content {
+            padding: 1rem;
+        }
+        .topbar { /* Ensure topbar adjusts correctly */
+            flex-direction: column;
+            align-items: flex-start !important;
+        }
+        .topbar .d-flex.align-items-center.gap-3:last-child {
+            margin-top: 1rem;
+            width: 100%;
+            justify-content: space-between;
+        }
+        /* Adjust dropdown positions for smaller screens */
+        #notif-dropdown {
+            right: 0 !important; /* Align to right edge */
+            left: auto !important;
+            width: 95% !important; /* Adjust width */
+            max-width: 250px;
+        }
+        #profile-dropdown {
+            right: 0 !important; /* Align to right edge */
+            left: auto !important;
+        }
+    }
+    /* Small screen mobile responsiveness for main content sections if needed */
+    @media (max-width: 576px) {
+      .profile-card, .info-box, .info-box.appointment-box {
+        padding: 1.5rem; /* Reduce padding on small screens */
+        margin-bottom: 1rem; /* Add margin between stacked cards */
+      }
+      .profile-card img {
+          width: 80px !important;
+          height: 80px !important;
+      }
+      .profile-card h5 {
+          font-size: 1.25rem;
+      }
+      .profile-card p {
+          font-size: 0.9rem;
+      }
+      .info-box table td {
+          font-size: 0.9rem;
+      }
+      .info-box.appointment-box div {
+          font-size: 0.9rem;
+      }
+      .main-content .btn-primary { /* + Add a Pet button */
+          width: auto; /* Allow button to size naturally */
+          font-size: 0.85rem;
+          padding: 0.4rem 0.8rem;
+      }
+      .main-content .d-flex.align-items-center.gap-3 {
+        gap: 0.75rem !important; /* Reduce gap in header on mobile */
+      }
+      .main-content .d-flex.justify-content-between.align-items-center.mb-4.position-relative {
+        flex-wrap: wrap; /* Allow header items to wrap */
+      }
+    }
   </style>
 </head>
 <body>
@@ -107,10 +168,11 @@
     </div>
     <div class="main-wrapper">
       <div class="main-content">
-        <div class="d-flex justify-content-between align-items-center mb-4 position-relative">
+        <!-- Header (Topbar) -->
+        <div class="topbar d-flex justify-content-between align-items-center mb-4 position-relative">
           <div class="d-flex align-items-center gap-3">
             <img src="images/Ellipse 2.png" alt="User" style="width: 40px; height: 30px;" />
-            <span class="fw-semibold"><span id="greeting-text"></span></span>
+            <span class="fw-semibold" id="greeting-text"></span>
           </div>
           <div class="d-flex align-items-center gap-3">
             <div class="position-relative">
@@ -130,10 +192,11 @@
                 class="position-absolute bg-white shadow rounded p-2"
                 style="top: 100%; right: 0; display: none; z-index: 999;"
               >
-                <a href="#" class="d-flex align-items-center text-dark text-decoration-none mb-2">
+                <!-- Added IDs to these links for JS functionality -->
+                <a href="settings.html" id="settingsLink" class="d-flex align-items-center text-dark text-decoration-none mb-2">
                   <i class="bi bi-gear me-2"></i> Settings
                 </a>
-                <a href="#" class="d-flex align-items-center text-dark text-decoration-none">
+                <a href="#" id="logoutLink" class="d-flex align-items-center text-dark text-decoration-none">
                   <i class="bi bi-box-arrow-right me-2"></i> Logout
                 </a>
               </div>
@@ -141,6 +204,7 @@
             <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addPetModal">+ Add a Pet</button>
           </div>
         </div>
+
         <h5 class="fw-bold">Your Pet Profile</h5>
         <p class="text-muted">
           Welcome to your pet’s profile. Here, you can view and manage everything about your pets
@@ -157,15 +221,17 @@
                   alt="Dog"
                   class="rounded-circle"
                   style="width: 100px; height: 100px; object-fit: cover"
+                  id="petImageDisplay"
                 />
               </div>
-              <h5 class="text-center fw-bold">Benny</h5>
-              <p><strong>Species:</strong> Dog</p>
-              <p><strong>Gender:</strong> Female</p>
-              <p><strong>Breed:</strong> Labrador Retriever</p>
-              <p><strong>Age:</strong> 2 years old</p>
-              <p><strong>Color:</strong> Cream</p>
-              <p><strong>Diet:</strong> Dry kibble & chicken mix</p>
+              <!-- Added IDs for pet profile data display -->
+              <h5 class="text-center fw-bold" id="petNameDisplay">Benny</h5>
+              <p><strong>Species:</strong> <span id="petSpeciesDisplay">Dog</span></p>
+              <p><strong>Gender:</strong> <span id="petGenderDisplay">Female</span></p>
+              <p><strong>Breed:</strong> <span id="petBreedDisplay">Labrador Retriever</span></p>
+              <p><strong>Age:</strong> <span id="petAgeDisplay">2 years old</span></p>
+              <p><strong>Color:</strong> <span id="petColorDisplay">Cream</span></p>
+              <p><strong>Diet:</strong> <span id="petDietDisplay">Dry kibble & chicken mix</span></p>
               <div class="text-center">
                 <button class="btn btn-dark mt-5" id="deletePetBtn">Delete Pet</button>
               </div>
@@ -202,7 +268,7 @@
         </div>
 
         <div class="text-center mb-5">
-          <!-- THE ONLY CHANGE: Add these attributes to open modal -->
+          <!-- The existing button to open the edit modal -->
           <button
             class="btn btn-dark"
             id="editProfileBtn"
@@ -216,7 +282,7 @@
     </div>
   </div>
 
-  <!-- Add Pet Modal -->
+  <!-- Add Pet Modal (Copied from Dashboard - ensure IDs match dashboard.js if used there) -->
   <div class="modal fade" id="addPetModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -227,16 +293,16 @@
         <form id="addPetForm">
           <div class="modal-body">
             <div class="mb-3">
-              <label class="form-label">Pet Name</label>
-              <input type="text" class="form-control" required />
+              <label for="addPetName" class="form-label">Pet Name</label>
+              <input type="text" class="form-control" id="addPetName" required />
             </div>
             <div class="mb-3">
-              <label class="form-label">Species</label>
-              <input type="text" class="form-control" required />
+              <label for="addPetSpecies" class="form-label">Species</label>
+              <input type="text" class="form-control" id="addPetSpecies" required />
             </div>
             <div class="mb-3">
-              <label class="form-label">Age</label>
-              <input type="number" class="form-control" required />
+              <label for="addPetAge" class="form-label">Age</label>
+              <input type="number" class="form-control" id="addPetAge" required />
             </div>
           </div>
           <div class="modal-footer">
@@ -248,39 +314,39 @@
     </div>
   </div>
 
-  <!-- Edit Profile Modal -->
+  <!-- Edit Profile Modal (Updated IDs for easier JS targeting) -->
   <div class="modal fade" id="editProfileModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Edit Benny's Profile</h5>
+          <h5 class="modal-title" id="editModalPetName">Edit Benny's Profile</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form id="editPetForm">
           <div class="modal-body">
             <div class="mb-3">
-              <label class="form-label">Species</label>
-              <input type="text" class="form-control" value="Dog" />
+              <label for="editPetSpecies" class="form-label">Species</label>
+              <input type="text" class="form-control" id="editPetSpecies" />
             </div>
             <div class="mb-3">
-              <label class="form-label">Gender</label>
-              <input type="text" class="form-control" value="Female" />
+              <label for="editPetGender" class="form-label">Gender</label>
+              <input type="text" class="form-control" id="editPetGender" />
             </div>
             <div class="mb-3">
-              <label class="form-label">Breed</label>
-              <input type="text" class="form-control" value="Labrador Retriever" />
+              <label for="editPetBreed" class="form-label">Breed</label>
+              <input type="text" class="form-control" id="editPetBreed" />
             </div>
             <div class="mb-3">
-              <label class="form-label">Age</label>
-              <input type="text" class="form-control" value="2 years old" />
+              <label for="editPetAge" class="form-label">Age</label>
+              <input type="text" class="form-control" id="editPetAge" />
             </div>
             <div class="mb-3">
-              <label class="form-label">Color</label>
-              <input type="text" class="form-control" value="Cream" />
+              <label for="editPetColor" class="form-label">Color</label>
+              <input type="text" class="form-control" id="editPetColor" />
             </div>
             <div class="mb-3">
-              <label class="form-label">Diet</label>
-              <input type="text" class="form-control" value="Dry kibble & chicken mix" />
+              <label for="editPetDiet" class="form-label">Diet</label>
+              <input type="text" class="form-control" id="editPetDiet" />
             </div>
           </div>
           <div class="modal-footer">

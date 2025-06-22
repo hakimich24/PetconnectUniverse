@@ -2,15 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sign Up | PetUniverse Connect</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sign Up </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body, html {
             height: 100%;
             margin: 0;
-            font-family: Arial, sans-serif; /* A more common sans-serif fallback */
+            font-family: 'Inter', Arial, sans-serif; /* Using Inter as per guidelines, with fallbacks */
             overflow-x: hidden; /* Prevent horizontal scrollbar on small screens */
+            background-color: #f8f9fa; /* Ensure body background is light grey */
         }
 
         /* Outer wrapper for the entire page, ensuring full viewport height */
@@ -18,6 +19,8 @@
             display: flex;
             min-height: 100vh; /* Use min-height to ensure it takes full height but can expand */
             flex-direction: row; /* Default to row for desktop */
+            border-radius: 12px; 
+            overflow: hidden; /* To ensure inner rounded corners are visible on desktop */
         }
 
         /* Left section (image/info) */
@@ -25,11 +28,12 @@
             background-color: #f8f9fa; /* Light grey background */
             width: 50%; /* Takes half width on large screens */
             display: flex;
-            flex-direction: column;
+            flex-direction: column; /* Stack image and text initially */
             justify-content: center;
             align-items: center;
             position: relative; /* For absolute positioning of logo */
             overflow: hidden; /* Ensures image doesn't spill */
+            padding: 1rem; /* Added padding to give some space around image on desktop */
         }
 
         .hero-img {
@@ -38,29 +42,40 @@
             object-fit: cover; /* Crop image to cover area without distortion */
             object-position: center; /* Center the image within its container */
             display: block;
+            border-radius: 10px; /* Rounded corners for the image */
         }
 
-        /* Logo and brand text positioning within info-section */
-        /* Changed the class name in HTML to 'logo' for the circle container */
-        .info-section .position-absolute {
+        /* Logo and brand text container (Desktop Default) */
+        .logo-brand-container { 
+            position: absolute; /* Keep it absolute for desktop overlay */
+            top: 2rem; /* Adjusted from m-4 for more control */
+            left: 2rem; /* Adjusted from m-4 */
             z-index: 10; /* Ensure logo is above the image */
+            width: max-content; /* Ensure the container only takes width it needs */
         }
-        .info-section .logo { /* Your specific logo circle style */
+        .logo { /* Your specific logo circle style */
             width: 60px;
             height: 60px;
             background-color: #fdfafa;
-            color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
             border-radius: 50%;
             font-size: 24px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Added subtle shadow */
         }
-        .info-section .brand-text { /* Your specific brand text style */
+        .logo img { /* Ensure logo image within circle is sized correctly */
+            width: 30px; 
+            height: 30px; 
+            margin-right: 0.5rem; /* Space between image and text */
+            margin-top: 0.25rem; /* Small vertical adjust */
+        }
+        .brand-text { /* Your specific brand text style */
             font-weight: bold;
             font-size: 20px;
-            color: #fcf9f9;
+            color: #000; /* Force black as requested */
             white-space: nowrap; /* Prevent "PetUniverse Connect" from wrapping */
+            text-shadow: none; /* Removed text-shadow */
         }
 
 
@@ -73,7 +88,7 @@
             align-items: center; /* Center form vertically */
             padding: 2rem; /* Initial padding around the form container */
             overflow-y: auto; /* Allow scrolling if form content is too long for the screen */
-            flex-grow: 1; /* Allows it to grow if the info-section is hidden */
+            flex-grow: 1; /* Allows it to grow if the info-section changes size */
         }
 
         .signup-container { /* The inner container for your form */
@@ -83,6 +98,10 @@
             border-radius: 12px;
             padding: 30px; /* Original padding for the form card */
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex; /* Make it a flex container to manage card-body children */
+            flex-direction: column; /* Stack children vertically */
+            justify-content: center; /* Center content vertically within the card */
+            min-height: 500px; /* Default min-height, adjusted in media queries */
         }
 
         /* General Bootstrap override/enhancements for consistency */
@@ -92,12 +111,12 @@
             color: #333;
         }
         .form-control {
-            border-radius: .25rem;
+            border-radius: .5rem; /* Slightly more rounded corners for inputs */
             padding: .75rem 1rem;
             border: 1px solid #ced4da;
         }
         .form-control:focus {
-            border-color: #80bdff;
+            border-color: #007bff; /* Primary blue on focus */
             box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
         }
         .btn-primary {
@@ -106,17 +125,21 @@
             padding: .75rem 1rem;
             font-size: 1rem;
             font-weight: bold;
-            border-radius: .25rem;
-            transition: background-color .2s ease;
+            border-radius: .5rem; /* More rounded corners for buttons */
+            transition: background-color .2s ease, border-color .2s ease, box-shadow .2s ease;
+            box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2); /* Subtle button shadow */
         }
         .btn-primary:hover {
             background-color: #0056b3;
             border-color: #004085;
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
         }
         /* Styles for password toggle buttons */
         .btn-outline-secondary {
             border-color: #6c757d;
             color: #6c757d;
+            border-radius: .5rem; /* Consistent rounded corners */
+            transition: background-color .2s ease, color .2s ease;
         }
         .btn-outline-secondary:hover {
             background-color: #6c757d;
@@ -125,8 +148,14 @@
         /* Specific styling for the password toggle buttons, to align with input */
         .mb-3.position-relative .btn {
             top: 50%; /* Align with the middle of the input */
-            transform: translateY(2px); /* Small adjustment for better visual alignment */
-            margin-top: 0 !important; /* Override potential conflicting margin */
+            transform: translateY(-50%); /* Adjust for better visual alignment */
+            padding: 0.3rem 0.6rem; /* Adjusted padding to make button smaller */
+            font-size: 0.7rem; /* Slightly smaller font size for the button text */
+            line-height: 1.2; /* Ensure text fits well vertically */
+            height: auto; /* Let content determine height, but padding controls size */
+        }
+        .mb-3.position-relative .form-control.pe-5 { /* Ensure enough padding for button */
+            padding-right: 4.5rem !important;
         }
 
         /* Password match message and signup message styles */
@@ -136,40 +165,126 @@
         #passwordMatchMsg.text-success, #signupMessage.text-success {
             color: #28a745 !important; /* Bootstrap green */
         }
+        #signupMessage.alert-info {
+            background-color: #e0f7fa; /* Light blue for info */
+            border-color: #b2ebf2;
+            color: #00796b;
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.75rem; /* Consistent margin for messages */
+        }
+        #signupMessage.alert-danger {
+            background-color: #ffebee; /* Light red for error */
+            border-color: #ffcdd2;
+            color: #c62828;
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        #signupMessage.alert-success {
+            background-color: #e8f5e9; /* Light green for success */
+            border-color: #c8e6c9;
+            color: #2e7d32;
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
 
 
         /* Media Queries for Responsiveness */
 
-        /* Small to Medium devices (e.g., Tablets, up to 991.98px wide) */
+        /* Medium devices and below (e.g., Tablets, up to 991.98px wide) */
         @media (max-width: 991.98px) {
             .signup-wrapper {
                 flex-direction: column; /* Stack sections vertically */
                 height: auto; /* Allow height to adjust to content */
                 min-height: 100vh; /* Ensure it still takes full height if content is short */
+                overflow: visible; /* Allow content to overflow and be scrollable by body */
             }
             .info-section {
-                display: none; /* Hide image section completely */
-                width: 100%;
+                /* REVEAL THE INFO SECTION AND MAKE IT A BANNER */
+                display: flex !important; /* Ensure it's visible */
+                height: 250px; /* Fixed height for the banner on mobile */
+                width: 100%; /* Takes full width */
+                justify-content: center; /* Center content horizontally */
+                align-items: center; /* Center content vertically */
+                position: relative; /* Ensure absolute positioning children are relative to this */
+                padding: 0; /* Remove padding to make banner full width */
+                border-radius: 0; /* Remove rounded corners for banner effect */
+            }
+            .hero-img {
+                height: 100%; /* Image fills the banner height */
+                width: 100%; /* Image fills the banner width */
+                object-fit: cover; /* Cover the area */
+                object-position: center; /* Center the focus of the image */
+                border-radius: 0; /* Remove rounded corners for banner effect */
+            }
+
+            /* Adjust the logo/brand text positioning for the smaller banner to center */
+            .logo-brand-container {
+                position: absolute; /* Keep it absolute */
+                top: 50%; /* Center vertically */
+                left: 50%; /* Center horizontally */
+                transform: translate(-50%, -50%); /* Crucial for true centering */
+                margin: 0 !important; /* Remove fixed margin, use transform */
+                width: max-content; /* Ensure the container only takes width it needs */
+            }
+            /* Brand text color already set to black, now ensure proper contrast.
+               NOTE: Black text on a dark image background may have poor contrast.
+                     Consider making the image lighter or changing text color for mobile banner. */
+            .brand-text {
+                color: #000 !important; /* Force black text as requested */
+                text-shadow: none !important; /* Remove text shadow */
             }
             .form-section {
                 width: 100%; /* Form takes full width */
                 padding: 1.5rem; /* Slightly reduced padding on tablets */
+                justify-content: center; /* Center form horizontally */
+                align-items: center; /* Center form vertically */
+                min-height: calc(100vh - 250px); /* Fill remaining viewport height after info-section */
+                overflow-y: auto; /* Enable scrolling for this section */
             }
             .signup-container {
                 max-width: 450px; /* Limit form width on tablets as well */
                 padding: 25px; /* Slightly reduced padding inside the form card */
+                min-height: auto; /* Allow height to auto-adjust based on content */
             }
         }
 
         /* Extra Small devices (e.g., Mobile Phones, up to 575.98px wide) */
         @media (max-width: 575.98px) {
             .form-section {
-                padding: 1rem; /* Further reduce padding around the form */
+                padding: 0.75rem; /* Further reduce padding around the form on small mobile */
             }
             .signup-container {
-                padding: 20px; /* Even smaller padding inside the form card */
-                border-radius: 0; /* Optional: remove rounded corners for edge-to-edge look */
-                box-shadow: none; /* Optional: remove shadow for cleaner mobile look */
+                padding: 15px; /* Even smaller padding inside the form card on small mobile */
+                border-radius: 0; /* Remove rounded corners for edge-to-edge look */
+                box-shadow: none; /* Remove shadow for cleaner mobile look */
+                max-width: 100%; /* Allow form to take full width on very small screens */
+                min-height: auto; /* Ensure it can compress fully */
+            }
+            /* Adjust logo size for smaller phones */
+            .logo {
+                width: 45px; /* Slightly smaller logo circle */
+                height: 45px;
+                font-size: 20px; /* Adjust font size inside logo circle */
+            }
+            .logo img { /* Adjust logo image size inside circle */
+                width: 25px;
+                height: 25px;
+            }
+            .brand-text {
+                font-size: 16px; /* Slightly smaller text for smaller phones */
+            }
+            /* Reduce margins for elements within the card body on smallest screens */
+            .signup-container h2.mb-3 {
+                margin-bottom: 0.5rem !important; /* Reduced space below Sign Up title */
+            }
+            .mb-3 {
+                margin-bottom: 0.75rem !important; /* General reduction for all mb-3 elements in form */
+            }
+            .text-center.mt-3 {
+                margin-top: 0.75rem !important; /* Reduce margin for "Already have an account?" */
             }
         }
     </style>
@@ -179,12 +294,13 @@
         <div class="info-section">
             <img src="images/image 15.jpg" alt="img" class="hero-img"/>
 
-            <div class="position-absolute top-0 start-0 m-4">
+            <!-- Logo and Brand Text Container -->
+            <div class="logo-brand-container"> 
                 <div class="d-flex align-items-center">
                     <div class="d-flex align-items-center justify-content-center me-3 logo">
-                        <img src="images\Vector.png" alt="pet logo" width="30" height="30" class="me-2 mt-1" />
+                        <img src="images/Vector.png" alt="pet logo" width="30" height="30" class="me-2 mt-1" />
                     </div>
-                    <div class="text-dark fw-bold fs-5">PetUniverse<br />Connect</div>
+                    <div class="fw-bold fs-5 brand-text">PetUniverse<br />Connect</div>
                 </div>
             </div>
         </div>
@@ -192,6 +308,8 @@
         <div class="form-section">
             <div class="signup-container">
                 <form id="signupForm">
+                    <h2 class="text-center mb-3 fw-bold">Sign Up</h2>
+
                     <div class="mb-3">
                         <label for="firstName" class="form-label">First Name</label>
                         <input type="text" class="form-control" id="firstName" placeholder="Enter your first name" required>
@@ -219,13 +337,13 @@
                     <div class="mb-3 position-relative">
                         <label for="password" class="form-label">Password</label>
                         <input type="password" class="form-control pe-5" id="password" placeholder="Create a password" required>
-                        <button type="button" id="togglePassword" class="btn btn-sm btn-outline-secondary position-absolute top-50 end-0 translate-middle-y me-2" style="padding: 2px 8px; font-size: 0.75rem;">Show</button>
+                        <button type="button" id="togglePassword" class="btn btn-sm btn-outline-secondary position-absolute end-0 translate-middle-y me-2" style="padding: 2px 8px; font-size: 0.75rem;">Show</button>
                     </div>
 
                     <div class="mb-3 position-relative">
                         <label for="confirmPassword" class="form-label">Confirm Password</label>
                         <input type="password" class="form-control pe-5" id="confirmPassword" placeholder="Re-enter password" required>
-                        <button type="button" id="toggleConfirm" class="btn btn-sm btn-outline-secondary position-absolute top-50 end-0 translate-middle-y me-2" style="padding: 2px 8px; font-size: 0.75rem;">Show</button>
+                        <button type="button" id="toggleConfirm" class="btn btn-sm btn-outline-secondary position-absolute end-0 translate-middle-y me-2" style="padding: 2px 8px; font-size: 0.75rem;">Show</button>
                     </div>
 
                     <div id="passwordMatchMsg" class="form-text mb-3 text-danger"></div>
