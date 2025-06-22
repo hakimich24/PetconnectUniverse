@@ -1,10 +1,40 @@
-// main-scripts.js
+document.addEventListener("DOMContentLoaded", () => {
+    // API Base URL - IMPORTANT: REPLACE THIS WITH YOUR ACTUAL RENDER BACKEND API URL WHEN LIVE!
+    // Example: 'https://your-petuniverse-backend.onrender.com'
+    const API_BASE_URL = 'http://localhost:3000'; 
 
-document.addEventListener('DOMContentLoaded', function() {
-    // --- Greeting Logic ---
-    const greetingTextElement = document.getElementById('greeting-text'); // This is the single span
+    // --- Message Box Helper Function (consistent across pages) ---
+    const messageBox = document.createElement('div');
+    messageBox.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        z-index: 9999;
+        display: none;
+        text-align: center;
+        border: 1px solid #ddd;
+    `;
+    document.body.appendChild(messageBox);
+
+    function showMessageBox(message, type = 'info') {
+        messageBox.textContent = message;
+        messageBox.style.display = 'block';
+        messageBox.style.color = type === 'error' ? 'red' : (type === 'success' ? 'green' : 'black');
+        setTimeout(() => {
+            messageBox.style.display = 'none';
+        }, 3000); // Hide after 3 seconds
+    }
+
+    // --- Greeting Logic (Common) ---
+    const greetingTextElement = document.getElementById('greeting-text');
     const userDataString = localStorage.getItem('userData'); 
     let username = 'User'; // Default username
+    let currentUserId = null; // To store the logged-in user's ID for future API use
 
     if (userDataString) {
         const userData = JSON.parse(userDataString);
@@ -13,132 +43,143 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (userData && userData.firstName) {
             username = userData.firstName;
         }
-        // Optional: Redirect to login if user data not found (means not logged in)
-        // else { window.location.href = 'login.html'; }
+        if (userData && userData.id) { // Assuming 'id' is part of userData from login
+            currentUserId = userData.id; 
+        }
     } else {
-         // If no user data (not logged in), set to 'Guest' and optionally redirect
-         username = 'Guest';
-         // Optional: window.location.href = 'login.html'; 
+        username = 'Guest';
+        // Optional: Redirect to login if not logged in and this page requires auth
+        // window.location.href = 'login.html'; 
     }
 
-    // Determine the time-based greeting prefix
     const hour = new Date().getHours();
-    let greetingPrefix = "Hello,"; // Default prefix
+    let greetingPrefix = "Hello,";
     if (hour < 12) greetingPrefix = "Good Morning,";
     else if (hour < 18) greetingPrefix = "Good Afternoon,";
     else greetingPrefix = "Good Evening,";
 
-    // Combine greeting prefix and username, then set to the HTML element
     if (greetingTextElement) {
         greetingTextElement.textContent = `${greetingPrefix} ${username}`;
     }
 
-    // --- Sidebar Active Link ---
-    const currentPath = window.location.pathname.split('/').pop();
-    const navLinks = document.querySelectorAll('.sidebar .nav-link');
+    // --- Dropdown Toggle Logic (Notifications & Profile) ---
+    const notifIcon = document.getElementById('notif-icon');
+    const notifDropdown = document.getElementById('notif-dropdown'); 
 
-    navLinks.forEach(link => {
-        const linkHref = link.getAttribute('href');
-        if (linkHref === currentPath) {
-            link.classList.add('active');
-        } else {
-            link.classList.remove('active');
+    const profileIcon = document.getElementById('profile-icon');
+    const profileDropdown = document.getElementById('profile-dropdown'); 
+
+    if (notifIcon && notifDropdown) {
+        notifIcon.addEventListener('click', (event) => {
+            event.stopPropagation(); 
+            notifDropdown.style.display = notifDropdown.style.display === 'none' ? 'block' : 'none';
+            if (profileDropdown) profileDropdown.style.display = 'none'; // Close other dropdown
+        });
+    }
+
+    if (profileIcon && profileDropdown) {
+        profileIcon.addEventListener('click', (event) => {
+            event.stopPropagation(); 
+            profileDropdown.style.display = profileDropdown.style.display === 'none' ? 'block' : 'none';
+            if (notifDropdown) notifDropdown.style.display = 'none'; // Close other dropdown
+        });
+    }
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', (event) => {
+        if (notifDropdown && !notifDropdown.contains(event.target) && event.target !== notifIcon) {
+            notifDropdown.style.display = 'none';
+        }
+        if (profileDropdown && !profileDropdown.contains(event.target) && event.target !== profileIcon) {
+            profileDropdown.style.display = 'none';
         }
     });
 
-    // --- Service Directory Search and Filter Functionality 
-    const searchInput = document.querySelector('.search-section-bg input[type="text"]');
-    const navTabs = document.querySelectorAll('.nav-tabs .nav-link');
-    
+    // --- Profile Dropdown Links Activation (Common) ---
+    const settingsLink = document.getElementById('settingsLink'); 
+    const logoutLink = document.getElementById('logoutLink'); 
 
-    // Get all initial service cards to work with them
-    const originalServiceCards = Array.from(document.querySelectorAll('.main-content > .card.mb-3'));
-    const paginationNav = document.querySelector('.main-content > nav[aria-label="Page navigation"]');
-
-    function renderCards(cardsToDisplay) {
-        // Clear all current content below the search/tabs in main-content
-        // Find the boundary: the last element of search-section-bg
-        const searchSectionEnd = document.querySelector('.search-section-bg');
-        let nextSibling = searchSectionEnd.nextElementSibling;
-        while (nextSibling) {
-            let temp = nextSibling.nextElementSibling;
-            nextSibling.remove(); // Remove the element
-            nextSibling = temp;
-        }
-
-        const mainContent = document.querySelector('.main-content'); // Get the main content container
-
-        if (cardsToDisplay.length === 0) {
-            const noResultsMessage = document.createElement('p');
-            noResultsMessage.classList.add('text-center', 'text-muted', 'mt-4');
-            noResultsMessage.textContent = 'No services found matching your criteria.';
-            mainContent.appendChild(noResultsMessage);
-        } else {
-            cardsToDisplay.forEach(card => {
-                mainContent.appendChild(card.cloneNode(true)); // Append a clone of the original card
-            });
-            // Re-append pagination if it exists
-            if (paginationNav) {
-                mainContent.appendChild(paginationNav.cloneNode(true));
-            }
-        }
-    }
-
-
-    // Function to filter services based on search and active tab
-    function filterServices() {
-        const searchTerm = searchInput.value.toLowerCase();
-        const activeTab = document.querySelector('.nav-tabs .nav-link.active').textContent.toLowerCase();
-
-        const filteredCards = originalServiceCards.filter(card => {
-            const title = card.querySelector('.card-title').textContent.toLowerCase();
-            const description = card.querySelector('.card-text').textContent.toLowerCase();
-            let matchesSearch = true;
-            let matchesCategory = true;
-
-            // Check search term
-            if (searchTerm && !(title.includes(searchTerm) || description.includes(searchTerm))) {
-                matchesSearch = false;
-            }
-
-            // Check category (tab)
-            if (activeTab === 'veterinarians') {
-                if (!(title.includes('dr.') || title.includes('veterinarian') || description.includes('veterinarian') || title.includes('vet'))) {
-                    matchesCategory = false;
-                }
-            } else if (activeTab === 'clinics') {
-                if (!(title.includes('clinic') || description.includes('clinic'))) {
-                    matchesCategory = false;
-                }
-            }
-            // For 'all' tab, matchesCategory remains true
-
-            return matchesSearch && matchesCategory;
+    if (settingsLink) {
+        settingsLink.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent default link behavior if it's an <a> tag
+            if (profileDropdown) profileDropdown.style.display = 'none'; // Close dropdown
+            window.location.href = 'settings.html'; // Redirect to settings page
         });
-
-        renderCards(filteredCards);
     }
 
-    // Event listener for search input
-    if (searchInput) {
-        searchInput.addEventListener('input', filterServices);
+    if (logoutLink) {
+        logoutLink.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent default link behavior if it's an <a> tag
+            localStorage.removeItem('userToken'); 
+            localStorage.removeItem('userData');  // Remove all user-related data
+            showMessageBox('You have been logged out.', 'success'); 
+            setTimeout(() => {
+                window.location.href = 'login.html'; // Redirect to login page
+            }, 1000); // Short delay before redirect
+            if (profileDropdown) profileDropdown.style.display = 'none'; // Close dropdown
+        });
     }
 
-    // Event listeners for navigation tabs
-    navTabs.forEach(tab => {
-        tab.addEventListener('click', function(event) {
+    // --- Service Directory Page Specific Logic ---
+
+    // Filter Tabs Logic
+    const serviceFilterTabs = document.querySelectorAll('#serviceFilterTabs .nav-link');
+    const serviceCards = document.querySelectorAll('#serviceCardsContainer .card'); 
+
+    serviceFilterTabs.forEach(tab => {
+        tab.addEventListener('click', (event) => {
             event.preventDefault(); // Prevent default link behavior
 
-            // Remove 'active' class from all tabs
-            navTabs.forEach(t => t.classList.remove('active'));
+            // Remove active class from all tabs
+            serviceFilterTabs.forEach(t => t.classList.remove('active'));
+            // Add active class to the clicked tab
+            tab.classList.add('active');
 
-            // Add 'active' class to the clicked tab
-            this.classList.add('active');
+            const filterType = tab.dataset.filter.toLowerCase();
 
-            filterServices(); // Re-filter based on the new active tab
+            // Filter service cards
+            serviceCards.forEach(card => {
+                const cardCategory = card.dataset.category ? card.dataset.category.toLowerCase() : '';
+                
+                if (filterType === 'all' || cardCategory === filterType) {
+                    card.style.display = 'block'; // Or 'flex' depending on card's display property
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         });
     });
 
-    // Initial render of all cards when the page loads
-    renderCards(originalServiceCards);
+    // Search Input Logic
+    const searchInput = document.getElementById('mainSearchInput'); // ID for the main search input
+    if (searchInput) {
+        searchInput.addEventListener('input', (event) => {
+            const searchTerm = event.target.value.toLowerCase().trim();
+            
+            // Filter cards based on search term
+            serviceCards.forEach(card => {
+                const title = card.querySelector('.card-title').textContent.toLowerCase();
+                const description = card.querySelector('.card-text').textContent.toLowerCase();
+
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    card.style.display = 'block'; // Show card
+                } else {
+                    card.style.display = 'none'; // Hide card
+                }
+            });
+        });
+    }
+
+    // Initialize display based on "All" filter being active by default
+    // This ensures all cards are visible on page load before any filter is applied.
+    // This is optional if your HTML already shows all by default and the initial 'active' class on 'All' tab is enough.
+    // However, it's good practice for dynamic content.
+    serviceFilterTabs.forEach(tab => {
+        if (tab.classList.contains('active') && tab.dataset.filter === 'all') {
+            serviceCards.forEach(card => {
+                card.style.display = 'block';
+            });
+        }
+    });
+
 });

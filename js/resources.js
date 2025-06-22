@@ -1,10 +1,40 @@
-// resources-main-scripts.js
+document.addEventListener("DOMContentLoaded", () => {
+    // API Base URL - IMPORTANT: REPLACE THIS WITH YOUR ACTUAL RENDER BACKEND API URL WHEN LIVE!
+    // Example: 'https://your-petuniverse-backend.onrender.com'
+    const API_BASE_URL = 'http://localhost:3000'; 
 
-document.addEventListener('DOMContentLoaded', function() {
-  // --- Greeting Logic ---
-    const greetingTextElement = document.getElementById('greeting-text'); // This is the single span
+    // --- Message Box Helper Function (consistent across pages) ---
+    const messageBox = document.createElement('div');
+    messageBox.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        z-index: 9999;
+        display: none;
+        text-align: center;
+        border: 1px solid #ddd;
+    `;
+    document.body.appendChild(messageBox);
+
+    function showMessageBox(message, type = 'info') {
+        messageBox.textContent = message;
+        messageBox.style.display = 'block';
+        messageBox.style.color = type === 'error' ? 'red' : (type === 'success' ? 'green' : 'black');
+        setTimeout(() => {
+            messageBox.style.display = 'none';
+        }, 3000); // Hide after 3 seconds
+    }
+
+    // --- Greeting Logic (Common) ---
+    const greetingTextElement = document.getElementById('greeting-text');
     const userDataString = localStorage.getItem('userData'); 
     let username = 'User'; // Default username
+    let currentUserId = null; // To store the logged-in user's ID for future API use
 
     if (userDataString) {
         const userData = JSON.parse(userDataString);
@@ -13,151 +43,130 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (userData && userData.firstName) {
             username = userData.firstName;
         }
-        // Optional: Redirect to login if user data not found (means not logged in)
-        // else { window.location.href = 'login.html'; }
+        if (userData && userData.id) { // Assuming 'id' is part of userData from login
+            currentUserId = userData.id; 
+        }
     } else {
-         // If no user data (not logged in), set to 'Guest' and optionally redirect
-         username = 'Guest';
-         // Optional: window.location.href = 'login.html'; 
+        username = 'Guest';
+        // Optional: Redirect to login if not logged in and this page requires auth
+        // window.location.href = 'login.html'; 
     }
 
-    // Determine the time-based greeting prefix
     const hour = new Date().getHours();
-    let greetingPrefix = "Hello,"; // Default prefix
+    let greetingPrefix = "Hello,";
     if (hour < 12) greetingPrefix = "Good Morning,";
     else if (hour < 18) greetingPrefix = "Good Afternoon,";
     else greetingPrefix = "Good Evening,";
 
-    // Combine greeting prefix and username, then set to the HTML element
     if (greetingTextElement) {
         greetingTextElement.textContent = `${greetingPrefix} ${username}`;
     }
 
-    // --- Sidebar Active Link ---
-    // This ensures the current page's sidebar link is highlighted.
-    const currentPath = window.location.pathname.split('/').pop();
-    const navLinks = document.querySelectorAll('.sidebar .nav-link');
+    // --- Dropdown Toggle Logic (Common: Notifications & Profile) ---
+    const notifIcon = document.getElementById('notif-icon');
+    const notifDropdown = document.getElementById('notif-dropdown'); 
 
-    navLinks.forEach(link => {
-        const linkHref = link.getAttribute('href');
-        if (linkHref === currentPath) {
-            link.classList.add('active');
-        } else {
-            link.classList.remove('active');
-        }
-    });
+    const profileIcon = document.getElementById('profile-icon');
+    const profileDropdown = document.getElementById('profile-dropdown'); 
 
-    // --- Resources Search and Filter Functionality ---
-    const searchInput = document.querySelector('.input-group .form-control');
-    const filterButtons = document.querySelectorAll('.filter-bar .filter-button');
-    // Select the direct column wrappers for the cards. This is crucial for preserving layout.
-    const resourceCardWrappers = Array.from(document.querySelectorAll('.main-content .row .col-lg-6.col-md-12.mb-3'));
-    const resourcesContainerForNoResults = document.querySelector('.main-content'); // To place the 'no results' message
-
-    // Helper function to determine card category based on content
-    function determineCategory(cardElement) {
-        const title = cardElement.querySelector('.card-title')?.textContent.toLowerCase() || '';
-        const description = cardElement.querySelector('p.text-muted')?.textContent.toLowerCase() || '';
-
-        // Prioritize specific keywords for categorization
-        if (title.includes('potty training') || title.includes('train') || title.includes('socialise') || description.includes('commands') || title.includes('puppy')) {
-            return 'training';
-        } else if (title.includes('diet') || title.includes('nutrition') || description.includes('weight') || title.includes('food')) {
-            return 'nutrition';
-        } else if (title.includes('dental care') || title.includes('vet visits') || description.includes('check-up') || description.includes('health') || title.includes('fit')) {
-            return 'health';
-        } else if (title.includes('grooming') || description.includes('grooming')) {
-            return 'grooming';
-        }
-        return 'general pet tips'; // Default category
-    }
-
-    // Assign categories to the parent column wrappers as data attributes on load
-    resourceCardWrappers.forEach(colWrapper => {
-        const cardElement = colWrapper.querySelector('.card');
-        if (cardElement) {
-            colWrapper.setAttribute('data-category', determineCategory(cardElement));
-        }
-    });
-
-    // Function to filter and display resource cards
-    function filterResources() {
-        const searchTerm = searchInput.value.toLowerCase().trim();
-        const activeFilter = document.querySelector('.filter-bar .filter-button.active')?.textContent.toLowerCase() || 'all';
-
-        let cardsFound = 0;
-        let existingNoResultsMessage = resourcesContainerForNoResults.querySelector('.no-results-message');
-
-        resourceCardWrappers.forEach(colWrapper => {
-            const cardCategory = colWrapper.getAttribute('data-category');
-            const cardElement = colWrapper.querySelector('.card'); // Get the card inside the column
-            if (!cardElement) return; // Skip if no card found
-
-            const cardTitle = cardElement.querySelector('.card-title')?.textContent.toLowerCase() || '';
-            const cardDescription = cardElement.querySelector('p.text-muted')?.textContent.toLowerCase() || '';
-
-            let showCard = true;
-
-            // Check if card matches search term
-            if (searchTerm && !(cardTitle.includes(searchTerm) || cardDescription.includes(searchTerm))) {
-                showCard = false;
-            }
-
-            // Check if card matches active category filter
-            // 'All' filter shows all cards that match the search term
-            if (activeFilter !== 'all' && cardCategory !== activeFilter) {
-                showCard = false;
-            }
-
-            // Show or hide the column wrapper based on filter results
-            if (showCard) {
-                colWrapper.style.display = ''; // Reset to default display (e.g., block, flex)
-                cardsFound++;
-            } else {
-                colWrapper.style.display = 'none'; // Hide the entire column
-            }
+    if (notifIcon && notifDropdown) {
+        notifIcon.addEventListener('click', (event) => {
+            event.stopPropagation(); 
+            notifDropdown.style.display = notifDropdown.style.display === 'none' ? 'block' : 'none';
+            if (profileDropdown) profileDropdown.style.display = 'none'; // Close other dropdown
         });
+    }
 
-        // Add or remove "No results" message based on cardsFound count
-        if (cardsFound === 0) {
-            if (!existingNoResultsMessage) {
-                const noResultsMessage = document.createElement('p');
-                noResultsMessage.classList.add('text-center', 'text-muted', 'mt-4', 'no-results-message');
-                noResultsMessage.textContent = 'No resources found matching your criteria.';
-                // Insert the message after the filter bar, but before the card row
-                const filterBar = document.querySelector('.filter-bar');
-                if (filterBar) {
-                    filterBar.parentNode.insertBefore(noResultsMessage, filterBar.nextSibling);
-                } else {
-                    resourcesContainerForNoResults.appendChild(noResultsMessage);
-                }
-            }
-        } else {
-            if (existingNoResultsMessage) {
-                existingNoResultsMessage.remove();
-            }
+    if (profileIcon && profileDropdown) {
+        profileIcon.addEventListener('click', (event) => {
+            event.stopPropagation(); 
+            profileDropdown.style.display = profileDropdown.style.display === 'none' ? 'block' : 'none';
+            if (notifDropdown) notifDropdown.style.display = 'none'; // Close other dropdown
+        });
+    }
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', (event) => {
+        if (notifDropdown && !notifDropdown.contains(event.target) && event.target !== notifIcon) {
+            notifDropdown.style.display = 'none';
         }
+        if (profileDropdown && !profileDropdown.contains(event.target) && event.target !== profileIcon) {
+            profileDropdown.style.display = 'none';
+        }
+    });
+
+    // --- Profile Dropdown Links Activation (Common) ---
+    const settingsLink = document.getElementById('settingsLink'); 
+    const logoutLink = document.getElementById('logoutLink'); 
+
+    if (settingsLink) {
+        settingsLink.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent default link behavior if it's an <a> tag
+            if (profileDropdown) profileDropdown.style.display = 'none'; // Close dropdown
+            window.location.href = 'settings.html'; // Redirect to settings page
+        });
     }
 
-    // --- Event Listeners ---
-
-    // Event listener for search input
-    if (searchInput) {
-        searchInput.addEventListener('input', filterResources);
+    if (logoutLink) {
+        logoutLink.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent default link behavior if it's an <a> tag
+            localStorage.removeItem('userToken'); 
+            localStorage.removeItem('userData');  // Remove all user-related data
+            showMessageBox('You have been logged out.', 'success'); 
+            setTimeout(() => {
+                window.location.href = 'login.html'; // Redirect to login page
+            }, 1000); // Short delay before redirect
+            if (profileDropdown) profileDropdown.style.display = 'none'; // Close dropdown
+        });
     }
 
-    // Event listeners for filter buttons
+    // --- Resources Page Specific Logic ---
+
+    // Filter Buttons Logic
+    const filterButtons = document.querySelectorAll('.filter-button');
+    // Target the parent div of the card (the column itself) for display toggling
+    const resourceCardColumns = document.querySelectorAll('.row .col-lg-6.col-md-12.mb-3'); 
+
     filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Remove 'active' class from all buttons
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons
             filterButtons.forEach(btn => btn.classList.remove('active'));
-            // Add 'active' class to the clicked button
-            this.classList.add('active');
-            filterResources(); // Re-filter based on the new active button
+            // Add active class to the clicked button
+            button.classList.add('active');
+
+            // Get the data-filter attribute for the clicked button
+            const filterType = button.dataset.filter.toLowerCase();
+
+            // Loop through all resource card columns to show/hide based on filter
+            resourceCardColumns.forEach(column => {
+                const cardCategory = column.dataset.category ? column.dataset.category.toLowerCase() : '';
+                
+                if (filterType === 'all' || cardCategory === filterType) {
+                    column.style.display = 'block'; // Or 'flex' if your column is flex, but 'block' is safer for columns
+                } else {
+                    column.style.display = 'none'; // Hide the column
+                }
+            });
         });
     });
 
-    // Initial call to filterResources to apply default filters (e.g., 'All')
-    // and ensure cards are displayed correctly on page load
-    filterResources();
+    // Search Input Logic (Placeholder)
+    const searchInput = document.querySelector('.input-group input[type="text"]');
+    if (searchInput) {
+        searchInput.addEventListener('input', (event) => {
+            const searchTerm = event.target.value.toLowerCase().trim();
+            console.log('Search term:', searchTerm);
+            // In a real application, you would:
+            // 1. Debounce this input to avoid excessive API calls
+            // 2. Send the searchTerm to your API to fetch filtered results
+            // 3. Dynamically update the displayed resource cards
+            if (searchTerm.length > 2 || searchTerm.length === 0) { // Search when 3+ chars or empty to clear
+                // showMessageBox(`Searching for: "${searchTerm}" (mock action)`, 'info'); // Removed this line
+            }
+        });
+    }
+
+    // NOTE: This page does NOT have an "Add a Pet" modal button or modal HTML structure.
+    // Therefore, no JavaScript logic for the Add Pet Modal (addPetModal, addPetForm, etc.) is included here
+    // to prevent errors and respect your provided HTML structure.
 });

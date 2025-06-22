@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // API Base URL - Placeholder for future backend integration
-    const API_BASE_URL = 'http://localhost:3000'; // Adjust if you get a live backend URL
+    // API Base URL - IMPORTANT: REPLACE THIS WITH YOUR ACTUAL RENDER BACKEND API URL WHEN LIVE!
+    // Example: 'https://your-petuniverse-backend.onrender.com'
+    const API_BASE_URL = 'http://localhost:3000'; 
 
     // --- Message Box Helper Function (consistent across pages) ---
     const messageBox = document.createElement('div');
@@ -33,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const greetingTextElement = document.getElementById('greeting-text');
     const userDataString = localStorage.getItem('userData'); 
     let username = 'User'; // Default username
+    let currentUserId = null; // To store the logged-in user's ID for future API use
 
     if (userDataString) {
         const userData = JSON.parse(userDataString);
@@ -41,9 +43,12 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (userData && userData.firstName) {
             username = userData.firstName;
         }
+        if (userData && userData.id) { // Assuming 'id' is part of userData from login
+            currentUserId = userData.id; 
+        }
     } else {
         username = 'Guest';
-        // Optional: Redirect to login if not logged in and this page requires auth
+        // Optional: In a real app, you might redirect to login if not authenticated
         // window.location.href = 'login.html'; 
     }
 
@@ -57,12 +62,11 @@ document.addEventListener("DOMContentLoaded", () => {
         greetingTextElement.textContent = `${greetingPrefix} ${username}`;
     }
 
-    // --- Dropdown Toggle Logic (Common: Notifications & Profile) ---
+    // --- Dropdown Toggle Logic (Notifications & Profile) ---
     const notifIcon = document.getElementById('notif-icon');
     const notifDropdown = document.getElementById('notif-dropdown');
     const profileIcon = document.getElementById('profile-icon');
     const profileDropdown = document.getElementById('profile-dropdown');
-    const addPetButton = document.querySelector('.main-content .btn-primary'); // "+ Add a Pet" button
 
     if (notifIcon && notifDropdown) {
         notifIcon.addEventListener('click', (event) => {
@@ -115,186 +119,100 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- Pet Profile Specific Logic ---
-    // Elements to display pet data
-    const petImageDisplay = document.getElementById('petImageDisplay');
-    const petNameDisplay = document.getElementById('petNameDisplay');
-    const petSpeciesDisplay = document.getElementById('petSpeciesDisplay');
-    const petGenderDisplay = document.getElementById('petGenderDisplay');
-    const petBreedDisplay = document.getElementById('petBreedDisplay');
-    const petAgeDisplay = document.getElementById('petAgeDisplay');
-    const petColorDisplay = document.getElementById('petColorDisplay');
-    const petDietDisplay = document.getElementById('petDietDisplay');
+    // --- Add Pet Modal Logic ---
+    const addPetModal = document.getElementById('addPetModal'); // The main modal container
+    const addPetForm = document.getElementById('addPetForm'); // The form inside the modal
+    // The "+Add a Pet" button (data-bs-toggle="modal" handles showing it)
+    // The "Cancel" button in the modal (data-bs-dismiss="modal" handles hiding it)
 
-    // Edit Modal elements
-    const editProfileModal = document.getElementById('editProfileModal');
-    const editModalPetName = document.getElementById('editModalPetName');
-    const editPetForm = document.getElementById('editPetForm');
-    const editPetSpeciesInput = document.getElementById('editPetSpecies');
-    const editPetGenderInput = document.getElementById('editPetGender');
-    const editPetBreedInput = document.getElementById('editPetBreed');
-    const editPetAgeInput = document.getElementById('editPetAge');
-    const editPetColorInput = document.getElementById('editPetColor');
-    const editPetDietInput = document.getElementById('editPetDiet');
+    // No direct JavaScript event listeners are needed here for showing/hiding the modal
+    // because Bootstrap's `data-bs-toggle` and `data-bs-dismiss` attributes handle that automatically.
+    // We only need to handle the form submission.
 
-    // Buttons
-    const editProfileBtn = document.getElementById('editProfileBtn');
-    const deletePetBtn = document.getElementById('deletePetBtn');
-
-    // Mock Pet Data (This would come from your backend API in a real app)
-    let currentPetData = {
-        id: 'pet123',
-        name: 'Benny',
-        species: 'Dog',
-        gender: 'Female',
-        breed: 'Labrador Retriever',
-        age: '2 years old', // Storing as string for display convenience
-        color: 'Cream',
-        diet: 'Dry kibble & chicken mix',
-        imageUrl: 'images/46046486.jpg'
-    };
-
-    // Function to render/update pet profile details on the page
-    function renderPetProfile() {
-        if (!currentPetData) {
-            // Handle case where no pet data is available (e.g., after deletion)
-            petImageDisplay.src = 'https://placehold.co/100x100/eeeeee/cccccc?text=No+Pet';
-            petNameDisplay.textContent = 'No Pet Selected';
-            petSpeciesDisplay.textContent = '';
-            petGenderDisplay.textContent = '';
-            petBreedDisplay.textContent = '';
-            petAgeDisplay.textContent = '';
-            petColorDisplay.textContent = '';
-            petDietDisplay.textContent = '';
-            editProfileBtn.style.display = 'none'; // Hide edit button if no pet
-            deletePetBtn.style.display = 'none'; // Hide delete button if no pet
-            return;
-        }
-
-        if (petImageDisplay) petImageDisplay.src = currentPetData.imageUrl;
-        if (petNameDisplay) petNameDisplay.textContent = currentPetData.name;
-        if (petSpeciesDisplay) petSpeciesDisplay.textContent = currentPetData.species;
-        if (petGenderDisplay) petGenderDisplay.textContent = currentPetData.gender;
-        if (petBreedDisplay) petBreedDisplay.textContent = currentPetData.breed;
-        if (petAgeDisplay) petAgeDisplay.textContent = currentPetData.age;
-        if (petColorDisplay) petColorDisplay.textContent = currentPetData.color;
-        if (petDietDisplay) petDietDisplay.textContent = currentPetData.diet;
-
-        // Ensure buttons are visible if a pet is displayed
-        editProfileBtn.style.display = 'inline-block';
-        deletePetBtn.style.display = 'inline-block';
-    }
-
-    // Initial render of pet profile when page loads
-    renderPetProfile();
-
-    // --- Edit Pet Profile Logic ---
-    if (editProfileBtn && editProfileModal) {
-        editProfileBtn.addEventListener('click', () => {
-            // Populate the modal fields with current pet data
-            if (editModalPetName) editModalPetName.textContent = `Edit ${currentPetData.name}'s Profile`;
-            if (editPetSpeciesInput) editPetSpeciesInput.value = currentPetData.species;
-            if (editPetGenderInput) editPetGenderInput.value = currentPetData.gender;
-            if (editPetBreedInput) editPetBreedInput.value = currentPetData.breed;
-            if (editPetAgeInput) editPetAgeInput.value = currentPetData.age;
-            if (editPetColorInput) editPetColorInput.value = currentPetData.color;
-            if (editPetDietInput) editPetDietInput.value = currentPetData.diet;
-        });
-
-        editPetForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            // Get updated values from the form
-            const updatedSpecies = editPetSpeciesInput.value.trim();
-            const updatedGender = editPetGenderInput.value.trim();
-            const updatedBreed = editPetBreedInput.value.trim();
-            const updatedAge = editPetAgeInput.value.trim();
-            const updatedColor = editPetColorInput.value.trim();
-            const updatedDiet = editPetDietInput.value.trim();
-
-            if (!updatedSpecies || !updatedGender || !updatedBreed || !updatedAge || !updatedColor || !updatedDiet) {
-                showMessageBox('Please fill in all fields.', 'error');
-                return;
-            }
-
-            showMessageBox('Saving changes...', 'info');
-
-            // --- MOCKED API CALL for Update Pet ---
-            setTimeout(() => {
-                // Update the currentPetData object with new values
-                currentPetData.species = updatedSpecies;
-                currentPetData.gender = updatedGender;
-                currentPetData.breed = updatedBreed;
-                currentPetData.age = updatedAge;
-                currentPetData.color = updatedColor;
-                currentPetData.diet = updatedDiet;
-
-                renderPetProfile(); // Re-render the profile with updated data
-                showMessageBox('Pet profile updated successfully!', 'success');
-                // Close modal using Bootstrap's modal API if available, or hide manually
-                const modalElement = document.getElementById('editProfileModal');
-                const bsModal = bootstrap.Modal.getInstance(modalElement); 
-                if (bsModal) {
-                    bsModal.hide();
-                } else {
-                    modalElement.style.display = 'none'; // Fallback if Bootstrap JS not fully loaded or element not initialized
-                }
-            }, 1500); // Simulate network delay
-        });
-    }
-
-    // --- Delete Pet Logic ---
-    if (deletePetBtn) {
-        deletePetBtn.addEventListener('click', () => {
-            // Replace browser's confirm with a custom message box for consistency
-            // For now, we'll use a simple confirm as a placeholder for a more complex custom modal
-            if (confirm(`Are you sure you want to delete ${currentPetData.name}'s profile? This action cannot be undone.`)) {
-                showMessageBox('Deleting pet...', 'info');
-
-                // --- MOCKED API CALL for Delete Pet ---
-                setTimeout(() => {
-                    // In a real app, you'd send a DELETE request to your backend
-                    // console.log(`Mocking deletion of pet: ${currentPetData.id}`);
-                    
-                    // Simulate success
-                    showMessageBox('Pet profile deleted successfully!', 'success');
-                    currentPetData = null; // Clear pet data
-                    renderPetProfile(); // Re-render to show "No Pet" state
-                }, 1500); // Simulate network delay
-            }
-        });
-    }
-
-    // --- Add Pet Modal Logic (from Dashboard, ensuring it still works here) ---
-    const addPetModal = document.getElementById('addPetModal');
-    const addPetForm = document.getElementById('addPetForm');
-
-    // "+ Add a Pet" button is already handled via data-bs-toggle in HTML
-    // We only need to handle the form submission for it.
+    // Event listener for form submission (for the "Add Pet" modal)
     if (addPetForm) {
         addPetForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const petName = document.getElementById('addPetName').value; // Use addPetName ID
-            const petSpecies = document.getElementById('addPetSpecies').value; // Use addPetSpecies ID
-            const petAge = parseInt(document.getElementById('addPetAge').value, 10); // Use addPetAge ID
+            // Get form input values using their IDs as found in your HTML
+            const petName = document.getElementById('petName').value;
+            const petSpecies = document.getElementById('petSpecies').value;
+            const petAge = parseInt(document.getElementById('petAge').value, 10); 
 
             if (!petName || !petSpecies || isNaN(petAge) || petAge <= 0) {
                 showMessageBox('Please fill in all pet details correctly.', 'error');
                 return;
             }
 
-            showMessageBox('Pet added successfully!', 'success'); // Shortened message
-            const modalElement = document.getElementById('addPetModal');
-            const bsModal = bootstrap.Modal.getInstance(modalElement); 
-            if (bsModal) {
-                bsModal.hide();
-            } else {
-                modalElement.style.display = 'none';
-            }
-            addPetForm.reset(); 
-            // NOTE: In a real app, you would refetch the pet list and render multiple pets.
-            // For this single-pet demo, we're not automatically refreshing the displayed profile.
+            showMessageBox('Adding pet...', 'info');
+
+            // --- MOCK API CALL for Add Pet (Active) ---
+            setTimeout(() => {
+                showMessageBox('Pet added successfully! (Mocked response)', 'success'); 
+                // Programmatically close the Bootstrap modal
+                const modalInstance = bootstrap.Modal.getInstance(addPetModal);
+                if (modalInstance) {
+                    modalInstance.hide();
+                } else {
+                    // Fallback for manual hide if Bootstrap's JS isn't initialized or modal not registered
+                    addPetModal.style.display = 'none';
+                    addPetModal.classList.remove('show');
+                    document.body.classList.remove('modal-open');
+                }
+                addPetForm.reset(); // Clear the form fields
+            }, 1500); 
+
+            /*
+            // --- LIVE API CALL for Add Pet (Commented out - Uncomment and configure when backend is ready) ---
+            // const userToken = localStorage.getItem('userToken');
+            // if (!userToken || !currentUserId) {
+            //     showMessageBox('Authentication required to add pet. Please log in again.', 'error');
+            //     setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+            //     return;
+            // }
+            //
+            // try {
+            //     const response = await fetch(`${API_BASE_URL}/api/pets`, {
+            //         method: 'POST',
+            //         headers: {
+            //             'Content-Type': 'application/json',
+            //             'Authorization': `Bearer ${userToken}` 
+            //         },
+            //         body: JSON.stringify({ 
+            //             name: petName, 
+            //             species: petSpecies, 
+            //             age: petAge,
+            //             ownerId: currentUserId // Assuming backend expects ownerId
+            //         })
+            //     });
+            //
+            //     const result = await response.json();
+            //
+            //     if (response.ok) {
+            //         showMessageBox(result.message || 'Pet added successfully!', 'success'); 
+            //         const modalInstance = bootstrap.Modal.getInstance(addPetModal);
+            //         if (modalInstance) modalInstance.hide();
+            //         addPetForm.reset(); 
+            //         // TODO: You might want to refresh pet data display on the page or redirect
+            //     } else {
+            //         if (response.status === 401 || response.status === 403) {
+            //              showMessageBox('Authentication failed. Please log in again.', 'error');
+            //              setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+            //         } else {
+            //             showMessageBox(result.message || 'Failed to add pet. Please check console for details.', 'error');
+            //         }
+            //         console.error('Add Pet API Error:', result);
+            //     }
+            // } catch (error) {
+            //     console.error('Network error during Add Pet:', error);
+            //     showMessageBox('Network error. Could not connect to the server. (Is backend running and URL correct?)', 'error');
+            // }
+            */
         });
     }
+
+    // --- NO OTHER HEALTH RECORD LOGIC (STATIC CONTENT ONLY) ---
+    // The content for "Basic Information", "Veterinary Contact Information", 
+    // "Vaccination History", and "Medical History" will remain as it is in the HTML.
+    // There are no JavaScript-driven updates or interactions for these sections in this version.
 });
