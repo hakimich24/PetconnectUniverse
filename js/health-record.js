@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     // API Base URL - IMPORTANT: REPLACE THIS WITH YOUR ACTUAL RENDER BACKEND API URL WHEN LIVE!
     // Example: 'https://your-petuniverse-backend.onrender.com'
-    const API_BASE_URL = 'http://localhost:3000'; 
+    const API_BASE_URL = 'https://petuniverse-backend.onrender.com'; 
 
     // --- Message Box Helper Function ---
     const messageBox = document.createElement('div');

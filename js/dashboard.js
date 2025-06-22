@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // API Base URL - Make sure this matches your backend's actual deployed URL or localhost:3000
     // IMPORTANT: If you deploy your frontend and want to connect to a live backend,
     // this URL must be updated to your Render backend API URL (e.g., 'https://your-petuniverse-backend.onrender.com')
-    const API_BASE_URL = 'http://localhost:3000'; 
+    const API_BASE_URL = 'https://petuniverse-backend.onrender.com'; 
 
     // --- Greeting Logic ---
     const greetingTextElement = document.getElementById('greeting-text'); // This is the single span

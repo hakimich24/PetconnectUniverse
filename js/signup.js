@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const signupMessageElement = document.getElementById("signupMessage"); // Get the new message display element
 
     // API Base URL (confirmed from app.js)
-    const API_BASE_URL = 'http://localhost:3000';
+    const API_BASE_URL = 'https://petuniverse-backend.onrender.com';
 
     // --- Password Toggle Logic ---
     if (togglePasswordBtn && passwordField) {

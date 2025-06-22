@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     // IMPORTANT: Set your backend API base URL here.
     // This must match where your backend is running (e.g., 'http://localhost:3000' or your Render URL).
-    const API_BASE_URL = 'http://localhost:3000'; // <<<--- UPDATE THIS TO YOUR ACTUAL BACKEND URL
+    const API_BASE_URL = 'https://petuniverse-backend.onrender.com'; // <<<--- UPDATE THIS TO YOUR ACTUAL BACKEND URL
 
     const forgotPasswordForm = document.getElementById('forgotPasswordForm');
     const emailInput = document.getElementById('email');

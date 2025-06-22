@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const loginMessageElement = document.getElementById("loginMessage"); // Get the new message element
 
     // Define your API Base URL (confirmed from app.js)
-    const API_BASE_URL = 'http://localhost:3000';
+    const API_BASE_URL = 'https://petuniverse-backend.onrender.com';
 
     if (loginForm) {
         loginForm.addEventListener("submit", async (event) => {
