@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
             username = userData.firstName;
         }
     } else {
-        username = 'Guest';
+        username = '';
     }
 
     // Determine the time-based greeting prefix

@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
             currentUserId = userData.id; 
         }
     } else {
-        username = 'Guest';
+        username = '';
         // In a real app, you might redirect to login if not authenticated
         // window.location.href = 'login.html'; 
     }

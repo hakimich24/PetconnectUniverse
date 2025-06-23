@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
             currentUserId = userData.id; 
         }
     } else {
-        username = 'Guest';
+        username = '';
         // Optional: Redirect to login if not logged in and this page requires auth
         // window.location.href = 'login.html'; 
     }
