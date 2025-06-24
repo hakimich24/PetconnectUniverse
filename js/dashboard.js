@@ -142,26 +142,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // --- Add Pet Form Submission (MOCKED API Call) ---
-    if (addPetForm) {
-        addPetForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
+    // if (addPetForm) {
+    //     addPetForm.addEventListener('submit', async (e) => {
+    //         e.preventDefault();
 
-            const petName = document.getElementById('petName').value;
-            const petSpecies = document.getElementById('petSpecies').value;
-            const petAge = parseInt(document.getElementById('petAge').value, 10); 
+    //         const petName = document.getElementById('petName').value;
+    //         const petSpecies = document.getElementById('petSpecies').value;
+    //         const petAge = parseInt(document.getElementById('petAge').value, 10); 
 
-            // Basic validation
-            if (!petName || !petSpecies || isNaN(petAge) || petAge <= 0) {
-                showMessageBox('Please fill in all pet details correctly.', 'error');
-                return;
-            }
+    //         // Basic validation
+    //         if (!petName || !petSpecies || isNaN(petAge) || petAge <= 0) {
+    //             showMessageBox('Please fill in all pet details correctly.', 'error');
+    //             return;
+    //         }
 
-            // --- MOCKED SUCCESS LOGIC for Add Pet ---
-            showMessageBox('Pet added successfully!', 'success'); 
-            if (addPetModal) addPetModal.style.display = 'none'; 
-            addPetForm.reset(); 
-        });
-    }
+    //         // --- MOCKED SUCCESS LOGIC for Add Pet ---
+    //         showMessageBox('Pet added successfully!', 'success'); 
+    //         if (addPetModal) addPetModal.style.display = 'none'; 
+    //         addPetForm.reset(); 
+    //     });
+    // }
 
     // --- Update Health Form Submission (MOCKED API Call) ---
     if (updateHealthForm) {

@@ -255,27 +255,31 @@
           </div>
         </div>
 
-        <h5 class="mb-3 fw-semibold">My Pet Today</h5>
-        <div class="d-flex flex-column flex-md-row align-items-center align-items-md-start gap-3 mb-4">
-          <div class="d-flex flex-column flex-sm-row align-items-center align-items-sm-start p-4 text-center text-sm-start" style="min-height: 180px; width: 100%; max-width: 600px; border: 2px solid #dee2e6; border-radius: 30px;">
-            <img src="images/46046486.jpg" alt="Dog" class="rounded-circle me-0 me-sm-3 mb-3 mb-sm-0"
-           style="width: 120px; height: 120px; object-fit: cover"/>
-            <div>
-              <p class="mb-1 fw-bold">
-                Pet Name: <span class="fw-normal">Benny</span>
-              </p>
-              <p class="mb-1 fw-bold">2 years old</p>
-              <p class="mb-1">
-                <span class="fw-bold">Breed:</span> Labrador
-              </p>
-              <p class="mb-1"> ✔ Vaccinated</p>
-              <p class="mb-1"> ✘ Vet Visit</p>
-            </div>
-          </div>
-          <div class="align-self-center mt-3 mt-md-0 ms-md-5">
-            <button id="updateHealthBtn" class="btn btn-primary">Update Health Record</button>
-          </div>
-        </div>
+        <!-- Only showing the changed part -->
+       ---
+<h5 class="mb-3 fw-semibold">My Pet Today</h5>
+<div id="pets-container" class="mb-4">
+  <div id="current-pet-card" class="d-flex flex-column flex-md-row align-items-center align-items-md-start gap-3 mb-4">
+    <div class="d-flex flex-column flex-sm-row align-items-center align-items-sm-start p-4 text-center text-sm-start" style="min-height: 180px; width: 100%; max-width: 600px; border: 2px solid #dee2e6; border-radius: 30px;">
+      <img src="images/46046486.jpg" alt="Dog" class="rounded-circle me-0 me-sm-3 mb-3 mb-sm-0"
+      style="width: 120px; height: 120px; object-fit: cover"/>
+      <div>
+        <p class="mb-1 fw-bold">
+          Pet Name: <span class="fw-normal">Benny</span>
+        </p>
+        <p class="mb-1 fw-bold">2 years old</p>
+        <p class="mb-1">
+          <span class="fw-bold">Breed:</span> Labrador
+        </p>
+        <p class="mb-1"> ✔ Vaccinated</p>
+        <p class="mb-1"> ✘ Vet Visit</p>
+      </div>
+    </div>
+    <div class="align-self-center mt-3 mt-md-0 ms-md-5">
+      <button id="updateHealthBtn" class="btn btn-primary">Update Health Record</button>
+    </div>
+  </div>
+</div>
 
         <div class="row g-3">
           <div class="col-12 col-md-6">
@@ -315,7 +319,7 @@
           <input type="text" class="form-control" id="petName" required />
         </div>
         <div class="mb-2">
-          <label for="petSpecies" class="form-label">Species</label>
+          <label for="petSpecies" class="form-label">Type</label>
           <input type="text" class="form-control" id="petSpecies" required />
         </div>
         <div class="mb-2">
@@ -360,5 +364,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js\dashboard.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
